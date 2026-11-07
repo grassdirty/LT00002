@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tâm Linh Là Đáp Án - Khi Công Nghệ Vượt Xa Khả Năng Con Người</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #05050f;
+            color: #e2e8f0;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Universe Background Effects */
+        #space-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+        }
+
+        .nebula {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(76, 29, 149, 0.18) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(30, 58, 138, 0.18) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(88, 28, 135, 0.12) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        /* Container */
+        .container {
+            max-width: 920px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 45px;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        header h1 {
+            font-size: 2.1rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 50%, #818cf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 12px;
+            letter-spacing: 0.8px;
+            text-shadow: 0 0 30px rgba(129, 140, 248, 0.35);
+            line-height: 1.35;
+        }
+
+        header p {
+            color: #94a3b8;
+            font-size: 1.05rem;
+            font-weight: 300;
+        }
+
+        /* Content Cards */
+        .content-card {
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 32px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            animation: slideUp 0.8s ease-out backwards;
+        }
+
+        .content-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(129, 140, 248, 0.35);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7),
+                        0 0 25px rgba(129, 140, 248, 0.2);
+        }
+
+        .content-card:nth-child(1) { animation-delay: 0.2s; }
+        .content-card:nth-child(2) { animation-delay: 0.4s; }
+        .content-card:nth-child(3) { animation-delay: 0.6s; }
+        .content-card:nth-child(4) { animation-delay: 0.8s; }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 15px;
+            gap: 12px;
+        }
+
+        .step-badge {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            box-shadow: 0 0 15px rgba(124, 58, 237, 0.4);
+            flex-shrink: 0;
+        }
+
+        .section-header h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #f8fafc;
+        }
+
+        .story-body {
+            font-size: 0.98rem;
+            line-height: 1.75;
+            color: #cbd5e1;
+        }
+
+        .highlight-box {
+            background: rgba(30, 41, 59, 0.45);
+            border-left: 3px solid #38bdf8;
+            border-radius: 0 12px 12px 0;
+            padding: 18px 22px;
+            margin: 18px 0;
+            font-size: 0.98rem;
+            line-height: 1.7;
+            color: #e2e8f0;
+        }
+
+        .question-box {
+            background: rgba(88, 28, 135, 0.25);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 14px;
+            padding: 22px;
+            margin: 20px 0;
+            box-shadow: inset 0 0 20px rgba(168, 85, 247, 0.1);
+        }
+
+        .question-title {
+            color: #c084fc;
+            font-size: 0.95rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .question-text {
+            font-size: 1.05rem;
+            line-height: 1.65;
+            color: #f3e8ff;
+            font-weight: 500;
+        }
+
+        .answer-text {
+            margin-top: 14px;
+            font-size: 0.98rem;
+            line-height: 1.7;
+            color: #cbd5e1;
+        }
+
+        /* Conclusion Card */
+        .conclusion-card {
+            background: linear-gradient(135deg, rgba(30, 27, 75, 0.7) 0%, rgba(15, 23, 42, 0.8) 100%);
+            border: 1px solid rgba(129, 140, 248, 0.3);
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6),
+                        0 0 30px rgba(99, 102, 241, 0.15);
+            animation: slideUp 0.8s ease-out 1s backwards;
+        }
+
+        .conclusion-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+            color: #818cf8;
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .conclusion-text {
+            font-size: 1rem;
+            line-height: 1.75;
+            color: #e0e7ff;
+            font-weight: 400;
+        }
+
+        /* Citation Footer Box */
+        .citation-box {
+            margin-top: 35px;
+            text-align: center;
+            padding: 16px 20px;
+            background: rgba(15, 23, 42, 0.4);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            color: #94a3b8;
+            font-size: 0.9rem;
+            font-style: italic;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 { font-size: 1.6rem; }
+            .content-card, .conclusion-card { padding: 22px; }
+            .section-header { flex-direction: column; align-items: flex-start; gap: 8px; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="space-canvas"></canvas>
+    <div class="nebula"></div>
+
+    <div class="container">
+        <header>
+            <h1>TÂM LINH LÀ ĐÁP ÁN</h1>
+            <p>Khi công nghệ vượt xa khả năng con người</p>
+        </header>
+
+        <!-- PHẦN 1: CÂU CHUYỆN CỔ TÍCH & THỰC TẠI -->
+        <div class="content-card">
+            <div class="section-header">
+                <span class="step-badge">PHẦN I</span>
+                <h3>Chuyện Cổ Tích & Huyền Thoại Người Trong Tranh</h3>
+            </div>
+            <div class="story-body">
+                <p>Ngày xưa có câu chuyện cổ tích về một chàng thư sinh tương tư, lãng mạn một người đẹp trong tranh. Hằng ngày sau mỗi buổi học về, anh chàng đều thấy cơm nước dọn ra đầy đủ, mà trong nhà thì không có ai.</p>
+                <p style="margin-top: 12px;">Hôm đó, anh lén về thì phát hiện một cô gái từ bức tranh bước ra, dọn dẹp nhà cửa, nấu cơm... Anh vội giữ cô gái lại, không cho cô chạy vào bức tranh nữa. Rồi hai người thành vợ chồng. Cuối cùng, cô gái thổ lộ mình chính là tiên nữ nên phải ra đi.</p>
+
+                <div class="highlight-box">
+                    Ngày nay, khi ta nghe câu chuyện thần thoại đó thì nhiều người không tin là có thật. Nhưng ta hãy tỉnh táo suy xét, đừng vội kết luận như vậy.
+                </div>
+            </div>
+        </div>
+
+        <!-- PHẦN 2: CÕI VÔ HÌNH & HIỆN TƯỢNG TÂM LINH -->
+        <div class="content-card">
+            <div class="section-header">
+                <span class="step-badge">PHẦN II</span>
+                <h3>Cõi Vô Hình & Hiện Tượng Nhập Tranh Tượng</h3>
+            </div>
+            <div class="story-body">
+                <p>Có những vong linh ở trong cõi vô hình vì khát khao cuộc sống vật chất, nên nhiều khi thấy bức tranh đẹp, hay bức tượng đẹp họ hay nhập vào.</p>
+                <p style="margin-top: 12px;">Hoặc ta thấy, ở những nơi người ta thờ thần, khi tạc xong bức tượng thì người ta làm lễ <strong>hô thần nhập tượng</strong>, từ đó, bức tượng có sự linh thiêng. Và khi ta thành tâm đến khấn vái, vị thần đó lắng nghe và phù hộ cho chúng ta được sở cầu như ý.</p>
+            </div>
+        </div>
+
+        <!-- PHẦN 3: CÂU HỎI THỜI ĐẠI VỀ ROBOT & TRÍ TUỆ NHÂN TẠO -->
+        <div class="content-card">
+            <div class="section-header">
+                <span class="step-badge">PHẦN III</span>
+                <h3>Robot Hình Người & Giới Hạn Của Bộ Máy Điện Tử</h3>
+            </div>
+            <div class="story-body">
+                <div class="question-box">
+                    <div class="question-title">❓ Trăn trở thời đại</div>
+                    <div class="question-text">
+                        Thì câu hỏi đặt ra là sau này người ta chế được những robot hình người giống như thật thì vong linh trong cõi vô hình có vào đó hay không? Nếu có thì nó sẽ làm gì?
+                    </div>
+                </div>
+
+                <div class="answer-text">
+                    <p style="font-weight: 600; color: #a5b4fc; margin-bottom: 8px;">Đáp án:</p>
+                    <p>Câu trả lời là <strong>có vào nhưng không làm gì được</strong>, vì suy nghĩ của nó không mạnh bằng bộ óc điện tử, không tương thích, không theo kịp được với hoạt động của bộ máy điện tử.</p>
+                    <p style="margin-top: 12px; color: #38bdf8; font-weight: 600;">Nên mãi mãi robot không bao giờ có đời sống tâm linh. Rất thông minh nhưng không bao giờ có đời sống tâm linh.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- PHẦN 4: MAY MẮN & TRÁCH NHIỆM LOÀI NGUỜI -->
+        <div class="conclusion-card">
+            <div class="conclusion-header">
+                <span>🌟 KHỎANG HỞ CHO SỰ GIÁC NGỘ</span>
+            </div>
+            <div class="conclusion-text">
+                Và đó là điều may mắn cho loài người, nên chúng ta còn có được khoảng hở để gắng công tu hành, nâng trình độ con người đạt được tâm linh giác ngộ. Có như vậy, ta mới kiểm soát được sự tiến bộ của khoa học công nghệ, làm chủ được khoa học công nghệ, và sử dụng khoa học công nghệ phục vụ lợi ích loài người.
+            </div>
+        </div>
+
+        <!-- CITATION -->
+        <div class="citation-box">
+            Trích sách: <strong>Hai nhánh rẽ của nền văn minh nhân loại</strong> — Trang 43-45 — TT. TS Thích Chân Quang
+        </div>
+
+    </div>
+
+    <!-- Universe Starry Script -->
+    <script>
+        const canvas = document.getElementById('space-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let width, height;
+        let stars = [];
+
+        function initSize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        class Star {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = Math.random() * 1.5;
+                this.baseAlpha = Math.random() * 0.7 + 0.3;
+                this.alpha = this.baseAlpha;
+                this.twinkleSpeed = Math.random() * 0.02 + 0.005;
+                this.vx = (Math.random() - 0.5) * 0.1;
+                this.vy = (Math.random() - 0.5) * 0.1;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x < 0) this.x = width;
+                if (this.x > width) this.x = 0;
+                if (this.y < 0) this.y = height;
+                if (this.y > height) this.y = 0;
+
+                this.alpha += Math.sin(Date.now() * this.twinkleSpeed) * 0.01;
+                if (this.alpha < 0.1) this.alpha = 0.1;
+                if (this.alpha > 1) this.alpha = 1;
+            }
+
+            draw() {
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initStars() {
+            stars = [];
+            const count = Math.floor((width * height) / 6000);
+            for (let i = 0; i < count; i++) {
+                stars.push(new Star());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            stars.forEach(star => {
+                star.update();
+                star.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', () => {
+            initSize();
+            initStars();
+        });
+
+        initSize();
+        initStars();
+        animate();
+    </script>
+</body>
+</html>

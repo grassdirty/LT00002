@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hỏi Đáp Phật Pháp - Từ Bi Cảm Hoá & An Nhiên Trả Nghiệp</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #05050f;
+            color: #e2e8f0;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Universe Background Effects */
+        #space-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+        }
+
+        .nebula {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(76, 29, 149, 0.18) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(30, 58, 138, 0.18) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(88, 28, 135, 0.12) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        /* Container */
+        .container {
+            max-width: 920px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        header h1 {
+            font-size: 2.4rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 50%, #818cf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 12px;
+            letter-spacing: 0.8px;
+            text-shadow: 0 0 30px rgba(129, 140, 248, 0.35);
+        }
+
+        header p {
+            color: #94a3b8;
+            font-size: 1.05rem;
+            font-weight: 300;
+        }
+
+        /* Question Cards */
+        .qa-card {
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 32px;
+            margin-bottom: 35px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            animation: slideUp 0.8s ease-out backwards;
+        }
+
+        .qa-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(129, 140, 248, 0.35);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7),
+                        0 0 25px rgba(129, 140, 248, 0.2);
+        }
+
+        .qa-card:nth-child(1) { animation-delay: 0.2s; }
+        .qa-card:nth-child(2) { animation-delay: 0.4s; }
+        .qa-card:nth-child(3) { animation-delay: 0.6s; }
+
+        .question-header {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 22px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 18px;
+            gap: 15px;
+        }
+
+        .q-badge {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            box-shadow: 0 0 15px rgba(124, 58, 237, 0.4);
+            flex-shrink: 0;
+            margin-top: 3px;
+        }
+
+        .question-header h3 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #f8fafc;
+            line-height: 1.55;
+        }
+
+        .answer-section {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .meta-info {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            background: rgba(30, 41, 59, 0.4);
+            padding: 12px 18px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.9rem;
+        }
+
+        .lecture-name {
+            color: #c7d2fe;
+            font-weight: 500;
+        }
+
+        .youtube-link {
+            color: #fb7185;
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: opacity 0.2s, transform 0.2s;
+            background: rgba(244, 63, 94, 0.1);
+            padding: 6px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(244, 63, 94, 0.2);
+        }
+
+        .youtube-link:hover {
+            opacity: 0.9;
+            transform: scale(1.02);
+            background: rgba(244, 63, 94, 0.2);
+        }
+
+        .story-box {
+            background: rgba(30, 41, 59, 0.35);
+            border-left: 3px solid #38bdf8;
+            border-radius: 0 12px 12px 0;
+            padding: 16px 20px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #e2e8f0;
+        }
+
+        .story-title {
+            color: #38bdf8;
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .snippet-box {
+            background: rgba(15, 23, 42, 0.5);
+            border-left: 3px solid #818cf8;
+            border-radius: 0 12px 12px 0;
+            padding: 16px 20px;
+            font-size: 0.95rem;
+            line-height: 1.65;
+            color: #cbd5e1;
+            font-style: italic;
+        }
+
+        .snippet-title {
+            color: #818cf8;
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-style: normal;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 { font-size: 1.8rem; }
+            .question-header { flex-direction: column; gap: 10px; }
+            .qa-card { padding: 22px; }
+            .meta-info { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="space-canvas"></canvas>
+    <div class="nebula"></div>
+
+    <div class="container">
+        <header>
+            <h1>Hỏi Đáp Phật Pháp</h1>
+            <p>Lòng Từ Bi Cảm Hoá Muôn Loài & Sự Trả Nghiệp An Nhiên Của Bậc Thánh</p>
+        </header>
+
+        <!-- CÂU HỎI 1 -->
+        <div class="qa-card">
+            <div class="question-header">
+                <span class="q-badge">CÂU HỎI 1</span>
+                <h3>Kính bạch Thầy, khi chư Tăng xứ Kosambi tranh cãi không hòa hợp khiến Đức Phật phải một mình vào rừng sống ba tháng hạ, tấm lòng từ bi của Thế Tôn đã chiêu cảm loài vật (voi chúa và khỉ chúa) đến hầu hạ, và sự quyến luyến cảm động giữa Đức Phật với muôn loài trước lúc từ biệt đã thể hiện đạo đức thiêng liêng nào ạ?</h3>
+            </div>
+            <div class="answer-section">
+                <div class="meta-info">
+                    <span class="lecture-name">📖 Tranh Cãi - Pháp Cú 03 (media: 1378 & 3851)</span>
+                    <a href="https://youtu.be/Y2J9C_F8DOc&t=1170" target="_blank" class="youtube-link">▶ Xem video [19:30 - 20:30]</a>
+                </div>
+
+                <div class="story-box">
+                    <div class="story-title">📜 Mẫu chuyện</div>
+                    <p>Vì các tỳ-kheo tranh chấp giới luật không nghe lời khuyên, Đức Phật một mình rời tinh xá đi vào rừng sâu trải qua ba tháng an cư. Tại đây, từ trường thanh tịnh của Ngài đã cảm hóa một con voi chúa tình nguyện dùng vòi hút nước suối trong về cho Phật tắm, lấy hoa quả dâng cúng, cùng một con khỉ chúa bắt chước hầu hạ với lòng tôn kính tột cùng. Khi hết ba tháng hạ, Phật từ giã ra đi, hai con vật đứng ở bìa rừng rớt nước mắt tiễn đưa; con voi vì quá thương nhớ bậc Đại Đạo Sư đã vỡ tim chết tại chỗ và được phước sinh lên cõi trời.</p>
+                </div>
+
+                <div class="snippet-box">
+                    <div class="snippet-title">💬 Trích dẫn bài giảng</div>
+                    <p>"... Con voi hầu hạ Đức Phật suốt 3 tháng như vậy, Đức Phật vẫn sống bình yên với một người thị giả là con voi, con voi chúa... Và với cái tâm hết sức là cung kính, bởi vì cái tâm nó nhận ra được Đức Phật là một vị Thánh tột độ... Khi đi ra bìa rừng, hai con vật nó đứng quyến luyến và nó khóc, nước mắt nó chảy... Đức Phật mới nói: Các ngươi có công đức đã hầu hạ Như Lai, nhưng các ngươi không thể nào chứng được thiền định vì là súc sinh... Như Lai chúc cho các ngươi tái sinh được làm người để tu theo đạo lý..."</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CÂU HỎI 2 -->
+        <div class="qa-card">
+            <div class="question-header">
+                <span class="q-badge">CÂU HỎI 2</span>
+                <h3>Kính bạch Thầy, khi Đề Bà Đạt Đa thả con voi say Nalagiri hung tợn lao đến giữa phố để ám hại Đức Phật, hành động Tôn giả A Nan bất chấp tính mạng lao ra đứng chắn trước mặt voi dữ và năng lực từ bi vô bờ bến của Đức Thế Tôn đã thuần hóa loài vật hung dữ như thế nào ạ?</h3>
+            </div>
+            <div class="answer-section">
+                <div class="meta-info">
+                    <span class="lecture-name">📖 Người Sống Có Ý Nghĩa - Pháp Cú 09 (media: 1375) & Mùng 05 - Chia Sẻ Đạo Lý (media: 3079)</span>
+                    <a href="https://youtu.be/kBSU7k5BDKc&t=3131" target="_blank" class="youtube-link">▶ Xem video [52:11 - 53:14]</a>
+                </div>
+
+                <div class="story-box">
+                    <div class="story-title">📜 Mẫu chuyện</div>
+                    <p>Đề Bà Đạt Đa cho con voi chiến Nalagiri uống rượu say rồi lùa ra đường ngay lúc Đức Phật và Tăng đoàn đang khất thực. Thấy voi điên gầm rú lao tới dẫm nát mọi thứ, mọi người hoảng hốt bỏ chạy, duy chỉ có Tôn giả A Nan không một giây do dự, lập tức xông lên lấy thân mình che chắn trước Đức Thế Tôn, thề chịu chết thay cho Thầy. Đức Phật nhẹ nhàng dùng thần thông nhấc Tôn giả sang một bên, rồi trải rộng tâm từ bi vô điều kiện về phía con voi dữ. Trước từ trường yêu thương thánh thiện tuyệt đối, con voi say bỗng hạ vòi, quỳ mọp phủ phục dưới chân Đức Phật như một đứa trẻ thuần phục.</p>
+                </div>
+
+                <div class="snippet-box">
+                    <div class="snippet-title">💬 Trích dẫn bài giảng</div>
+                    <p>"... Một lần Đề Bà Đạt Đa đã cho một con voi hung dữ và say rượu thả vào đoạn đường Đức Thế Tôn đi khất thực... Tôn giả A Nan không một phút giây do dự, ngài can đảm xông lên đứng chắn trước Đức Thế Tôn: Này voi kia hãy giết ta trước, không được đụng đến Thế Tôn!... Thế Tôn đã phải dùng thần thông nhấc bỏ ngài đặt sang nơi khác. Lần ấy, voi dữ được cái lòng từ bi của Đức Thế Tôn cảm hóa đã phủ phục dưới chân của Đức Thế Tôn... Giữa thế gian điên đảo người ác chống phá, Đức Phật như con voi giữa trận chịu lằn tên mũi đạn mà vẫn kiên cường đem ánh sáng từ bi đến cho muôn loài..."</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CÂU HỎI 3 -->
+        <div class="qa-card">
+            <div class="question-header">
+                <span class="q-badge">CÂU HỎI 3</span>
+                <h3>Kính bạch Thầy, trong ba tháng an cư kiết hạ tại xứ Veranja gặp nạn đói, Đức Phật và chúng Tăng phải ăn lúa của ngựa (mã mạch), vì sao Đức Phật từ chối lời thỉnh cầu dùng thần thông dời Tăng đoàn sang nơi khác của Tôn giả Mục Kiền Liên để an nhiên chịu đói khổ cùng đồ chúng ạ?</h3>
+            </div>
+            <div class="answer-section">
+                <div class="meta-info">
+                    <span class="lecture-name">📖 31 Dẫn Nước Đẽo Cày - Pháp Cú 80 (media: 4586)</span>
+                    <a href="https://youtu.be/XvKjH7kmHy8&t=3103" target="_blank" class="youtube-link">▶ Xem video [51:43 - 52:58]</a>
+                </div>
+
+                <div class="story-box">
+                    <div class="story-title">📜 Mẫu chuyện</div>
+                    <p>Đức Phật cùng 500 vị tỳ-kheo đến an cư theo lời thỉnh cầu của một vị Bà-la-môn, nhưng sau đó vị này quên bẵng mất và địa phương lại gặp mất mùa đói kém nghiêm trọng. Suốt ba tháng, Phật và Tăng đoàn không có ai cúng dường, phải nhận tạm lúa mạch thô dành cho ngựa ăn từ những người nuôi ngựa. Thấy Tăng đoàn kiệt sức, Tôn giả Mục Kiền Liên xin phép dùng thần thông lật tầng đất màu mỡ hoặc di dời chư Tăng qua vùng đất trù phú khác trong nháy mắt. Đức Phật kiên quyết từ chối, Ngài dạy đây là món nợ nghiệp cũ từ tiền kiếp nay đã đến lúc phải đền trả, bậc Thánh phải an nhiên thọ nhận để nêu gương nhân quả cho muôn đời.</p>
+                </div>
+
+                <div class="snippet-box">
+                    <div class="snippet-title">💬 Trích dẫn bài giảng</div>
+                    <p>"... Người ta thường hay nhắc tới hai sự kiện: một là kim thương, hai là mã mạch... một lần Ngài phải ăn cái lúa của ngựa mà không được cúng dường trong suốt ba tháng. Đây là một lần Phật trả nghiệp trong đời... Khi thấy tình cảnh khó khăn như vậy, Ngài Mục Kiền Liên mới đề nghị Phật là xin cho dời chư Tăng qua vùng Uttarakuru... việc dời chỉ mất 30 giây búng ngón tay là bay mất liền. Phật nói: Không, cứ ở đây đủ 3 tháng! Mà trong 3 tháng cực kỳ khổ sở... Phật khổ, khổ theo Phật; Phật no, no theo Phật; Phật đủ, đủ theo Phật... không hề động tâm, lòng cực kỳ trung thành..."</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Universe Starry Script -->
+    <script>
+        const canvas = document.getElementById('space-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let width, height;
+        let stars = [];
+
+        function initSize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        class Star {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = Math.random() * 1.5;
+                this.baseAlpha = Math.random() * 0.7 + 0.3;
+                this.alpha = this.baseAlpha;
+                this.twinkleSpeed = Math.random() * 0.02 + 0.005;
+                this.vx = (Math.random() - 0.5) * 0.1;
+                this.vy = (Math.random() - 0.5) * 0.1;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x < 0) this.x = width;
+                if (this.x > width) this.x = 0;
+                if (this.y < 0) this.y = height;
+                if (this.y > height) this.y = 0;
+
+                this.alpha += Math.sin(Date.now() * this.twinkleSpeed) * 0.01;
+                if (this.alpha < 0.1) this.alpha = 0.1;
+                if (this.alpha > 1) this.alpha = 1;
+            }
+
+            draw() {
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initStars() {
+            stars = [];
+            const count = Math.floor((width * height) / 6000);
+            for (let i = 0; i < count; i++) {
+                stars.push(new Star());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            stars.forEach(star => {
+                star.update();
+                star.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', () => {
+            initSize();
+            initStars();
+        });
+
+        initSize();
+        initStars();
+        animate();
+    </script>
+</body>
+</html>

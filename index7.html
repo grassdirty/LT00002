@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hỏi Đáp Phật Pháp - Không Gian Vũ Trụ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #05050f;
+            color: #e2e8f0;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Universe Background Effects */
+        #space-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+        }
+
+        .nebula {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(76, 29, 149, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(30, 58, 138, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(88, 28, 135, 0.1) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        /* Container */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #fff 0%, #a5b4fc 50%, #818cf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+            text-shadow: 0 0 30px rgba(129, 140, 248, 0.3);
+        }
+
+        header p {
+            color: #94a3b8;
+            font-size: 1.1rem;
+            font-weight: 300;
+        }
+
+        /* Question Cards */
+        .qa-card {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            animation: slideUp 0.8s ease-out backwards;
+        }
+
+        .qa-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(129, 140, 248, 0.3);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7),
+                        0 0 20px rgba(129, 140, 248, 0.2);
+        }
+
+        .qa-card:nth-child(1) { animation-delay: 0.2s; }
+        .qa-card:nth-child(2) { animation-delay: 0.4s; }
+        .qa-card:nth-child(3) { animation-delay: 0.6s; }
+        .qa-card:nth-child(4) { animation-delay: 0.8s; }
+        .qa-card:nth-child(5) { animation-delay: 1.0s; }
+
+        .question-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            padding-bottom: 15px;
+        }
+
+        .q-badge {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            box-shadow: 0 0 15px rgba(124, 58, 237, 0.4);
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .question-header h3 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #f8fafc;
+            line-height: 1.5;
+        }
+
+        .answer-section {
+            background: rgba(30, 41, 59, 0.4);
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 3px solid #818cf8;
+        }
+
+        .meta-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 12px;
+            font-size: 0.9rem;
+        }
+
+        .lecture-name {
+            color: #c7d2fe;
+            font-weight: 500;
+        }
+
+        .youtube-link {
+            color: #f43f5e;
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: opacity 0.2s;
+        }
+
+        .youtube-link:hover {
+            opacity: 0.8;
+            text-decoration: underline;
+        }
+
+        .snippet-text {
+            color: #cbd5e1;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            font-style: italic;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 { font-size: 2rem; }
+            .question-header { flex-direction: column; align-items: flex-start; gap: 10px; }
+            .qa-card { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="space-canvas"></canvas>
+    <div class="nebula"></div>
+
+    <div class="container">
+        <header>
+            <h1>Hỏi Đáp Phật Pháp</h1>
+            <p>Không gian tĩnh lặng - Trí tuệ soi sáng nội tâm</p>
+        </header>
+
+        <!-- CÂU HỎI 1 -->
+        <div class="qa-card">
+            <div class="question-header">
+                <span class="q-badge">CÂU HỎI 1</span>
+                <h3>Kính bạch Thầy, động lực thôi thúc người ta phát tâm tu hành khổ cực để cầu mong sự giải thoát bắt đầu từ đâu, và vì sao sự giác ngộ lại bắt nguồn từ việc từng gặp và tôn kính một bậc Thánh trong quá khứ ạ?</h3>
+            </div>
+            <div class="answer-section">
+                <div class="meta-info">
+                    <span class="lecture-name">📖 Gốc Và Ngọn Của Sự Tu Hành (media: 6275)</span>
+                    <a href="https://youtu.be/GiQtc1WQdP0&t=773" target="_blank" class="youtube-link">▶ Xem video [12:53 - 14:10]</a>
+                </div>
+                <p class="snippet-text">"... Ở đâu mà ta phát tâm tu hành cực khổ để cầu mong sự giải thoát, bắt đầu từ đâu? Ngẫm lại mình coi... Từ cái thời điểm nào, từ giây phút nào mà bỗng nhiên mình hướng về sự giác ngộ giải thoát? Chứ còn biết nhân quả thì mình biết tránh tội làm phước đúng rồi. Nhưng mà từ giây phút nào bỗng nhiên mình phát tâm đi tìm sự giác ngộ giải thoát? Nhớ lại giây phút khi mà kiếp này hoặc kiếp xưa mình gặp một bậc Thánh, mình tôn kính..."</p>
+            </div>
+        </div>
+
+        <!-- CÂU HỎI 2 -->
+        <div class="qa-card">
+            <div class="question-header">
+                <span class="q-badge">CÂU HỎI 2</span>
+                <h3>Kính bạch Thầy, vì sao khi hiểu sâu sắc luật nhân quả thì bên trong nội tâm tự nhiên xuất hiện một động lực thôi thúc mãnh liệt cứ phải đi giúp đỡ người khác không ngừng nghỉ ạ?</h3>
+            </div>
+            <div class="answer-section">
+                <div class="meta-info">
+                    <span class="lecture-name">📖 Trí Tuệ Trong Đạo Phật (media: 6682)</span>
+                    <a href="https://youtu.be/NSSfk76eCVA&t=1886" target="_blank" class="youtube-link">▶ Xem video [31:26 - 32:49]</a>
+                </div>
+                <p class="snippet-text">"... Tự nhiên nó xuất hiện một cái động lực bên trong lạ lắm, cứ phải giúp người này, cứ phải giúp người kia... Trí tuệ nào mà khiến cho ta cứ muốn giúp người khác? Hiểu nhân quả! Khi ta hiểu nhân quả rồi, ta bị một cái động lực bên trong rất là mạnh cứ phải giúp người khác. Tại sao? Tại vì ta chợt hiểu một điều: quá nhiều kiếp ta ít làm phước quá!..."</p>
+            </div>
+        </div>
+
+        <!-- CÂU HỎI 3 -->
+        <div class="qa-card">
+            <div class="question-header">
+                <span class="q-badge">CÂU HỎI 3</span>
+                <h3>Kính bạch Thầy, vì sao lòng tôn kính đặt nơi một bậc Thánh giải thoát trong quá khứ lại có thể ươm mầm thành động lực giúp ta kiên trì chấp nhận mọi khó nhọc, giữ gìn giới cấm và tiến tu thiền định trong đời này ạ?</h3>
+            </div>
+            <div class="answer-section">
+                <div class="meta-info">
+                    <span class="lecture-name">📖 Luận Về Nhân Quả - Phần 4 (media: 18804)</span>
+                    <a href="https://youtu.be/QeaEiUy9r18&t=985" target="_blank" class="youtube-link">▶ Xem video [16:25 - 18:30]</a>
+                </div>
+                <p class="snippet-text">"... Nếu chúng ta kính trọng ai về ưu điểm nào, chúng ta sẽ thành tựu về ưu điểm đó... Sở dĩ chúng ta khát khao giải thoát trong khi chúng ta chưa từng nếm qua mùi vị giải thoát, bởi vì trong quá khứ có một bậc Thánh giải thoát nào đó đã làm cho chúng ta kính phục. Sự kính phục phong cách, oai nghi, dung mạo, tâm hồn của vị Thánh giải thoát đã ươm thành niềm khát khao giải thoát cho chính ta, để rồi đời này chúng ta chấp nhận bao nhiêu khó nhọc, bao nhiêu giới cấm và tiến tu thiền định mãi mãi..."</p>
+            </div>
+        </div>
+
+        <!-- CÂU HỎI 4 -->
+        <div class="qa-card">
+            <div class="question-header">
+                <span class="q-badge">CÂU HỎI 4</span>
+                <h3>Kính bạch Thầy, vì sao khi tu hành mà đặt mục tiêu đạt được sự an vui, được mọi người ngưỡng mộ thì vẫn chưa phải là cứu cánh, và động lực tột cùng của bậc chân tu là gì khi thấy mình chỉ là cát bụi ạ?</h3>
+            </div>
+            <div class="answer-section">
+                <div class="meta-info">
+                    <span class="lecture-name">📖 Bản Ngã Vô Hình (media: 6466 & 6619)</span>
+                    <a href="https://youtu.be/U2tg3YMqoTg&t=4088" target="_blank" class="youtube-link">▶ Xem video [1:08:08 - 1:09:36]</a>
+                </div>
+                <p class="snippet-text">"... Ta chịu bao nhiêu sự vất vả, khó khăn, khổ nhọc, hy sinh, nhường nhịn, giúp đỡ, bố thí, cúng dường, phụng sự... Để làm chi? Để được cái mục tiêu làm động lực tu hành đó là niềm an vui rất là mênh mông vô tận. Nhưng bây giờ hôm nay Thầy vừa nói đến một cái chỗ chẳng có gì vui vẻ lớn lao cả... Tu cho đến lúc mà được mọi người ngưỡng mộ cung kính, bị cái cảm giác sung sướng tác ý diệt nó đi, chỉ thấy mình là cát bụi, thấy chẳng có gì là ta..."</p>
+            </div>
+        </div>
+
+        <!-- CÂU HỎI 5 -->
+        <div class="qa-card">
+            <div class="question-header">
+                <span class="q-badge">CÂU HỎI 5</span>
+                <h3>Kính bạch Thầy, vì sao động lực tu hành chân chính để chứng đạt Thánh quả không phải là ngồi thiền cầu an nhàn, mà là chấp nhận vất vả gian lao để phụng sự chúng sinh và rèn luyện tâm từ bi ạ?</h3>
+            </div>
+            <div class="answer-section">
+                <div class="meta-info">
+                    <span class="lecture-name">📖 Nguyên Khí (media: 6160)</span>
+                    <a href="https://youtu.be/i420wPXw5jw&t=3929" target="_blank" class="youtube-link">▶ Xem video [1:05:29 - 1:06:58]</a>
+                </div>
+                <p class="snippet-text">"... Một là tôn kính Phật tuyệt đối, hai là trải lòng yêu thương chúng sinh vô hạn, ba là khiêm hạ tột cùng. Chính ba cái tâm hạnh khi ta bắt đầu bắt chân ngồi thiền, đó là cái nhân để chứng Thánh quả... Ai tu theo Thầy đều cực khổ cả... Bao nhiêu mồ hôi nước mắt gì phải lấy ra hết để mà phụng sự chúng sinh, phụng sự Phật Pháp. Để làm chi? Để khơi dậy cho bằng được cái lòng vị tha từ bi của mình..."</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Universe Starry Script -->
+    <script>
+        const canvas = document.getElementById('space-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let width, height;
+        let stars = [];
+
+        function initSize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        class Star {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = Math.random() * 1.5;
+                this.baseAlpha = Math.random() * 0.7 + 0.3;
+                this.alpha = this.baseAlpha;
+                this.twinkleSpeed = Math.random() * 0.02 + 0.005;
+                this.vx = (Math.random() - 0.5) * 0.1;
+                this.vy = (Math.random() - 0.5) * 0.1;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x < 0) this.x = width;
+                if (this.x > width) this.x = 0;
+                if (this.y < 0) this.y = height;
+                if (this.y > height) this.y = 0;
+
+                this.alpha += Math.sin(Date.now() * this.twinkleSpeed) * 0.01;
+                if (this.alpha < 0.1) this.alpha = 0.1;
+                if (this.alpha > 1) this.alpha = 1;
+            }
+
+            draw() {
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initStars() {
+            stars = [];
+            const count = Math.floor((width * height) / 6000);
+            for (let i = 0; i < count; i++) {
+                stars.push(new Star());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            stars.forEach(star => {
+                star.update();
+                star.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', () => {
+            initSize();
+            initStars();
+        });
+
+        initSize();
+        initStars();
+        animate();
+    </script>
+</body>
+</html>

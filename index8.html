@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hỏi Đáp Phật Pháp - Lòng Từ Bi & Hạnh Nguyện Vô Vẫn</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #05050f;
+            color: #e2e8f0;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Universe Background Effects */
+        #space-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+        }
+
+        .nebula {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(76, 29, 149, 0.18) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(30, 58, 138, 0.18) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(88, 28, 135, 0.12) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        /* Container */
+        .container {
+            max-width: 920px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        header h1 {
+            font-size: 2.4rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 50%, #818cf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 12px;
+            letter-spacing: 0.8px;
+            text-shadow: 0 0 30px rgba(129, 140, 248, 0.35);
+        }
+
+        header p {
+            color: #94a3b8;
+            font-size: 1.05rem;
+            font-weight: 300;
+        }
+
+        /* Question Cards */
+        .qa-card {
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 32px;
+            margin-bottom: 35px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            animation: slideUp 0.8s ease-out backwards;
+        }
+
+        .qa-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(129, 140, 248, 0.35);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7),
+                        0 0 25px rgba(129, 140, 248, 0.2);
+        }
+
+        .qa-card:nth-child(1) { animation-delay: 0.2s; }
+        .qa-card:nth-child(2) { animation-delay: 0.4s; }
+        .qa-card:nth-child(3) { animation-delay: 0.6s; }
+
+        .question-header {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 22px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 18px;
+            gap: 15px;
+        }
+
+        .q-badge {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            box-shadow: 0 0 15px rgba(124, 58, 237, 0.4);
+            flex-shrink: 0;
+            margin-top: 3px;
+        }
+
+        .question-header h3 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #f8fafc;
+            line-height: 1.55;
+        }
+
+        .answer-section {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .meta-info {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            background: rgba(30, 41, 59, 0.4);
+            padding: 12px 18px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.9rem;
+        }
+
+        .lecture-name {
+            color: #c7d2fe;
+            font-weight: 500;
+        }
+
+        .youtube-link {
+            color: #fb7185;
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: opacity 0.2s, transform 0.2s;
+            background: rgba(244, 63, 94, 0.1);
+            padding: 6px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(244, 63, 94, 0.2);
+        }
+
+        .youtube-link:hover {
+            opacity: 0.9;
+            transform: scale(1.02);
+            background: rgba(244, 63, 94, 0.2);
+        }
+
+        .story-box {
+            background: rgba(30, 41, 59, 0.35);
+            border-left: 3px solid #38bdf8;
+            border-radius: 0 12px 12px 0;
+            padding: 16px 20px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #e2e8f0;
+        }
+
+        .story-title {
+            color: #38bdf8;
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .snippet-box {
+            background: rgba(15, 23, 42, 0.5);
+            border-left: 3px solid #818cf8;
+            border-radius: 0 12px 12px 0;
+            padding: 16px 20px;
+            font-size: 0.95rem;
+            line-height: 1.65;
+            color: #cbd5e1;
+            font-style: italic;
+        }
+
+        .snippet-title {
+            color: #818cf8;
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-style: normal;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 { font-size: 1.8rem; }
+            .question-header { flex-direction: column; gap: 10px; }
+            .qa-card { padding: 22px; }
+            .meta-info { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="space-canvas"></canvas>
+    <div class="nebula"></div>
+
+    <div class="container">
+        <header>
+            <h1>Hỏi Đáp Phật Pháp</h1>
+            <p>Lòng Từ Bi Vô Hạn & Bài Học Nhân Quả Sâu Thẳm</p>
+        </header>
+
+        <!-- CÂU HỎI 1 -->
+        <div class="qa-card">
+            <div class="question-header">
+                <span class="q-badge">CÂU HỎI 1</span>
+                <h3>Kính bạch Thầy, câu chuyện Đức Phật đích thân chăm sóc, tắm rửa cho vị Tỳ-kheo bệnh Tissa bị ghẻ lở hôi thối đã thể hiện lòng từ bi tột cùng và bài học nhân quả sâu thẳm nào cho toàn thể Tăng đoàn ạ?</h3>
+            </div>
+            <div class="answer-section">
+                <div class="meta-info">
+                    <span class="lecture-name">📖 Nghiệp Của Thân - Pháp Cú 17 (media: 1369 & 4632)</span>
+                    <a href="https://youtu.be/PRMPBekCsxw&t=128" target="_blank" class="youtube-link">▶ Xem video [02:08 - 03:30]</a>
+                </div>
+
+                <div class="story-box">
+                    <div class="story-title">📜 Mẫu chuyện</div>
+                    <p>Tỳ-kheo Tissa mắc bệnh nan y, ghẻ lở ung nhọt vỡ mủ hôi thối khắp thân thể khiến các bạn đồng tu không ai dám lại gần, phải khiêng ngài đặt tạm ngoài hiên. Đức Phật hay tin liền đích thân đến múc nước nóng, tự tay lau rửa từng vết thương, giặt phơi từng tấm y cho người đệ tử rồi thuyết pháp khai thị cho ngài trước lúc lâm chung, đồng thời dạy đại chúng: "Ai chăm sóc một người huynh đệ bệnh tật tức là đang chăm sóc Như Lai".</p>
+                </div>
+
+                <div class="snippet-box">
+                    <div class="snippet-title">💬 Trích dẫn bài giảng</div>
+                    <p>"... Càng lúc cái bệnh tình thê thảm quá, cái mùi hôi nó cứ lan ra... ít ai ngó tới, vì tâm lý người ta không ai chăm sóc người bệnh được chu đáo. Thì đến lúc nghiệp của Ngài cũng gần mãn thì Đức Phật đến... Đức Phật mới lấy khăn nhúng nước nóng, đích thân lau từng cái vết thương, lau hết, tẩy hết người, lau rửa giường chiếu đồ lại hết... Rồi sau đó Đức Phật mới thuyết Pháp nói một bài kệ: Không bao lâu thân này sẽ nằm dài trên đất, bị vứt bỏ vô thức như khúc cây vô dụng... Đức Phật mới thấy một số tỳ-kheo quanh đó thờ ơ, Ngài mới nói lên một câu: Người nào chăm sóc cho một người huynh đệ của mình bị bệnh, tức là chăm sóc cho Như Lai..."</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CÂU HỎI 2 -->
+        <div class="qa-card">
+            <div class="question-header">
+                <span class="q-badge">CÂU HỎI 2</span>
+                <h3>Kính bạch Thầy, trong xã hội Ấn Độ cổ đại phân biệt giai cấp khắt khe, hành động Đức Phật bước đến nắm lấy bàn tay lem luốc phân nhơ của chàng gánh phân Ni Đề (Sunīta) đã bộc lộ sự vô ngã và đạo đức vĩ đại của đấng Từ Phụ như thế nào ạ?</h3>
+            </div>
+            <div class="answer-section">
+                <div class="meta-info">
+                    <span class="lecture-name">📖 Ba Nơi Hướng Về (media: 1970 & 4532)</span>
+                    <a href="https://youtu.be/8RUjn0IMzBI&t=610" target="_blank" class="youtube-link">▶ Xem video [10:10 - 11:29]</a>
+                </div>
+
+                <div class="story-box">
+                    <div class="story-title">📜 Mẫu chuyện</div>
+                    <p>Chàng thanh niên Ni Đề thuộc tầng lớp Thủ-đà-la cùng đinh chuyên làm nghề hốt phân. Khi gặp Đức Phật ngoài đường, vì mặc cảm và sợ làm ô uế bậc Thánh nên ông hoảng loạn né tránh, không may trượt chân làm thùng phân đổ ụp lên người. Đức Phật đã bước thẳng đến đỡ ông dậy, cầm lấy đôi bàn tay lấm lem và khẳng định: "Ta và con không khác nhau", rồi độ cho ông xuất gia chứng quả A-la-hán.</p>
+                </div>
+
+                <div class="snippet-box">
+                    <div class="snippet-title">💬 Trích dẫn bài giảng</div>
+                    <p>"... Thùng phân ông đang gánh đổ ập lên người ông, người ông dính toàn đầy là phân. Mà Đức Phật bước đến đỡ ông dậy. Ông vội vàng rụt tay lại nói: 'Xin Ngài đừng đụng vào con, con rất là dơ bẩn và hèn kém'. Đức Phật nhìn ông bằng ánh mắt đầy từ bi và nói: 'Này Ni Đề, con đừng xem thường bản thân mình. Chúng ta không vì giai cấp mà cao quý, chúng ta vì đạo đức và hành vi mà cao quý. Con hiểu sự dơ bẩn trong mỗi gia đình mà con gánh phân, còn Ta, Ta hiểu sự bất tịnh nơi nội tâm của mỗi con người... Này Ni Đề, Ta và con không khác nhau'. Đức Phật là Thầy của trời người... mà xem mình bằng với một giai cấp thấp nhất trong xã hội, thì lòng từ bi đó, sự vô ngã đó đủ để chúng ta kính lễ muôn đời..."</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CÂU HỎI 3 -->
+        <div class="qa-card">
+            <div class="question-header">
+                <span class="q-badge">CÂU HỎI 3</span>
+                <h3>Kính bạch Thầy, trước khi lên đường truyền đạo tại xứ biên địa hung tợn Du-na (Sunaparanta), cuộc đối thoại giữa Đức Phật và Tôn giả Phú Lâu Na (Purna) đã khắc họa hạnh nguyện nhẫn nhục và đức hy sinh vô bờ bến của bậc Thánh A-la-hán như thế nào ạ?</h3>
+            </div>
+            <div class="answer-section">
+                <div class="meta-info">
+                    <span class="lecture-name">📖 KINH PHÁP HOA 13 - Phẩm Trì (media: 1479 & 5294)</span>
+                    <a href="https://youtu.be/JYTZXtoRRGs&t=4882" target="_blank" class="youtube-link">▶ Xem video [1:21:22 - 1:22:53]</a>
+                </div>
+
+                <div class="story-box">
+                    <div class="story-title">📜 Mẫu chuyện</div>
+                    <p>Tôn giả Phú Lâu Na tình nguyện đến vùng biên địa Sunaparanta xa xôi, nơi dân cư hung hăng, thô bỉ và chống đối đạo Phật để hoằng pháp. Đức Phật gặng hỏi từng mức độ chịu đựng nếu bị dân bản xứ chửi mắng, đánh đập cho đến tước đoạt tính mạng. Tôn giả khẳng định tâm ngài vẫn luôn thấy họ là người tốt và sẵn sàng xả thân, nhờ đức nhẫn nhục tuyệt đối đó mà ngài đã cảm hóa được toàn bộ người dân xứ ấy quy y Tam Bảo.</p>
+                </div>
+
+                <div class="snippet-box">
+                    <div class="snippet-title">💬 Trích dẫn bài giảng</div>
+                    <p>"... Có một lần Ngài Punya xin Phật đi về một vùng biên địa để giáo hóa, vùng đó người ta ác, thô bỉ mà không tin Phật Pháp. Đức Phật mới nói rằng: 'Ông đi đến đó mà giáo hóa người ta chửi mắng ông thì ông làm sao?'. Ngài thưa: 'Dạ con nghĩ người ta vẫn tốt vì người ta chưa đánh con'. 'Nhưng nếu người ta đánh ông thì sao?'. 'Con nghĩ người ta tốt vì người ta chưa giết con'. 'Nếu người ta giết ông thì sao?'. 'Dạ con nghĩ người ta cũng tốt vì người ta giải thoát con khỏi cuộc sống nặng nề ô trượt này!'. Phật nói: 'Được, ông là người đủ nhẫn nhục để giáo hóa'. Trước một con người có tâm lượng nhẫn nhục vô biên như vậy, dân cái vùng đó sau này theo Ngài hết trơn luôn..."</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Universe Starry Script -->
+    <script>
+        const canvas = document.getElementById('space-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let width, height;
+        let stars = [];
+
+        function initSize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        class Star {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = Math.random() * 1.5;
+                this.baseAlpha = Math.random() * 0.7 + 0.3;
+                this.alpha = this.baseAlpha;
+                this.twinkleSpeed = Math.random() * 0.02 + 0.005;
+                this.vx = (Math.random() - 0.5) * 0.1;
+                this.vy = (Math.random() - 0.5) * 0.1;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x < 0) this.x = width;
+                if (this.x > width) this.x = 0;
+                if (this.y < 0) this.y = height;
+                if (this.y > height) this.y = 0;
+
+                this.alpha += Math.sin(Date.now() * this.twinkleSpeed) * 0.01;
+                if (this.alpha < 0.1) this.alpha = 0.1;
+                if (this.alpha > 1) this.alpha = 1;
+            }
+
+            draw() {
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initStars() {
+            stars = [];
+            const count = Math.floor((width * height) / 6000);
+            for (let i = 0; i < count; i++) {
+                stars.push(new Star());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            stars.forEach(star => {
+                star.update();
+                star.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', () => {
+            initSize();
+            initStars();
+        });
+
+        initSize();
+        initStars();
+        animate();
+    </script>
+</body>
+</html>

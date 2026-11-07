@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vương Dương Minh & Vị Thiền Sư Trong Thất 50 Năm</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #05050f;
+            color: #e2e8f0;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Universe Background Effects */
+        #space-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+        }
+
+        .nebula {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(76, 29, 149, 0.18) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(30, 58, 138, 0.18) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(88, 28, 135, 0.12) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        /* Container */
+        .container {
+            max-width: 920px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 45px;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 50%, #818cf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 12px;
+            letter-spacing: 0.8px;
+            text-shadow: 0 0 30px rgba(129, 140, 248, 0.35);
+            line-height: 1.3;
+        }
+
+        header p {
+            color: #94a3b8;
+            font-size: 1.05rem;
+            font-weight: 300;
+        }
+
+        /* Content Cards */
+        .story-card {
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 32px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            animation: slideUp 0.8s ease-out backwards;
+        }
+
+        .story-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(129, 140, 248, 0.35);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7),
+                        0 0 25px rgba(129, 140, 248, 0.2);
+        }
+
+        .story-card:nth-child(1) { animation-delay: 0.2s; }
+        .story-card:nth-child(2) { animation-delay: 0.4s; }
+        .story-card:nth-child(3) { animation-delay: 0.6s; }
+        .story-card:nth-child(4) { animation-delay: 0.8s; }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 15px;
+            gap: 12px;
+        }
+
+        .step-badge {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            box-shadow: 0 0 15px rgba(124, 58, 237, 0.4);
+            flex-shrink: 0;
+        }
+
+        .section-header h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #f8fafc;
+        }
+
+        .story-body {
+            font-size: 0.98rem;
+            line-height: 1.7;
+            color: #cbd5e1;
+        }
+
+        .dialogue-box {
+            background: rgba(30, 41, 59, 0.45);
+            border-left: 3px solid #38bdf8;
+            border-radius: 0 12px 12px 0;
+            padding: 16px 20px;
+            margin: 18px 0;
+            font-size: 0.95rem;
+            line-height: 1.65;
+            color: #e2e8f0;
+        }
+
+        .dialogue-line {
+            margin-bottom: 8px;
+        }
+        .dialogue-line:last-child {
+            margin-bottom: 0;
+        }
+
+        .dialogue-speaker {
+            color: #38bdf8;
+            font-weight: 600;
+        }
+
+        /* Poem Container */
+        .poem-container {
+            background: rgba(88, 28, 135, 0.25);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 14px;
+            padding: 24px;
+            margin: 20px 0;
+            text-align: center;
+            box-shadow: inset 0 0 20px rgba(168, 85, 247, 0.1);
+        }
+
+        .poem-title {
+            color: #c084fc;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 14px;
+        }
+
+        .poem-verse {
+            font-size: 1.05rem;
+            line-height: 1.9;
+            color: #f3e8ff;
+            font-style: italic;
+            font-weight: 500;
+        }
+
+        /* Conclusion Card */
+        .conclusion-card {
+            background: linear-gradient(135deg, rgba(30, 27, 75, 0.7) 0%, rgba(15, 23, 42, 0.8) 100%);
+            border: 1px solid rgba(129, 140, 248, 0.3);
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6),
+                        0 0 30px rgba(99, 102, 241, 0.15);
+            animation: slideUp 0.8s ease-out 1s backwards;
+        }
+
+        .conclusion-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+            color: #818cf8;
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .conclusion-text {
+            font-size: 1rem;
+            line-height: 1.75;
+            color: #e0e7ff;
+            font-weight: 400;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 { font-size: 1.7rem; }
+            .story-card, .conclusion-card { padding: 22px; }
+            .section-header { flex-direction: column; align-items: flex-start; gap: 8px; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="space-canvas"></canvas>
+    <div class="nebula"></div>
+
+    <div class="container">
+        <header>
+            <h1>VƯƠNG DƯƠNG MINH & VỊ THIỀN SƯ ĐÃ NGỒI TRONG THẤT SUỐT 50 NĂM</h1>
+            <p>Câu chuyện luân hồi tiền kiếp & Nhân duyên giác ngộ tại Kim Sơn Tự</p>
+        </header>
+
+        <!-- PHẦN 1: KÝ ỨC THÂN THUỘC & CĂN PHÒNG KHÓA KÍN -->
+        <div class="story-card">
+            <div class="section-header">
+                <span class="step-badge">PHẦN I</span>
+                <h3>Duyên Khởi Tại Kim Sơn Tự</h3>
+            </div>
+            <div class="story-body">
+                <p>Trong một lần đến <strong>Kim Sơn Tự ở Trấn Giang</strong>, Vương Dương Minh đi dạo trong khuôn viên chùa. Cảnh vật, cây cối, lối đi và những gian phòng nơi đây khiến ông có cảm giác vô cùng thân thuộc, như thể mình đã từng sống ở nơi này từ rất lâu về trước.</p>
+                <p style="margin-top: 12px;">Đang đi, ông nhìn thấy một căn phòng thiền thất đóng kín. Cửa được niêm phong cẩn thận, dường như đã rất lâu không có người mở. Cảm thấy căn phòng này có mối duyên nợ đặc biệt, ông liền hỏi vị tăng trong chùa:</p>
+
+                <div class="dialogue-box">
+                    <div class="dialogue-line"><span class="dialogue-speaker">– Vương Dương Minh:</span> "Vì sao căn phòng này lại bị khóa kín như vậy?"</div>
+                    <div class="dialogue-line"><span class="dialogue-speaker">– Vị Tăng:</span> "Bạch thí chủ, đây là nơi vị Lão tổ sư của bổn tự viên tịch cách đây 50 năm. Trước khi viên tịch, ngài đã căn dặn đệ tử tuyệt đối không được mở cửa căn phòng này."</div>
+                </div>
+
+                <p>Vương Dương Minh nghe vậy càng muốn biết bên trong có gì. Ông đề nghị vị tăng mở cửa để mình vào xem. Vị tăng hết sức ngần ngại bởi đó là di nguyện của vị tổ sư đã khuất, nhưng Vương Dương Minh — lúc đó là vị quan lớn nhiều uy lực — vẫn kiên quyết đề nghị. Cuối cùng, vị tăng đành chấp thuận mở cửa.</p>
+            </div>
+        </div>
+
+        <!-- PHẦN 2: DIỆN KIẾN TIỀN THÂN -->
+        <div class="story-card">
+            <div class="section-header">
+                <span class="step-badge">PHẦN II</span>
+                <h3>Diện Kiến Tiền Thân Trong Thiền Thất</h3>
+            </div>
+            <div class="story-body">
+                <p>Cánh cửa từ từ mở ra. Bên trong, mọi thứ vẫn được giữ nguyên như thể thời gian đã dừng lại suốt nửa thế kỷ. Và điều khiến Vương Dương Minh kinh ngạc nhất là:</p>
+                <p style="margin-top: 12px;">Trong thiền thất có một vị lão hòa thượng đang ngồi ngay ngắn trong tư thế thiền định. Dáng vẻ của ngài thanh thản, dung mạo giống như người còn sống. Điều kỳ lạ hơn nữa là khuôn mặt vị lão hòa thượng ấy có những nét giống Vương Dương Minh đến kinh ngạc. Ông nhìn thật lâu và cảm thấy như đang nhìn thấy chính bản thân mình.</p>
+                <p style="margin-top: 12px; font-weight: 600; color: #a5b4fc;">Vương Dương Minh đã thốt lên: <em>“Chẳng lẽ đây chính là tiền thân của ta hay sao?”</em></p>
+            </div>
+        </div>
+
+        <!-- PHẦN 3: BÀI KỆ TRÊN VÁCH TƯỜNG -->
+        <div class="story-card">
+            <div class="section-header">
+                <span class="step-badge">PHẦN III</span>
+                <h3>Bài Kệ Tiền Định Nửa Thế Kỷ</h3>
+            </div>
+            <div class="story-body">
+                <p>Sau đó, Vương Dương Minh nhìn thấy trên vách tường có một bài kệ được viết lại từ 50 năm trước:</p>
+
+                <div class="poem-container">
+                    <div class="poem-title">📜 Bài Kệ Trên Vách Tường</div>
+                    <div class="poem-verse">
+                        Năm mươi năm trước, Vương Thủ Nhân,<br>
+                        Mở cửa chính là người đóng cửa.<br>
+                        Thần thức lìa thân rồi trở lại,<br>
+                        Mới tin thân bất hoại nhà Thiền.
+                    </div>
+                </div>
+
+                <p>Bài kệ khiến ông càng thêm xúc động. Hóa ra vị lão hòa thượng đã biết trước nhân duyên của mình, biết rằng sau 50 năm sẽ có một người tên <strong>Vương Thủ Nhân</strong> (tên thật của Vương Dương Minh) đến mở cửa căn phòng này. Người đến mở cửa cũng chính là người đã từng đóng cửa năm xưa.</p>
+                <p style="margin-top: 12px;">Đứng trước di thể của vị lão hòa thượng và bài kệ trên vách, Vương Dương Minh trầm ngâm rất lâu. Ông liên tưởng đến vòng sinh tử, sự tiếp nối của thần thức và vấn đề luân hồi. Sau đó, ông cho xây tháp an táng vị tăng rồi mới rời đi.</p>
+            </div>
+        </div>
+
+        <!-- PHẦN 4: KẾT LUẬN & TẦM VÓC -->
+        <div class="conclusion-card">
+            <div class="conclusion-header">
+                <span>🌟 KẾT LUẬN & CHIÊM NGHIỆM</span>
+            </div>
+            <div class="conclusion-text">
+                "Vương Dương Minh thực sự là một nhân vật đặc biệt và vĩ đại trong lịch sử tư tưởng Á Đông — một bậc hiền triết văn võ song toàn, vừa có chiều sâu tâm linh của một thiền sư, vừa có hoài bão nhập thế của một nhà Nho chân chính. Chính cái nhìn <strong>'Tâm bao hàm vạn vật'</strong> từ thuở thiếu thời tại chùa Kim Sơn đã đặt nền móng cho lý thuyết <strong>Tâm học</strong> lừng lẫy của ông sau này, để lại tầm ảnh hưởng sâu rộng không chỉ ở Trung Hoa mà còn lan sang Nhật Bản và Việt Nam."
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Universe Starry Script -->
+    <script>
+        const canvas = document.getElementById('space-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let width, height;
+        let stars = [];
+
+        function initSize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        class Star {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = Math.random() * 1.5;
+                this.baseAlpha = Math.random() * 0.7 + 0.3;
+                this.alpha = this.baseAlpha;
+                this.twinkleSpeed = Math.random() * 0.02 + 0.005;
+                this.vx = (Math.random() - 0.5) * 0.1;
+                this.vy = (Math.random() - 0.5) * 0.1;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x < 0) this.x = width;
+                if (this.x > width) this.x = 0;
+                if (this.y < 0) this.y = height;
+                if (this.y > height) this.y = 0;
+
+                this.alpha += Math.sin(Date.now() * this.twinkleSpeed) * 0.01;
+                if (this.alpha < 0.1) this.alpha = 0.1;
+                if (this.alpha > 1) this.alpha = 1;
+            }
+
+            draw() {
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initStars() {
+            stars = [];
+            const count = Math.floor((width * height) / 6000);
+            for (let i = 0; i < count; i++) {
+                stars.push(new Star());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            stars.forEach(star => {
+                star.update();
+                star.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', () => {
+            initSize();
+            initStars();
+        });
+
+        initSize();
+        initStars();
+        animate();
+    </script>
+</body>
+</html>
