@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vụ Án Tình Báo Cổ Loa, Bản Lĩnh Thiên Tài & Triết Lý Âm Dương Sức Khỏe</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #05050f;
+            color: #e2e8f0;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Universe Background Effects */
+        #space-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+        }
+
+        .nebula {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(76, 29, 149, 0.18) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(30, 58, 138, 0.18) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(88, 28, 135, 0.12) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        /* Container */
+        .container {
+            max-width: 920px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 45px;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        header h1 {
+            font-size: 2.1rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 50%, #818cf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 12px;
+            letter-spacing: 0.8px;
+            text-shadow: 0 0 30px rgba(129, 140, 248, 0.35);
+            line-height: 1.35;
+        }
+
+        header p {
+            color: #94a3b8;
+            font-size: 1.05rem;
+            font-weight: 300;
+        }
+
+        /* Content Cards */
+        .content-card {
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 32px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            animation: slideUp 0.8s ease-out backwards;
+        }
+
+        .content-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(129, 140, 248, 0.35);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7),
+                        0 0 25px rgba(129, 140, 248, 0.2);
+        }
+
+        .content-card:nth-child(1) { animation-delay: 0.15s; }
+        .content-card:nth-child(2) { animation-delay: 0.3s; }
+        .content-card:nth-child(3) { animation-delay: 0.45s; }
+        .content-card:nth-child(4) { animation-delay: 0.6s; }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 15px;
+            gap: 12px;
+        }
+
+        .step-badge {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            box-shadow: 0 0 15px rgba(124, 58, 237, 0.4);
+            flex-shrink: 0;
+        }
+
+        .section-header h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #f8fafc;
+        }
+
+        .story-body {
+            font-size: 0.98rem;
+            line-height: 1.75;
+            color: #cbd5e1;
+        }
+
+        .highlight-box {
+            background: rgba(30, 41, 59, 0.45);
+            border-left: 3px solid #38bdf8;
+            border-radius: 0 12px 12px 0;
+            padding: 18px 22px;
+            margin: 18px 0;
+            font-size: 0.98rem;
+            line-height: 1.7;
+            color: #e2e8f0;
+        }
+
+        .quote-box {
+            background: rgba(88, 28, 135, 0.25);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 14px;
+            padding: 20px 22px;
+            margin: 18px 0;
+            color: #f3e8ff;
+            line-height: 1.75;
+        }
+
+        .list-box {
+            background: rgba(30, 41, 59, 0.45);
+            border-left: 3px solid #818cf8;
+            border-radius: 0 12px 12px 0;
+            padding: 18px 22px;
+            margin: 16px 0;
+        }
+
+        .list-box ul, .list-box ol {
+            padding-left: 20px;
+        }
+
+        .list-box li {
+            margin-bottom: 8px;
+            line-height: 1.65;
+            color: #e2e8f0;
+        }
+
+        /* Conclusion Card */
+        .conclusion-card {
+            background: linear-gradient(135deg, rgba(30, 27, 75, 0.7) 0%, rgba(15, 23, 42, 0.8) 100%);
+            border: 1px solid rgba(129, 140, 248, 0.3);
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6),
+                        0 0 30px rgba(99, 102, 241, 0.15);
+            animation: slideUp 0.8s ease-out 0.8s backwards;
+        }
+
+        .conclusion-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+            color: #818cf8;
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .conclusion-text {
+            font-size: 1rem;
+            line-height: 1.75;
+            color: #e0e7ff;
+            font-weight: 400;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 { font-size: 1.6rem; }
+            .content-card, .conclusion-card { padding: 22px; }
+            .section-header { flex-direction: column; align-items: flex-start; gap: 8px; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="space-canvas"></canvas>
+    <div class="nebula"></div>
+
+    <div class="container">
+        <header>
+            <h1>VỤ ÁN TÌNH BÁO CỔ LOA, BẢN LĨNH THIÊN TÀI & TRIẾT LÝ ÂM DƯƠNG</h1>
+            <p>Nỗi oan danh tướng Cao Lỗ — Bí mật Nỏ Thần Liên Châu — Bản lĩnh tự học & Trục Âm Dương sức khỏe</p>
+        </header>
+
+        <!-- PHẦN 1: MỸ NHÂN KẾ TRỌNG THỦY & SỰ THẢM BẠI CỦA ÂM MƯU TÌNH BÁO -->
+        <div class="content-card">
+            <div class="section-header">
+                <span class="step-badge">PHẦN I</span>
+                <h3>Mỹ Nhân Kế, Nỗi Oan Cao Lỗ & Sự Thật Vụ Án Tình Báo Cổ Loa</h3>
+            </div>
+            <div class="story-body">
+                <p>Sau khi đánh không lại quân Âu Lạc, Triệu Đà dùng mỹ nhân kế cho con trai Trọng Thủy sang cầu hôn Mị Châu. Đích thân Trọng Thủy mang lụa là vàng bạc sang, Mị Châu trúng tiếng sét ái tình tức khắc. Trong triều, một số quan lại bị mua chuộc tán thành, riêng <strong>Cao Lỗ phản đối quyết liệt</strong> vì nhận ra đây là chiến dịch tình báo thâm nhập bí mật quân sự.</p>
+
+                <div class="highlight-box">
+                    <strong>🏰 Cao Lỗ — Kiến trúc sư Cổ Loa & Ông tổ Công nghệ Quốc phòng:</strong><br>
+                    • <strong>Thế trận mê cung Cổ Loa:</strong> Thiết kế các mặt thành, tháp canh, đồn quân ứng chiến ảo diệu khiến quân địch lạc vào mê cung bị phục kích tiêu diệt.<br>
+                    • <strong>Bản chất Nỏ Thần Liên Châu:</strong> Không phải cây nỏ cầm tay nhỏ bé, mà là <strong>những cỗ máy quân sự khổng lồ bằng cả căn nhà</strong>, giấu kín trong hang động bí mật. Mỗi cỗ máy do hàng trăm lính điều khiển, bắn một lúc hàng ngàn mũi tên bịt sắt bịt đồng rơi như mưa làm giặc chết như rạ.
+                </div>
+
+                <p style="margin-top: 12px;">Trọng Thủy về ở rể, dùng vàng bạc mua chuộc hết quan tướng triều đình, dò ra mật khẩu vào kho Nỏ Thần. Biết Cao Lỗ là mối đe dọa lớn nhất, Trọng Thủy xúi Mị Châu lấy ấn triều đình ra chiếu chỉ giả buộc Cao Lỗ về kinh rồi dùng nỏ thần hãm hại ông giữa đường.</p>
+
+                <div class="quote-box">
+                    <strong>🖤 Lương tâm còn sót lại của Trọng Thủy:</strong><br>
+                    Sau khi phá vỡ mật khẩu Nỏ Thần và báo Triệu Đà tràn sang chiếm Âu Lạc, An Dương Vương thất thủ đèo Mị Châu chạy về Nam. Cuối cùng, Trọng Thủy ôm xác Mị Châu tự tử mà <strong>không hề tiết lộ bản đồ hay mật khẩu Nỏ Thần cho cha mình</strong>. Mật mã Nỏ Thần vĩnh viễn chìm sâu trong lòng núi, bảo mật tuyệt đối nhờ tài năng của Cao Lỗ.
+                    <p style="margin-top: 6px; font-size: 0.88rem; color: #94a3b8; text-align: right;">
+                        (Trích bài giảng "Quê hương nghĩa nặng tình sâu" & "Nhân quả ít và nhiều" — TT. Thích Chân Quang)
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- PHẦN 2: BẢN LĨNH TỰ HỌC & THIÊN TÀI CỦA CÁC VỊ LÃNH ĐẠO CÁCH MẠNG -->
+        <div class="content-card">
+            <div class="section-header">
+                <span class="step-badge">PHẦN II</span>
+                <h3>Bản Lĩnh Tự Học & Trí Tuệ Thiên Tài Của Bác Giáp</h3>
+            </div>
+            <div class="story-body">
+                <p>Mạng xã hội thường xuất hiện những kẻ nói dối, khoác phác chê bai Đại tướng Võ Nguyên Giáp chỉ là giáo viên dạy sử. Nhưng chính bản lĩnh tự học và sự rèn luyện miên mật đã viết nên trang sử oai hùng.</p>
+
+                <div class="list-box">
+                    <strong>Phân loại 4 hạng người trên đời:</strong>
+                    <ol>
+                        <li>Học mãi vẫn không biết gì nhiều.</li>
+                        <li>Có học chính quy và thành tài.</li>
+                        <li>Không học chính quy nhưng tự học và thành tài lừng lẫy.</li>
+                        <li>Không ai dạy mà tự tư duy sáng tạo biết hết.</li>
+                    </ol>
+                </div>
+
+                <p style="margin-top: 12px;">Bác Giáp và các vị lãnh đạo tiền bối không được qua các trường quân sự chính quy thời đó, nhưng nhờ sự tự rèn luyện, chỉ bảo lẫn nhau và được Bác Hồ trực tiếp đào tạo, các vị đã đủ sức lãnh đạo dân tộc đánh thắng hai đế quốc sừng sỏ nhất thế giới. Chúng ta nghiêng đầu kính phục bản lĩnh thiên tài tự học của các vị!</p>
+            </div>
+        </div>
+
+        <!-- PHẦN 3: ÂM DƯƠNG VỚI SỨC KHỎE CON NGƯỜI -->
+        <div class="content-card">
+            <div class="section-header">
+                <span class="step-badge">PHẦN III</span>
+                <h3>Triết Lý Âm Dương Với Sức Khỏe & Nội Lực Cơ Thể</h3>
+            </div>
+            <div class="story-body">
+                <p>Sức khỏe con người gồm hai phần: <strong>Dương</strong> (sức khỏe hình tướng, cơ bắp bên ngoài) và <strong>Âm</strong> (nội lực thầm lặng bên trong).</p>
+
+                <div class="highlight-box">
+                    ⚖️ <strong>Quy luật Âm Dương trong y học & bắt mạch:</strong><br>
+                    • Người âm lực bên trong còn mà dương lực bên ngoài suy ➔ Khả năng phục hồi rất cao.<br>
+                    • Người dương lực bên ngoài còn nhưng âm lực bên trong đã cạn ➔ Giống đèn sắp hết dầu, rất nguy hiểm, khó chữa.<br>
+                    • Thầy thuốc bắt mạch kiểm tra 3 vị trí <em>Xích - Quan - Thốn</em> để đánh giá âm dương.
+                </div>
+
+                <div class="list-box" style="border-left-color: #38bdf8;">
+                    <strong>🔍 Cách đánh giá Âm - Dương qua hình tướng:</strong>
+                    <ul>
+                        <li><strong>Kiểm tra bụng dưới (dưới rốn):</strong> Từ rốn trở lên thuộc Dương, từ rốn trở xuống thuộc Âm. Gõ vào bụng dưới rốn nghe chắc cứng là Âm lực mạnh, mập hay ốm cũng đều sống lâu khỏe mạnh. Bụng mềm là Dương nhiều hơn Âm, dễ bệnh tai biến.</li>
+                        <li><strong>Kiểm tra đôi chân:</strong> Đôi chân to, săn chắc, vững chãi là phần Âm rất mạnh. Cầu thủ bóng đá và người tập võ luyện đứng tấn, nhảy cao đều có phần Âm cực mạnh, phát ra lực đòn tay rất lớn.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- PHẦN 4: KẾT LUẬN -->
+        <div class="conclusion-card">
+            <div class="conclusion-header">
+                <span>🌟 BÀI HỌC VỀ CẢNH GIÁC & TỰ RÈN LUYỆN THÂN TÂM</span>
+            </div>
+            <div class="conclusion-text">
+                Nhìn lại lịch sử để thấy rõ cái giá của sự lơi lỏng chủ quan, trân trọng bản lĩnh tự học sáng tạo của các bậc tiền nhân, đồng thời rèn luyện thân tâm vững chắc từ trục Âm Dương nội lực bên trong — đó là nền tảng sống an lành và cống hiến trọn vẹn cho đời.
+                <p style="margin-top: 14px; font-size: 0.88rem; color: #94a3b8; text-align: right;">
+                    (Trích sách "TRIẾT LÝ VỀ ÂM DƯƠNG" — TT. Thích Chân Quang)
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Universe Starry Script -->
+    <script>
+        const canvas = document.getElementById('space-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let width, height;
+        let stars = [];
+
+        function initSize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        class Star {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = Math.random() * 1.5;
+                this.baseAlpha = Math.random() * 0.7 + 0.3;
+                this.alpha = this.baseAlpha;
+                this.twinkleSpeed = Math.random() * 0.02 + 0.005;
+                this.vx = (Math.random() - 0.5) * 0.1;
+                this.vy = (Math.random() - 0.5) * 0.1;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x < 0) this.x = width;
+                if (this.x > width) this.x = 0;
+                if (this.y < 0) this.y = height;
+                if (this.y > height) this.y = 0;
+
+                this.alpha += Math.sin(Date.now() * this.twinkleSpeed) * 0.01;
+                if (this.alpha < 0.1) this.alpha = 0.1;
+                if (this.alpha > 1) this.alpha = 1;
+            }
+
+            draw() {
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initStars() {
+            stars = [];
+            const count = Math.floor((width * height) / 6000);
+            for (let i = 0; i < count; i++) {
+                stars.push(new Star());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            stars.forEach(star => {
+                star.update();
+                star.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', () => {
+            initSize();
+            initStars();
+        });
+
+        initSize();
+        initStars();
+        animate();
+    </script>
+</body>
+</html> 

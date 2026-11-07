@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lễ Hội Văn Minh, Đạo Lý Là Gốc & Giải Đáp Tâm Linh</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #05050f;
+            color: #e2e8f0;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Universe Background Effects */
+        #space-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+        }
+
+        .nebula {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(76, 29, 149, 0.18) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(30, 58, 138, 0.18) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(88, 28, 135, 0.12) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        /* Container */
+        .container {
+            max-width: 920px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 45px;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        header h1 {
+            font-size: 2.1rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 50%, #818cf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 12px;
+            letter-spacing: 0.8px;
+            text-shadow: 0 0 30px rgba(129, 140, 248, 0.35);
+            line-height: 1.35;
+        }
+
+        header p {
+            color: #94a3b8;
+            font-size: 1.05rem;
+            font-weight: 300;
+        }
+
+        /* Content Cards */
+        .content-card {
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 32px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            animation: slideUp 0.8s ease-out backwards;
+        }
+
+        .content-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(129, 140, 248, 0.35);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7),
+                        0 0 25px rgba(129, 140, 248, 0.2);
+        }
+
+        .content-card:nth-child(1) { animation-delay: 0.15s; }
+        .content-card:nth-child(2) { animation-delay: 0.3s; }
+        .content-card:nth-child(3) { animation-delay: 0.45s; }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 15px;
+            gap: 12px;
+        }
+
+        .step-badge {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            box-shadow: 0 0 15px rgba(124, 58, 237, 0.4);
+            flex-shrink: 0;
+        }
+
+        .section-header h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #f8fafc;
+        }
+
+        .story-body {
+            font-size: 0.98rem;
+            line-height: 1.75;
+            color: #cbd5e1;
+        }
+
+        .highlight-box {
+            background: rgba(30, 41, 59, 0.45);
+            border-left: 3px solid #38bdf8;
+            border-radius: 0 12px 12px 0;
+            padding: 18px 22px;
+            margin: 18px 0;
+            font-size: 0.98rem;
+            line-height: 1.7;
+            color: #e2e8f0;
+        }
+
+        .quote-box {
+            background: rgba(88, 28, 135, 0.25);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 14px;
+            padding: 20px 22px;
+            margin: 18px 0;
+            color: #f3e8ff;
+            line-height: 1.75;
+        }
+
+        .list-box {
+            background: rgba(30, 41, 59, 0.45);
+            border-left: 3px solid #818cf8;
+            border-radius: 0 12px 12px 0;
+            padding: 18px 22px;
+            margin: 16px 0;
+        }
+
+        .list-box ul, .list-box ol {
+            padding-left: 20px;
+        }
+
+        .list-box li {
+            margin-bottom: 8px;
+            line-height: 1.65;
+            color: #e2e8f0;
+        }
+
+        /* Question Cards Styling */
+        .qa-card {
+            background: rgba(15, 23, 42, 0.55);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 16px;
+            padding: 22px;
+            margin-bottom: 20px;
+            transition: border-color 0.3s;
+        }
+
+        .qa-card:hover {
+            border-color: rgba(129, 140, 248, 0.3);
+        }
+
+        .qa-question {
+            color: #38bdf8;
+            font-weight: 600;
+            font-size: 1.02rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            line-height: 1.5;
+        }
+
+        .q-num {
+            background: rgba(56, 189, 248, 0.15);
+            color: #38bdf8;
+            padding: 3px 10px;
+            border-radius: 6px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .qa-answer {
+            color: #e2e8f0;
+            font-size: 0.96rem;
+            line-height: 1.7;
+            padding-left: 5px;
+        }
+
+        /* Conclusion Card */
+        .conclusion-card {
+            background: linear-gradient(135deg, rgba(30, 27, 75, 0.7) 0%, rgba(15, 23, 42, 0.8) 100%);
+            border: 1px solid rgba(129, 140, 248, 0.3);
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6),
+                        0 0 30px rgba(99, 102, 241, 0.15);
+            animation: slideUp 0.8s ease-out 0.6s backwards;
+        }
+
+        .conclusion-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+            color: #818cf8;
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .conclusion-text {
+            font-size: 1rem;
+            line-height: 1.75;
+            color: #e0e7ff;
+            font-weight: 400;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 { font-size: 1.6rem; }
+            .content-card, .conclusion-card { padding: 22px; }
+            .section-header { flex-direction: column; align-items: flex-start; gap: 8px; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="space-canvas"></canvas>
+    <div class="nebula"></div>
+
+    <div class="container">
+        <header>
+            <h1>LỄ HỘI VĂN MINH, ĐẠO LÝ LÀ GỐC & GIẢI ĐÁP TÂM LINH</h1>
+            <p>Xây dựng lễ hội cao đẹp — Khoa học & Đạo lý — Trực tiếp giải đáp thắc mắc (TT. TS Thích Chân Quang)</p>
+        </header>
+
+        <!-- CHỦ ĐỀ 1: LỄ HỘI NÊN CÓ Ý NGHĨA VĂN HÓA VĂN MINH -->
+        <div class="content-card">
+            <div class="section-header">
+                <span class="step-badge">CHỦ ĐỀ I</span>
+                <h3>Lễ Hội Nên Có Ý Nghĩa Văn Hóa Văn Minh Cùng Tâm Linh Cao Thượng</h3>
+            </div>
+            <div class="story-body">
+                <p>Sau Tết Nguyên Đán, nhiều địa phương tổ chức các lễ hội nâng cao đời sống tinh thần cho nhân dân. Tuy nhiên, cần thẳng thắn nhìn nhận những bất cập:</p>
+                
+                <div class="highlight-box" style="border-left-color: #fb7185;">
+                    ⚠️ <strong>Những hiện tượng tiêu cực cần loại bỏ:</strong><br>
+                    • Lấy hình ảnh dâm từ làm biểu tượng chính làm vấy bẩn tâm hồn cộng đồng.<br>
+                    • Chọi trâu đẫm máu, trâu bị thương rồi xẻ thịt bán giá cắt cổ — tính chất man rợ chết chóc không thể đem lại may mắn.<br>
+                    • Lễ tịch điền hình thức, vị đeo mặt nạ áo giả vua thiếu đi sự trang nghiêm thiêng liêng.<br>
+                    • Các hủ tục cúng sao giải hạn, hầu đồng mê lầm...
+                </div>
+
+                <div class="quote-box">
+                    🌸 <strong>Hình mẫu Lễ hội tiêu biểu (Đại Lễ Cầu Quốc Thái Dân An - Hà Tĩnh 17/02 tại Ngã Ba Đồng Lộc):</strong><br>
+                    Mang giá trị lợi ích lớn về tâm linh, văn hóa, chính trị và giáo dục đạo đức. Bắt đầu bằng lễ cầu siêu tri ân các anh hùng liệt sỹ, biểu diễn nghệ thuật võ thuật đặc sắc, thuyết giảng ý nghĩa cầu an. Sự tham dự thành kính của các vị lãnh đạo cao nhất tỉnh đã thắt chặt tình đoàn kết, kết nối lãnh đạo với nhân dân.
+                </div>
+
+                <p style="margin-top: 12px; font-weight: 600; color: #a5b4fc;">
+                    💡 Đã đến lúc chính quyền các cấp nghiêm túc thay thế các tục lệ phản cảm bằng các lễ hội có tầm cao về văn hóa và giáo dục đạo đức cho thế hệ mai sau.
+                </p>
+            </div>
+        </div>
+
+        <!-- CHỦ ĐỀ 2: ĐẠO LÝ LÀ GỐC ĐỂ CHUYỂN BỆNH & NỖI ĐAU -->
+        <div class="content-card">
+            <div class="section-header">
+                <span class="step-badge">CHỦ ĐỀ II</span>
+                <h3>Kỹ Thuật Thuốc Thang Không Phải Là Gốc Chuyển Nghiệp & Nỗi Đau</h3>
+            </div>
+            <div class="story-body">
+                <p>Dù khoa học tiến bộ tới đâu, ta có bay được tới vì sao nào thì nỗi khổ vẫn là điều hiện hữu khi chúng ta còn vô minh.</p>
+
+                <div class="highlight-box">
+                    🧪 <strong>Giới hạn của hóa chất Hạnh phúc (Dopamine):</strong><br>
+                    Dopamine do não tự tiết ra giúp giữ cân bằng tâm lý. Nếu nạp chất này từ bên ngoài vào, não sẽ ngưng tiết ra, lâu ngày gây hư não và dẫn đến diệt vong.<br><br>
+                    <strong>Bài học từ bộ phim y khoa về bệnh Parkinson:</strong> Bệnh nhân được tiêm dopamine lập tức hết run tay, nhưng hiệu quả chỉ kéo dài đúng 3 tháng rưỡi. Sau đó bơm bao nhiêu thuốc bệnh nhân vẫn run lại và rơi vào hôn mê tê liệt. Thuốc bên ngoài không phải là cái gốc!
+                </div>
+
+                <p style="margin-top: 12px; font-weight: 600; color: #38bdf8;">
+                    🌱 Chỉ có ĐẠO LÝ là cái gốc giúp ta chuyển hóa nghiệp lực và nỗi đau. Phật Pháp chính là liệu pháp duy nhất để chữa lành tận gốc nỗi đau con người.
+                </p>
+                <p style="margin-top: 6px; font-size: 0.88rem; color: #94a3b8; text-align: right;">
+                    (Trích Livestream thuyết giảng tại Thiền Viện Bồ Đề - Đà Nẵng, 10/03/2023)
+                </p>
+            </div>
+        </div>
+
+        <!-- CHỦ ĐỀ 3: GIẢI ĐÁP THẮC MẮC TÂM LINH & ĐẠO ĐỨC (10 CÂU) -->
+        <div class="content-card">
+            <div class="section-header">
+                <span class="step-badge">CHỦ ĐỀ III</span>
+                <h3>Giải Đáp Thắc Mắc Tâm Linh & Đạo Đức Cuộc Sống</h3>
+            </div>
+            <div class="story-body">
+
+                <!-- Q1 -->
+                <div class="qa-card">
+                    <div class="qa-question">
+                        <span class="q-num">CÂU 1</span>
+                        <span>Người bạn thắt cổ tự tử vì không muốn làm phiền người thân. Làm sao để người ấy siêu thoát?</span>
+                    </div>
+                    <div class="qa-answer">
+                        Tự tử vì đau khổ và nghĩ chết là hết thì đau khổ gấp trăm lần lúc sống, rất khó siêu thoát. Nhưng nếu hy sinh cho tổ quốc hay vì lợi ích cộng đồng thì sinh thiên. Cách chết do vị kỷ hay vị tha quyết định quả báo.
+                    </div>
+                </div>
+
+                <!-- Q2 -->
+                <div class="qa-card">
+                    <div class="qa-question">
+                        <span class="q-num">CÂU 2</span>
+                        <span>Đối với người tự tử thì nên thờ ở nhà hay ở chùa?</span>
+                    </div>
+                    <div class="qa-answer">
+                        Thờ cả hai nơi đều tốt.
+                    </div>
+                </div>
+
+                <!-- Q3 -->
+                <div class="qa-card">
+                    <div class="qa-question">
+                        <span class="q-num">CÂU 3</span>
+                        <span>Tại sao nhu thuận (làm theo điều người khác muốn) lại mang lại hạnh phúc?</span>
+                    </div>
+                    <div class="qa-answer">
+                        Mục tiêu của đạo Phật là Vô Ngã. Việc vâng lời, nhu thuận giúp phá bớt ngã chấp. Ngã chấp giảm thì an lạc chân thật siêu việt tự nhiên xuất hiện.
+                    </div>
+                </div>
+
+                <!-- Q4 -->
+                <div class="qa-card">
+                    <div class="qa-question">
+                        <span class="q-num">CÂU 4</span>
+                        <span>Không có tiền phụng dưỡng cha mẹ, tụng kinh hồi hướng cha mẹ biết tu được không?</span>
+                    </div>
+                    <div class="qa-answer">
+                        Trả hiếu về tinh thần (hồi hướng cho cha mẹ biết tu) là cách trả hiếu hay nhất, chân chính và mang lại lợi ích lâu dài nhất.
+                    </div>
+                </div>
+
+                <!-- Q5 -->
+                <div class="qa-card">
+                    <div class="qa-question">
+                        <span class="q-num">CÂU 5</span>
+                        <span>Em bị tâm thần thì làm sao để chữa khỏi?</span>
+                    </div>
+                    <div class="qa-answer">
+                        Nguyên nhân bệnh tâm thần đều do kiêu mạn kiếp trước. Người thân nên siêng năng tu tập, làm phước rồi cầu nguyện Phật gia hộ hồi hướng cho họ.
+                    </div>
+                </div>
+
+                <!-- Q6 -->
+                <div class="qa-card">
+                    <div class="qa-question">
+                        <span class="q-num">CÂU 6</span>
+                        <span>Khuyên người ta tu và cúng dường có đúng không?</span>
+                    </div>
+                    <div class="qa-answer">
+                        Dụ người tu rất tốt. Dụ cúng dường cần cẩn trọng: Không cúng ép làm gia đình người ta túng hụt. Cúng chùa cần chọn đúng chùa đang thiếu thốn để làm việc lợi ích chúng sinh thì mới trọn vẹn phước báu.
+                    </div>
+                </div>
+
+                <!-- Q7 -->
+                <div class="qa-card">
+                    <div class="qa-question">
+                        <span class="q-num">CÂU 7</span>
+                        <span>Vợ đi thọ Bát Quan Trai về bị chồng say quấy rầy; và việc đi mừng đám cưới có phạm nghiệp ái dục không?</span>
+                    </div>
+                    <div class="qa-answer">
+                        • <strong>Ý 1:</strong> Lỗi do không Phật hóa gia đình từ đầu. Cần niệm Phật cầu nguyện, khéo léo khuyến khích chồng nghe pháp, dần dần độ chồng tu hành.<br>
+                        • <strong>Ý 2:</strong> Đi đám cưới chúc hai bạn sống hạnh phúc và gieo điều thiện lành làm nhiều phước báu thì không bị nghiệp ái dục.
+                    </div>
+                </div>
+
+                <!-- Q7 - Part 2 -->
+                <div class="qa-card">
+                    <div class="qa-question">
+                        <span class="q-num">CÂU 7b</span>
+                        <span>Mắc nợ chồng nên không nói chồng nghe được thì phải làm sao?</span>
+                    </div>
+                    <div class="qa-answer">
+                        Cần "trả nợ cho dư" bằng cách chịu cực, hết lòng chăm sóc lo lắng bằng đạo lý. Đến khi nợ trả xong và chồng mắc nợ lại tình cảm thì ông sẽ lắng nghe lời khuyên tu tập.
+                    </div>
+                </div>
+
+                <!-- Q8 -->
+                <div class="qa-card">
+                    <div class="qa-question">
+                        <span class="q-num">CÂU 8</span>
+                        <span>Gia đình thờ tượng Quan Âm bỗng làm ăn suy sụp thì xử lý ra sao?</span>
+                    </div>
+                    <div class="qa-answer">
+                        Xem lại sự nghiêm trang nơi thờ cúng (tránh trên thờ Phật dưới nhậu xỉn). Ngoài ra có thể trùng hợp đúng thời điểm trả nghiệp. Cần kiên nhẫn vượt qua chứ không nên thối thất tâm Bồ đề.
+                    </div>
+                </div>
+
+                <!-- Q9 -->
+                <div class="qa-card">
+                    <div class="qa-question">
+                        <span class="q-num">CÂU 9</span>
+                        <span>Phân biệt giữa Tự Trọng, Tự Ái và Không Hờn Giận?</span>
+                    </div>
+                    <div class="qa-answer">
+                        • <strong>Tự Trọng (Tàm Quý):</strong> Biết hổ thẹn khi phạm lỗi lầm đạo đức.<br>
+                        • <strong>Tự Ái:</strong> Dễ giận hờn, chấp nhặt, phiền não (là tâm xấu).<br>
+                        • <strong>Không Hờn Giận:</strong> Đạo đức cao thượng của Bồ tát.
+                    </div>
+                </div>
+
+                <!-- Q10 -->
+                <div class="qa-card">
+                    <div class="qa-question">
+                        <span class="q-num">CÂU 10</span>
+                        <span>Làm thế nào để đưa Phật giáo vào trường học & Đạo Phật đúng là gì?</span>
+                    </div>
+                    <div class="qa-answer">
+                        Giáo lý Nhân Quả Đạo Đức giúp thế hệ trẻ sống năng nổ, nhiệt tình giúp đời. Đạo Phật đúng là kết hợp 3 yếu tố: <strong>Lời dạy Nguyên thủy (Nikaya) + Giáo lý Đại Thừa + Kiến thức thời đại</strong>.
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- KẾT LUẬN -->
+        <div class="conclusion-card">
+            <div class="conclusion-header">
+                <span>🌸 VÌ MỘT ĐẠO PHẬT CHÂN CHÁNH & SÁT Ý PHẬT NHẤT</span>
+            </div>
+            <div class="conclusion-text">
+                Hiểu đúng Chánh Pháp, thực hành đạo đức nhân quả, Phật hóa gia đình và lan tỏa mầm thiện đến cộng đồng chính là con đường đem lại sự an lạc thanh thản cho bản thân và sự hưng thịnh vững bền cho dân tộc.
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Universe Starry Script -->
+    <script>
+        const canvas = document.getElementById('space-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let width, height;
+        let stars = [];
+
+        function initSize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        class Star {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = Math.random() * 1.5;
+                this.baseAlpha = Math.random() * 0.7 + 0.3;
+                this.alpha = this.baseAlpha;
+                this.twinkleSpeed = Math.random() * 0.02 + 0.005;
+                this.vx = (Math.random() - 0.5) * 0.1;
+                this.vy = (Math.random() - 0.5) * 0.1;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x < 0) this.x = width;
+                if (this.x > width) this.x = 0;
+                if (this.y < 0) this.y = height;
+                if (this.y > height) this.y = 0;
+
+                this.alpha += Math.sin(Date.now() * this.twinkleSpeed) * 0.01;
+                if (this.alpha < 0.1) this.alpha = 0.1;
+                if (this.alpha > 1) this.alpha = 1;
+            }
+
+            draw() {
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initStars() {
+            stars = [];
+            const count = Math.floor((width * height) / 6000);
+            for (let i = 0; i < count; i++) {
+                stars.push(new Star());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            stars.forEach(star => {
+                star.update();
+                star.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', () => {
+            initSize();
+            initStars();
+        });
+
+        initSize();
+        initStars();
+        animate();
+    </script>
+</body>
+</html>

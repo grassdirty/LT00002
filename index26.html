@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lời Dạy Đạo Đức, Thiền Định & Nhân Quả — SPKY</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #05050f;
+            color: #e2e8f0;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Universe Background Effects */
+        #space-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+        }
+
+        .nebula {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(76, 29, 149, 0.18) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(30, 58, 138, 0.18) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(88, 28, 135, 0.12) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        /* Container */
+        .container {
+            max-width: 920px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 45px;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        header h1 {
+            font-size: 2.1rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 50%, #818cf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 12px;
+            letter-spacing: 0.8px;
+            text-shadow: 0 0 30px rgba(129, 140, 248, 0.35);
+            line-height: 1.35;
+        }
+
+        header p {
+            color: #94a3b8;
+            font-size: 1.05rem;
+            font-weight: 300;
+        }
+
+        /* Content Cards */
+        .content-card {
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 32px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            animation: slideUp 0.8s ease-out backwards;
+        }
+
+        .content-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(129, 140, 248, 0.35);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7),
+                        0 0 25px rgba(129, 140, 248, 0.2);
+        }
+
+        .content-card:nth-child(1) { animation-delay: 0.2s; }
+        .content-card:nth-child(2) { animation-delay: 0.35s; }
+        .content-card:nth-child(3) { animation-delay: 0.5s; }
+        .content-card:nth-child(4) { animation-delay: 0.65s; }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 15px;
+            gap: 12px;
+        }
+
+        .step-badge {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            box-shadow: 0 0 15px rgba(124, 58, 237, 0.4);
+            flex-shrink: 0;
+        }
+
+        .section-header h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #f8fafc;
+        }
+
+        .story-body {
+            font-size: 0.98rem;
+            line-height: 1.75;
+            color: #cbd5e1;
+        }
+
+        .highlight-box {
+            background: rgba(30, 41, 59, 0.45);
+            border-left: 3px solid #38bdf8;
+            border-radius: 0 12px 12px 0;
+            padding: 18px 22px;
+            margin: 18px 0;
+            font-size: 0.98rem;
+            line-height: 1.7;
+            color: #e2e8f0;
+        }
+
+        .quote-box {
+            background: rgba(88, 28, 135, 0.25);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 14px;
+            padding: 20px 22px;
+            margin: 18px 0;
+            color: #f3e8ff;
+            line-height: 1.75;
+        }
+
+        .poem-box {
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid rgba(129, 140, 248, 0.25);
+            border-radius: 14px;
+            padding: 20px;
+            text-align: center;
+            font-style: italic;
+            color: #c7d2fe;
+            margin: 16px 0;
+            line-height: 1.8;
+            font-size: 1.02rem;
+        }
+
+        .list-box {
+            background: rgba(30, 41, 59, 0.45);
+            border-left: 3px solid #818cf8;
+            border-radius: 0 12px 12px 0;
+            padding: 18px 22px;
+            margin: 16px 0;
+        }
+
+        .list-box ul, .list-box ol {
+            padding-left: 20px;
+        }
+
+        .list-box li {
+            margin-bottom: 8px;
+            line-height: 1.65;
+            color: #e2e8f0;
+        }
+        .list-box li:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Conclusion Card */
+        .conclusion-card {
+            background: linear-gradient(135deg, rgba(30, 27, 75, 0.7) 0%, rgba(15, 23, 42, 0.8) 100%);
+            border: 1px solid rgba(129, 140, 248, 0.3);
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6),
+                        0 0 30px rgba(99, 102, 241, 0.15);
+            animation: slideUp 0.8s ease-out 0.8s backwards;
+        }
+
+        .conclusion-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+            color: #818cf8;
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .conclusion-text {
+            font-size: 1rem;
+            line-height: 1.75;
+            color: #e0e7ff;
+            font-weight: 400;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 { font-size: 1.6rem; }
+            .content-card, .conclusion-card { padding: 22px; }
+            .section-header { flex-direction: column; align-items: flex-start; gap: 8px; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="space-canvas"></canvas>
+    <div class="nebula"></div>
+
+    <div class="container">
+        <header>
+            <h1>LỜI DẠY ĐẠO ĐỨC, THIỀN ĐỊNH & NHÂN QUẢ</h1>
+            <p>Diệt trừ cái thích — Sức khỏe bộ não — Tình đạo thiêng liêng — Tầm vóc văn hóa dân tộc — SPKY</p>
+        </header>
+
+        <!-- PHẦN 1: QUAN SÁT DIỆT CÁI THÍCH & LỜI THẦY DẶN ĐỘ NGƯỜI -->
+        <div class="content-card">
+            <div class="section-header">
+                <span class="step-badge">PHẦN I</span>
+                <h3>Quan Nhìn Tĩnh Giác & Luyện Tâm Thiền Định</h3>
+            </div>
+            <div class="story-body">
+                <p>Từ nay về sau mỗi khi ta nhìn trong tâm mình mà cái thích nó khởi lên, ta coi cái thích nó khởi lên rồi diệt liền. Ta phải nhìn cho thật lẹ, chứ chậm cái là nó vô nó nằm trong tâm mình, nó rớt vô tâm mình liền.</p>
+                <p style="margin-top: 10px;">Còn ở đây ta thật nhanh vừa thấy nó là lập tức nhìn vô tâm mình luôn, coi cái thích nó khởi lên rồi diệt liền.</p>
+
+                <div class="highlight-box">
+                    <strong>❓ Còn chừng nào mới diệt được cho hết hẳn?</strong><br>
+                    Câu trả lời là phải <strong>Thiền Định</strong> đến khi nào mà cái Thiền Định của ta nó soi luôn vào sâu trong đến tận cùng để diệt thì lúc đó mới thực sự là hết.
+                </div>
+
+                <div class="poem-box">
+                    "Mỗi năm chỉ độ một người<br>
+                    Năm nay đã độ được người nào chưa<br>
+                    Chỉ tiêu Thầy dặn vừa vừa<br>
+                    Cuối năm cố gắng có thừa càng hay." ❤️SPKY❤️
+                </div>
+            </div>
+        </div>
+
+        <!-- PHẦN 2: MỐI LIÊN QUAN KỲ LẠ GIỮA SỨC KHỎE BỘ NÃO - TÂM LÝ - NHÂN QUẢ -->
+        <div class="content-card">
+            <div class="section-header">
+                <span class="step-badge">PHẦN II</span>
+                <h3>Mối Liên Quan Kỳ Lạ Giữa Sức Khỏe Bộ Não — Tâm Lý — Nhân Quả</h3>
+            </div>
+            <div class="story-body">
+                <p>Người nào đã bị tâm lý kiêu ngạo rồi thì rất khó sửa, cứ khăng khăng lì lợm giữ quan điểm của mình, chê bai người khác đủ thứ, vừa làm mất lòng mọi người, vừa phá hại não bộ của mình. Chỉ khi nào người đó tự thấy cái nguy hiểm của tâm lý kiêu ngạo, quyết tâm sửa chữa, thì mới bắt đầu chiến đấu vất vả.</p>
+
+                <p style="margin-top: 14px; font-weight: 600; color: #fb7185;">Tác hại của tâm lý kiêu ngạo đối với bộ não & nhân quả:</p>
+                <div class="list-box" style="border-left-color: #fb7185;">
+                    <ul>
+                        <li><strong>Hủy hoại neuron thần kinh:</strong> Ý niệm tự khen mình, lén chê người lâu ngày làm biến dạng não bộ, neuron thần kinh bị hủy hoại, nhiều chức năng quan trọng mất đi.</li>
+                        <li><strong>Mất khả năng kiềm giữ suy nghĩ:</strong> Não rơi vào tình trạng suy nghĩ không dừng được, stress, mất ngủ, nhức đầu, giảm trí nhớ, không tập trung công việc, mệt mỏi toàn thân.</li>
+                        <li><strong>Phá vỡ sự kiểm soát ham muốn:</strong> Mất chức năng khống chế ham muốn bậy bạ, bị thúc đẩy mãnh liệt vi phạm giới hạn đạo đức và pháp luật, dẫn đến danh dự mất hết.</li>
+                        <li><strong>Triệt hạ tài năng:</strong> Giết chết khả năng học tập rèn luyện, rơi vào cảnh bất tài vô dụng.</li>
+                        <li><strong>Tạo quả báo xui rủi:</strong> Tự cao hay rơi vào cảnh bất hạnh, thất bại, làm việc gì cũng hỏng.</li>
+                    </ul>
+                </div>
+
+                <p style="margin-top: 14px; font-weight: 600; color: #38bdf8;">Lợi ích của tâm lý Khiêm Tốn:</p>
+                <div class="list-box" style="border-left-color: #38bdf8;">
+                    <ul>
+                        <li>Khai phóng não bộ lên tầng cao mới, từ từ thông minh hơn.</li>
+                        <li>Kềm chế tật xấu, tâm an vui nhẹ nhàng.</li>
+                        <li>Dễ được hoàn cảnh thuận lợi do Luật Nhân Quả mang lại.</li>
+                        <li>Thủ đắc gương mặt duyên dáng khả ái.</li>
+                    </ul>
+                </div>
+
+                <div class="highlight-box">
+                    🌻 Chuyển từ tâm kiêu ngạo sang tâm khiêm tốn là cực kỳ vất vả. Nhưng phải thay đổi nếu ta không muốn mình rơi vào địa ngục.<br>
+                    🌻🌻 Chuyển được rồi, khiêm tốn được rồi, thấy mình dở kém rồi, thì phần thưởng đầu tiên là tâm ta thanh thản hơn trước rất nhiều.<br>
+                    🌻🌻🌻 Rồi nhiều điều tốt đẹp sẽ đến dần dần mãi.
+                </div>
+            </div>
+        </div>
+
+        <!-- PHẦN 3: THƠ NĂM MỚI & LÒNG TỪ BI TÌNH ĐẠO THIÊNG LIÊNG -->
+        <div class="content-card">
+            <div class="section-header">
+                <span class="step-badge">PHẦN III</span>
+                <h3>Tình Đạo Thiêng Liêng & Lòng Từ Bi Vô Ngã</h3>
+            </div>
+            <div class="story-body">
+                <div class="poem-box" style="color: #a5b4fc;">
+                    "Chẳng mong năm mới được an nhàn<br>
+                    Vì sợ ở không phước sẽ tan<br>
+                    Chỉ mong có được nhiều cơ hội<br>
+                    Tạo phước giúp đời chẳng từ nan."
+                </div>
+
+                <div class="quote-box">
+                    “... Khi các con tu hành được tâm thanh tịnh giống như mình nhạt nhòa hết những tình cảm, nhưng mà thực sự cái tình đạo, lòng từ bi phải lớn lên. Trong chùa cái tình huynh đệ, tình Thầy trò phải chặt chẽ, phải kiên định, không có gì đánh phá được... Chúng được hướng dẫn bài bản để khuynh loát sự thật, nói đúng thành sai, sai thành đúng. Thời đại ngày nay cái thử thách với người tu khốc liệt hơn ngày xưa, nếu không khéo các con bị biến chất ngay.”
+                </div>
+
+                <p style="margin-top: 12px;">Khi các con thành tựu được tình đạo, lòng từ bi rồi thì nó cũng hỗ trợ cho việc Phật sự của các con sau này. Dù các con có chia nhau đi làm Phật sự trên mọi nẻo đường nhưng cái tình đạo, sự đoàn kết của huynh đệ không bao giờ sứt mẻ, rời rạc mà vẫn keo sơn gắn bó. Các con phải tu cho đến được cái tình đạo đó.</p>
+
+                <p style="margin-top: 12px;">Người tu không đủ lòng yêu thương, không đặt tâm mình vào tâm của nhau thì Đạo Phật sẽ yếu. Mà để có được cái lòng yêu thương đó phải bắt đầu từ lòng tôn kính Phật trước. Từ lòng thương kính Phật đó các con bắt đầu mới thương kính Chư Tổ, các vị hiền Thánh Tăng, gần nhất là thương kính Sư Phụ, rồi các con bắt đầu thương quý nhau, và mới thương được tất cả các Phật tử, các chúng sinh bên ngoài.</p>
+
+                <div class="highlight-box">
+                    <strong>🌟 Biểu hiện của tâm Vô Ngã:</strong><br>
+                    Người nào tuyệt đối quên mình thì người đó yêu thương được tất cả chúng sinh. Đức Phật chính là một Người như thế, vô ngã hoàn toàn. Ngài đã trở thành nguồn yêu thương vô tận đối với tất cả chúng sinh.
+                </div>
+            </div>
+        </div>
+
+        <!-- PHẦN 4: VÌ SAO KHÁCH DU LỊCH THÍCH ĐẾN? -->
+        <div class="conclusion-card">
+            <div class="conclusion-header">
+                <span>🇻🇳 VÌ SAO KHÁCH DU LỊCH THÍCH ĐẾN? (XÂY DỰNG ĐẤT NƯỚC)</span>
+            </div>
+            <div class="conclusion-text">
+                <div class="list-box" style="background: rgba(15, 23, 42, 0.5); border-left-color: #818cf8;">
+                    <ul>
+                        <li>Vì họ yêu quý nể phục văn hóa, lối sống, đạo đức của người dân nơi đấy.</li>
+                        <li>Vì họ yêu thích phong cảnh thiên nhiên nơi đấy.</li>
+                        <li>Vì họ khâm phục sự sạch sẽ trong từng ngóc ngách ở nơi đấy.</li>
+                        <li>Vì họ vui thích kiến trúc nhà cửa xinh xắn của mọi gia đình ở đấy.</li>
+                        <li>Vì họ tin tưởng an ninh trật tự nơi đấy.</li>
+                        <li>Vì họ cảm thấy được tôn trọng thân thiện của người dân nơi đấy.</li>
+                        <li>Vì họ khám phá ra một nền văn minh thẳm sâu trong đời sống, trong tâm hồn của xứ sở đấy.</li>
+                        <li>Vì họ cảm thấy học được nhiều điều bổ ích làm họ thay đổi được tâm hồn của mình từ nơi xứ sở đấy.</li>
+                        <li>Vì có khi họ cũng tìm được một job để kiếm thêm ít tiền chi phí nơi đấy.</li>
+                        <li>Còn những trò vui chơi giống mọi nơi khác thì họ đã nhàm chán rồi.</li>
+                    </ul>
+                </div>
+
+                <p style="margin-top: 14px; font-weight: 600; color: #38bdf8; text-align: center;">
+                    💡 Hiểu những điều trên, ta biết phải làm gì cho đất nước mình trở thành điểm đến của thế giới. (SPKY🌻)
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Universe Starry Script -->
+    <script>
+        const canvas = document.getElementById('space-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let width, height;
+        let stars = [];
+
+        function initSize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        class Star {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = Math.random() * 1.5;
+                this.baseAlpha = Math.random() * 0.7 + 0.3;
+                this.alpha = this.baseAlpha;
+                this.twinkleSpeed = Math.random() * 0.02 + 0.005;
+                this.vx = (Math.random() - 0.5) * 0.1;
+                this.vy = (Math.random() - 0.5) * 0.1;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x < 0) this.x = width;
+                if (this.x > width) this.x = 0;
+                if (this.y < 0) this.y = height;
+                if (this.y > height) this.y = 0;
+
+                this.alpha += Math.sin(Date.now() * this.twinkleSpeed) * 0.01;
+                if (this.alpha < 0.1) this.alpha = 0.1;
+                if (this.alpha > 1) this.alpha = 1;
+            }
+
+            draw() {
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initStars() {
+            stars = [];
+            const count = Math.floor((width * height) / 6000);
+            for (let i = 0; i < count; i++) {
+                stars.push(new Star());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            stars.forEach(star => {
+                star.update();
+                star.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', () => {
+            initSize();
+            initStars();
+        });
+
+        initSize();
+        initStars();
+        animate();
+    </script>
+</body>
+</html>

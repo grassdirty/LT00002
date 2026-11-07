@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cảnh Giác Đạo Đức, Võ Thuật Phật Giáo & Lịch Sử Đoàn Dự</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #05050f;
+            color: #e2e8f0;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Universe Background Effects */
+        #space-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+        }
+
+        .nebula {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(76, 29, 149, 0.18) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(30, 58, 138, 0.18) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(88, 28, 135, 0.12) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        /* Container */
+        .container {
+            max-width: 920px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 45px;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        header h1 {
+            font-size: 2.1rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 50%, #818cf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 12px;
+            letter-spacing: 0.8px;
+            text-shadow: 0 0 30px rgba(129, 140, 248, 0.35);
+            line-height: 1.35;
+        }
+
+        header p {
+            color: #94a3b8;
+            font-size: 1.05rem;
+            font-weight: 300;
+        }
+
+        /* Content Cards */
+        .content-card {
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 32px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            animation: slideUp 0.8s ease-out backwards;
+        }
+
+        .content-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(129, 140, 248, 0.35);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7),
+                        0 0 25px rgba(129, 140, 248, 0.2);
+        }
+
+        .content-card:nth-child(1) { animation-delay: 0.15s; }
+        .content-card:nth-child(2) { animation-delay: 0.3s; }
+        .content-card:nth-child(3) { animation-delay: 0.45s; }
+        .content-card:nth-child(4) { animation-delay: 0.6s; }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 15px;
+            gap: 12px;
+        }
+
+        .step-badge {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            box-shadow: 0 0 15px rgba(124, 58, 237, 0.4);
+            flex-shrink: 0;
+        }
+
+        .section-header h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #f8fafc;
+        }
+
+        .story-body {
+            font-size: 0.98rem;
+            line-height: 1.75;
+            color: #cbd5e1;
+        }
+
+        .highlight-box {
+            background: rgba(30, 41, 59, 0.45);
+            border-left: 3px solid #fb7185;
+            border-radius: 0 12px 12px 0;
+            padding: 18px 22px;
+            margin: 18px 0;
+            font-size: 0.98rem;
+            line-height: 1.7;
+            color: #e2e8f0;
+        }
+
+        .quote-box {
+            background: rgba(88, 28, 135, 0.25);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 14px;
+            padding: 20px 22px;
+            margin: 18px 0;
+            color: #f3e8ff;
+            line-height: 1.75;
+        }
+
+        .list-box {
+            background: rgba(30, 41, 59, 0.45);
+            border-left: 3px solid #818cf8;
+            border-radius: 0 12px 12px 0;
+            padding: 18px 22px;
+            margin: 16px 0;
+        }
+
+        .list-box ul, .list-box ol {
+            padding-left: 20px;
+        }
+
+        .list-box li {
+            margin-bottom: 8px;
+            line-height: 1.65;
+            color: #e2e8f0;
+        }
+        .list-box li:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Conclusion Card */
+        .conclusion-card {
+            background: linear-gradient(135deg, rgba(30, 27, 75, 0.7) 0%, rgba(15, 23, 42, 0.8) 100%);
+            border: 1px solid rgba(129, 140, 248, 0.3);
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6),
+                        0 0 30px rgba(99, 102, 241, 0.15);
+            animation: slideUp 0.8s ease-out 0.8s backwards;
+        }
+
+        .conclusion-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+            color: #818cf8;
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .conclusion-text {
+            font-size: 1rem;
+            line-height: 1.75;
+            color: #e0e7ff;
+            font-weight: 400;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 { font-size: 1.6rem; }
+            .content-card, .conclusion-card { padding: 22px; }
+            .section-header { flex-direction: column; align-items: flex-start; gap: 8px; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="space-canvas"></canvas>
+    <div class="nebula"></div>
+
+    <div class="container">
+        <header>
+            <h1>CẢNH GIÁC ĐẠO ĐỨC, VÕ THUẬT PHẬT GIÁO & LỊCH SỬ ĐOÀN DỰ</h1>
+            <p>Chiến lược diễn biến hòa bình — Tinh thần Phật Quang Quyền — Đạo đức người thầy — Vua Đoàn Chính Nghiêm</p>
+        </header>
+
+        <!-- PHẦN 1: BÀI HỌC CẢNH GIÁC TỪ CHIẾN LƯỢC CỦA CIA (ALLEN DULLES) -->
+        <div class="content-card">
+            <div class="section-header">
+                <span class="step-badge">PHẦN I</span>
+                <h3>Nội Dung Tuyệt Mật Của CIA Về Tiêu Diệt Đạo Đức & Bài Học Cảnh Giác</h3>
+            </div>
+            <div class="story-body">
+                <p>Văn học - nghệ thuật là một trong những vũ khí hiệu quả của chiến lược "diễn biến hòa bình". Bản chất của thủ đoạn chính trị này được Allen Dulles - nguyên Giám đốc Cục tình báo chiến lược Mỹ trình bày trong cuộc họp đặc biệt của Hội đồng chính sách đối ngoại:</p>
+
+                <div class="highlight-box">
+                    <strong>⚠️ Thủ đoạn thay thế giá trị & làm suy đồi ý thức:</strong><br>
+                    "Chúng ta sẽ bí mật thay thế các giá trị thật bằng những giá trị giả, thông qua văn học, nhà hát, điện ảnh để mô tả những tình cảm đê tiện nhất. Duy trì và nuôi dưỡng những 'văn nghệ sĩ' để gieo rắc sự sùng bái tình dục, bạo lực, phản trắc, vô đạo."<br><br>
+                    "Tạo sự rối loạn, quan liêu, hối lộ; bêu riếu thái độ danh dự và lương thiện. Tôn tạo thói giả dối, nghiện ngập, sợ hãi, vô liêm sỉ. Những người đoán biết được điều này sẽ bị dồn vào tình thế bất lực, bị vu cáo và coi là rác rưởi của xã hội. Chúng ta đặt hy vọng vào lớp thanh niên, làm cho họ tha hóa, phân rã và đồi trụy..."
+                </div>
+
+                <p style="margin-top: 12px;">Bài học cảnh giác từ sự sụp đổ của Liên Xô vẫn còn nguyên giá trị: Tiêu diệt niềm tin tư tưởng và đạo đức văn hóa chính là con đường nguy hiểm nhất làm tan rã một quốc gia từ bên trong.</p>
+                <p style="margin-top: 8px; font-size: 0.88rem; color: #94a3b8; text-align: right;">(Lê Thế Mẫu, V. T. Phụng sưu tầm)</p>
+            </div>
+        </div>
+
+        <!-- PHẦN 2: VÕ THUẬT PHẬT GIÁO & LỜI THỀ PHẬT QUANG QUYỀN -->
+        <div class="content-card">
+            <div class="section-header">
+                <span class="step-badge">PHẦN II</span>
+                <h3>Võ Thuật Chùa Thiếu Lâm & Lời Thề Môn Sinh Phật Quang Quyền</h3>
+            </div>
+            <div class="story-body">
+                <p>Đạo Phật là tôn giáo hiền lành bất bạo động, nhưng sự xuất hiện của võ thuật Thiếu Lâm giúp bổ sung yếu tố rèn luyện kỷ luật, tinh thần dũng cảm, khả năng bảo vệ chánh pháp và ra tay cứu người trong cơn nguy cấp.</p>
+
+                <div class="quote-box">
+                    <strong>🌸 LỜI THỀ MÔN SINH PHẬT QUANG QUYỀN:</strong>
+                    <div class="list-box" style="background: transparent; border-left: none; padding: 10px 0 0 0;">
+                        <ol>
+                            <li>Tập võ để chiến thắng sự sợ hãi trong lòng mình và đạt được hạnh nhẫn nhục tận cùng.</li>
+                            <li>Tập võ để bênh vực kẻ vô tội bị ức hiếp.</li>
+                            <li>Tập võ để bảo vệ Chánh Pháp.</li>
+                            <li>Tập võ để bảo vệ Đất Nước.</li>
+                            <li>Rất trung thành với Thầy Tổ, rất tín nghĩa với Huynh đệ.</li>
+                            <li>Yêu thích lao động giúp đời!</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PHẦN 3: NGÀY THẦY CÔ GIÁO & TU DƯỠNG ĐẠO ĐỨC CỦA NGƯỜI LÀM THẦY -->
+        <div class="content-card">
+            <div class="section-header">
+                <span class="step-badge">PHẦN III</span>
+                <h3>Ngày Thầy Cô Giáo — Tu Dưỡng Đạo Đức Tự Sớm Để Trở Thành Tấm Gương</h3>
+            </div>
+            <div class="story-body">
+                <p>Tôn sư trọng đạo là văn hóa đẹp của dân tộc Việt Nam. Trước tình cảm của học trò, người thầy buộc phải có nhân cách xứng đáng và đạo đức mẫu mực.</p>
+
+                <div class="highlight-box" style="border-left-color: #38bdf8;">
+                    <strong>💡 Ai cũng có thể trở thành thầy:</strong><br>
+                    Thợ may giỏi, thợ làm tóc, thợ sửa xe, thợ nấu ăn... rồi cũng nhận học trò. Các ngành như võ thuật, y tế, âm nhạc, hội họa... nhiều khi người thầy chưa kịp hoàn thiện đạo đức đã có học trò.<br><br>
+                    Rút kinh nghiệm, ta có thể trở thành thầy dù sớm hay muộn, nên ai cũng phải lo tu dưỡng đạo đức từ rất sớm để không bị bất ngờ.
+                </div>
+            </div>
+        </div>
+
+        <!-- PHẦN 4: ĐOÀN DỰ TRONG LỊCH SỬ LÀ NGƯỜI NHƯ THẾ NÀO? -->
+        <div class="conclusion-card">
+            <div class="conclusion-header">
+                <span>👑 ĐOÀN DỰ TRONG LỊCH SỬ LÀ NGƯỜI NHƯ THẾ NÀO?</span>
+            </div>
+            <div class="conclusion-text">
+                <p>Trong tiểu thuyết Kim Dung, Đoàn Dự là hoàng tử nước Đại Lý, si tình, luyện được Lăng Ba Vi Bộ, Bắc Minh Thần Công và Lục Mạch Thần Kiếm.</p>
+
+                <p style="margin-top: 12px;"><strong>Thực tế lịch sử:</strong> Đoàn Dự có tên thật là <strong>Đoàn Chính Nghiêm</strong> (Đoàn Hòa Dự), là vị vua thứ 16 của nước Đại Lý, trị vì 39 năm (lâu nhất các đời vua Đại Lý). Thụy hiệu là Tuyên Nhân Đế.</p>
+
+                <div style="background: rgba(15, 23, 42, 0.5); padding: 18px 20px; border-radius: 12px; margin-top: 12px; border-left: 3px solid #818cf8;">
+                    • <strong>Võ học & Tài năng:</strong> Từ nhỏ được Lục Huyền đại sư truyền dạy "Lục Môn Diệu Pháp" (cơ sở của Lục Mạch Thần Kiếm), tinh thông thư họa, đánh cờ giỏi.<br>
+                    • <strong>Trị quốc & Ngoại giao:</strong> Giảm thuế khóa, thân dân, chinh phạt loạn 37 Man bộ, giữ hòa hiếu xưng thần tiến cống nhà Tống. Được Tống Huy Tông phong làm Kim Tử Quang Lộc đại phu, Vân Nam tiết độ sứ, Đại Lý quốc vương.<br>
+                    • <strong>Cuối đời xuất gia:</strong> Năm 1147, ông nhường ngôi cho con trưởng Đoàn Chính Hưng, xuất gia tại Vô Vi tự làm trụ trì đời thứ 23 với pháp danh Quảng Hoằng đại sư. Ông thọ 94 tuổi.
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Universe Starry Script -->
+    <script>
+        const canvas = document.getElementById('space-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let width, height;
+        let stars = [];
+
+        function initSize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        class Star {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = Math.random() * 1.5;
+                this.baseAlpha = Math.random() * 0.7 + 0.3;
+                this.alpha = this.baseAlpha;
+                this.twinkleSpeed = Math.random() * 0.02 + 0.005;
+                this.vx = (Math.random() - 0.5) * 0.1;
+                this.vy = (Math.random() - 0.5) * 0.1;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x < 0) this.x = width;
+                if (this.x > width) this.x = 0;
+                if (this.y < 0) this.y = height;
+                if (this.y > height) this.y = 0;
+
+                this.alpha += Math.sin(Date.now() * this.twinkleSpeed) * 0.01;
+                if (this.alpha < 0.1) this.alpha = 0.1;
+                if (this.alpha > 1) this.alpha = 1;
+            }
+
+            draw() {
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initStars() {
+            stars = [];
+            const count = Math.floor((width * height) / 6000);
+            for (let i = 0; i < count; i++) {
+                stars.push(new Star());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            stars.forEach(star => {
+                star.update();
+                star.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', () => {
+            initSize();
+            initStars();
+        });
+
+        initSize();
+        initStars();
+        animate();
+    </script>
+</body>
+</html>

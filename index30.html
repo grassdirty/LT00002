@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đội Quân Tình Báo "Độc Nhất Vô Nhị" Trong Lịch Sử Việt Nam</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #05050f;
+            color: #e2e8f0;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Universe Background Effects */
+        #space-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+        }
+
+        .nebula {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(76, 29, 149, 0.18) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(30, 58, 138, 0.18) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(88, 28, 135, 0.12) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        /* Container */
+        .container {
+            max-width: 920px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 45px;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        header h1 {
+            font-size: 2.1rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 50%, #818cf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 12px;
+            letter-spacing: 0.8px;
+            text-shadow: 0 0 30px rgba(129, 140, 248, 0.35);
+            line-height: 1.35;
+        }
+
+        header p {
+            color: #94a3b8;
+            font-size: 1.05rem;
+            font-weight: 300;
+        }
+
+        /* Content Cards */
+        .content-card {
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 32px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            animation: slideUp 0.8s ease-out backwards;
+        }
+
+        .content-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(129, 140, 248, 0.35);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7),
+                        0 0 25px rgba(129, 140, 248, 0.2);
+        }
+
+        .content-card:nth-child(1) { animation-delay: 0.15s; }
+        .content-card:nth-child(2) { animation-delay: 0.3s; }
+        .content-card:nth-child(3) { animation-delay: 0.45s; }
+        .content-card:nth-child(4) { animation-delay: 0.6s; }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 15px;
+            gap: 12px;
+        }
+
+        .step-badge {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            box-shadow: 0 0 15px rgba(124, 58, 237, 0.4);
+            flex-shrink: 0;
+        }
+
+        .section-header h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #f8fafc;
+        }
+
+        .story-body {
+            font-size: 0.98rem;
+            line-height: 1.75;
+            color: #cbd5e1;
+        }
+
+        .highlight-box {
+            background: rgba(30, 41, 59, 0.45);
+            border-left: 3px solid #38bdf8;
+            border-radius: 0 12px 12px 0;
+            padding: 18px 22px;
+            margin: 18px 0;
+            font-size: 0.98rem;
+            line-height: 1.7;
+            color: #e2e8f0;
+        }
+
+        .quote-box {
+            background: rgba(88, 28, 135, 0.25);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 14px;
+            padding: 20px 22px;
+            margin: 18px 0;
+            color: #f3e8ff;
+            line-height: 1.75;
+        }
+
+        /* Conclusion Card */
+        .conclusion-card {
+            background: linear-gradient(135deg, rgba(30, 27, 75, 0.7) 0%, rgba(15, 23, 42, 0.8) 100%);
+            border: 1px solid rgba(129, 140, 248, 0.3);
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6),
+                        0 0 30px rgba(99, 102, 241, 0.15);
+            animation: slideUp 0.8s ease-out 0.8s backwards;
+        }
+
+        .conclusion-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+            color: #818cf8;
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .conclusion-text {
+            font-size: 1rem;
+            line-height: 1.75;
+            color: #e0e7ff;
+            font-weight: 400;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 { font-size: 1.6rem; }
+            .content-card, .conclusion-card { padding: 22px; }
+            .section-header { flex-direction: column; align-items: flex-start; gap: 8px; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="space-canvas"></canvas>
+    <div class="nebula"></div>
+
+    <div class="container">
+        <header>
+            <h1>ĐỘI QUÂN TÌNH BÁO "ĐỘC NHẤT VÔ NHỊ" LỊCH SỬ VIỆT NAM</h1>
+            <p>Danh tướng Phạm Ngũ Thư & Mạng Lưới "Tình Báo Ăn Mày" Thời Khởi Nghĩa Lam Sơn</p>
+        </header>
+
+        <!-- PHẦN 1: THÂN THẾ VÀ HÀNH TRẠNG CỦA PHẠM NGŨ THƯ -->
+        <div class="content-card">
+            <div class="section-header">
+                <span class="step-badge">PHẦN I</span>
+                <h3>Thân Thế Danh Tướng Phạm Ngũ Thư — Từ Yên Tử Đến Lam Sơn</h3>
+            </div>
+            <div class="story-body">
+                <p>Trong suốt chiều dài lịch sử chống ngoại xâm, cha ông ta đã sáng tạo ra vô số cách đánh khiến kẻ thù không thể ngờ tới. Nhưng nếu nói đến một lực lượng đặc biệt, vừa bí mật, vừa hiệu quả, lại có cách hoạt động kỳ lạ nhất, thì có lẽ không đội quân nào độc đáo hơn <strong>“tình báo ăn mày”</strong>.</p>
+                
+                <p style="margin-top: 12px;">Người tổ chức và chỉ huy đội quân đặc biệt ấy là danh tướng <strong>Phạm Ngũ Thư</strong> — một nhân vật vừa mưu lược, vừa thanh cao, và có cuộc đời mang màu sắc huyền thoại. Ông quê ở làng Phù Ủng, huyện Đường Hào, phủ Thượng Hồng (nay thuộc xã Phù Ủng, huyện Ân Thi, tỉnh Hưng Yên). Ông là hậu duệ đời thứ ba của Điện tiền Thượng tướng quân Phạm Ngũ Lão — danh tướng lẫy lừng triều Trần.</p>
+
+                <div class="quote-box">
+                    <strong>🕯️ Rời cửa chùa cứu nước:</strong><br>
+                    Sinh ra trong dòng họ võ tướng lẫy lừng, Phạm Ngũ Thư sớm rèn luyện cả văn lẫn võ và làm quan cuối thời Trần. Khi Hồ Quý Ly phế nhà Trần lập triều Hồ, ông bất bình từ quan lên núi Yên Tử tu hành tại chùa Vân Yên, lấy pháp danh <strong>Trí Lâm</strong>.<br><br>
+                    Thế nhưng khi quân Minh xâm lược nước ta, chứng kiến cảnh dân chúng lầm than, vị thiền sư ấy đã quyết định hoàn tục, rời cửa chùa trở lại với đời để cứu nước. Ông tìm đến Lam Sơn dâng tài trí cho Bình Định Vương Lê Lợi.
+                </div>
+            </div>
+        </div>
+
+        <!-- PHẦN 2: CHIẾN THUẬT VÀ SỰ VI DIỆU CỦA ĐỘI QUÂN HÀNH KHẤT -->
+        <div class="content-card">
+            <div class="section-header">
+                <span class="step-badge">PHẦN II</span>
+                <h3>Chiến Thuật Mạng Lưới Tình Báo Ăn Mày</h3>
+            </div>
+            <div class="story-body">
+                <p>Trong hàng ngũ nghĩa quân, Phạm Ngũ Thư hiểu rằng muốn chiến thắng một đạo quân mạnh hơn nhiều lần, không chỉ cần gươm giáo mà còn phải biết rõ mọi động tĩnh của đối phương. Từ suy nghĩ ấy, ông xây dựng một mạng lưới tình báo có một không hai trong lịch sử.</p>
+
+                <div class="highlight-box">
+                    <strong>🕵️ Hành trạng của những "chiến sĩ ăn mày":</strong><br>
+                    Những trinh sát của ông không mặc quân phục, không mang cờ hiệu, cũng không xuất hiện như binh lính. Họ giả làm ăn mày: mặc áo rách, đầu tóc bù xù, chân đất, tay chống gậy, đi khắp các chợ, làng mạc và cả doanh trại quân Minh.<br><br>
+                    Với vẻ ngoài khiến không ai đề phòng, họ quan sát cách bố phòng, số lượng quân lính, đường vận chuyển lương thảo và kế hoạch tác chiến của địch rồi bí mật báo về cho nghĩa quân Lam Sơn. Phạm Ngũ Thư cũng nhiều lần tự mình hóa trang thành người hành khất để trực tiếp do thám.
+                </div>
+
+                <p style="margin-top: 12px;">Nhờ nguồn tin chính xác ấy, Lê Lợi và các tướng lĩnh nhiều lần chủ động bố trí trận địa, đánh vào điểm yếu của quân Minh, từng bước xoay chuyển cục diện chiến tranh, quét sạch giặc Minh khỏi bờ cõi vào năm 1428.</p>
+            </div>
+        </div>
+
+        <!-- PHẦN 3: XẢ BỎ DANH LỢI & TRỞ VỀ LÀM NGƯỜI HÀNH KHẤT -->
+        <div class="content-card">
+            <div class="section-header">
+                <span class="step-badge">PHẦN III</span>
+                <h3>Từ Vị Khai Quốc Công Thần Đến Cuộc Đời Người Ăn Mày</h3>
+            </div>
+            <div class="story-body">
+                <p>Sau khi đuổi xong giặc, Lê Lợi lên ngôi hoàng đế (triều Hậu Lê) định công ban thưởng. Triều đình muốn phong Phạm Ngũ Thư chức tước cao và ban nhiều bổng lộc, nhưng ông nhẹ nhàng từ chối. Ông chỉ xin nhận 200 mẫu ruộng về quê dưỡng già.</p>
+
+                <div class="quote-box">
+                    <strong>🌱 Tấm lòng vì dân sâu thẳm:</strong><br>
+                    Khi trở lại quê hương, ông không giữ 200 mẫu ruộng cho riêng mình mà đem chia hết cho dân nghèo, dặn con cháu phải sống lương thiện, làm nhiều việc thiện để tích đức.<br><br>
+                    Rồi ông lại khoác lên người bộ quần áo vá chằng vá đụp, cầm cây gậy cũ và tiếp tục sống như một người hành khất. Ông đi khắp nơi, xin ăn qua ngày, đồng thời giảng giải đạo lý và khuyên người ta sống thiện lương.
+                </div>
+
+                <p style="margin-top: 12px; font-weight: 500; color: #38bdf8;">
+                    Từ một vị tướng lập công lớn, ông trở về đời sống bình dị nhất. Không quan tước. Không của cải. Không màng danh lợi.
+                </p>
+            </div>
+        </div>
+
+        <!-- PHẦN 4: BIA MỘ GIẢN DỊ VÀ BÀI HỌC HẬU THẾ -->
+        <div class="conclusion-card">
+            <div class="conclusion-header">
+                <span>🪦 "PHẠM KHẤT SĨ CHI MỘ" — BIỂU TƯỢNG THANH CAO VĨ ĐẠI</span>
+            </div>
+            <div class="conclusion-text">
+                <p>Khi qua đời, trên mộ ông chỉ khắc mấy chữ giản dị:</p>
+                <div style="background: rgba(15, 23, 42, 0.6); padding: 16px 20px; border-radius: 12px; margin: 14px 0; text-align: center; border: 1px solid rgba(129, 140, 248, 0.3); font-size: 1.15rem; color: #c084fc; font-weight: 600;">
+                    “PHẠM KHẤT SĨ CHI MỘ”<br>
+                    <span style="font-size: 0.9rem; font-weight: 400; color: #cbd5e1;">(Mộ của người ăn mày họ Phạm)</span>
+                </div>
+                
+                <p>Đó có lẽ là dòng minh văn đặc biệt nhất trong lịch sử các danh tướng Việt Nam.</p>
+                <p style="margin-top: 12px;">Ngày nay, tên tuổi Phạm Ngũ Thư vẫn được người đời nhắc đến với lòng kính phục. Ông không chỉ là vị chỉ huy của đội quân tình báo kỳ lạ nhất lịch sử dân tộc, mà còn là biểu tượng của trí tuệ, sự khiêm nhường và tinh thần xả bỏ danh lợi.</p>
+                
+                <p style="margin-top: 12px; font-style: italic; color: #a5b4fc;">
+                    "Từ cửa chùa Yên Tử đến chiến trường Lam Sơn, từ vị trí công thần khai quốc đến cuộc sống của một người ăn mày, cuộc đời Phạm Ngũ Thư là câu chuyện hiếm có về một con người vừa tài ba, vừa thanh cao. Công danh rốt cuộc cũng chỉ là mây nổi, còn điều quý giá nhất chính là tấm lòng vì nước, vì dân."
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Universe Starry Script -->
+    <script>
+        const canvas = document.getElementById('space-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let width, height;
+        let stars = [];
+
+        function initSize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        class Star {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = Math.random() * 1.5;
+                this.baseAlpha = Math.random() * 0.7 + 0.3;
+                this.alpha = this.baseAlpha;
+                this.twinkleSpeed = Math.random() * 0.02 + 0.005;
+                this.vx = (Math.random() - 0.5) * 0.1;
+                this.vy = (Math.random() - 0.5) * 0.1;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x < 0) this.x = width;
+                if (this.x > width) this.x = 0;
+                if (this.y < 0) this.y = height;
+                if (this.y > height) this.y = 0;
+
+                this.alpha += Math.sin(Date.now() * this.twinkleSpeed) * 0.01;
+                if (this.alpha < 0.1) this.alpha = 0.1;
+                if (this.alpha > 1) this.alpha = 1;
+            }
+
+            draw() {
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initStars() {
+            stars = [];
+            const count = Math.floor((width * height) / 6000);
+            for (let i = 0; i < count; i++) {
+                stars.push(new Star());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            stars.forEach(star => {
+                star.update();
+                star.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', () => {
+            initSize();
+            initStars();
+        });
+
+        initSize();
+        initStars();
+        animate();
+    </script>
+</body>
+</html>

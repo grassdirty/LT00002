@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Định Mệnh Dân Tộc, Bài Học Lịch Sử & Con Đường Tu Thiền</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #05050f;
+            color: #e2e8f0;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Universe Background Effects */
+        #space-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+        }
+
+        .nebula {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(76, 29, 149, 0.18) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(30, 58, 138, 0.18) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(88, 28, 135, 0.12) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        /* Container */
+        .container {
+            max-width: 920px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 45px;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        header h1 {
+            font-size: 2.1rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 50%, #818cf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 12px;
+            letter-spacing: 0.8px;
+            text-shadow: 0 0 30px rgba(129, 140, 248, 0.35);
+            line-height: 1.35;
+        }
+
+        header p {
+            color: #94a3b8;
+            font-size: 1.05rem;
+            font-weight: 300;
+        }
+
+        /* Content Cards */
+        .content-card {
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 32px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            animation: slideUp 0.8s ease-out backwards;
+        }
+
+        .content-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(129, 140, 248, 0.35);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7),
+                        0 0 25px rgba(129, 140, 248, 0.2);
+        }
+
+        .content-card:nth-child(1) { animation-delay: 0.15s; }
+        .content-card:nth-child(2) { animation-delay: 0.3s; }
+        .content-card:nth-child(3) { animation-delay: 0.45s; }
+        .content-card:nth-child(4) { animation-delay: 0.6s; }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 15px;
+            gap: 12px;
+        }
+
+        .step-badge {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            box-shadow: 0 0 15px rgba(124, 58, 237, 0.4);
+            flex-shrink: 0;
+        }
+
+        .section-header h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #f8fafc;
+        }
+
+        .story-body {
+            font-size: 0.98rem;
+            line-height: 1.75;
+            color: #cbd5e1;
+        }
+
+        .highlight-box {
+            background: rgba(30, 41, 59, 0.45);
+            border-left: 3px solid #38bdf8;
+            border-radius: 0 12px 12px 0;
+            padding: 18px 22px;
+            margin: 18px 0;
+            font-size: 0.98rem;
+            line-height: 1.7;
+            color: #e2e8f0;
+        }
+
+        .quote-box {
+            background: rgba(88, 28, 135, 0.25);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 14px;
+            padding: 20px 22px;
+            margin: 18px 0;
+            color: #f3e8ff;
+            line-height: 1.75;
+        }
+
+        .list-box {
+            background: rgba(30, 41, 59, 0.45);
+            border-left: 3px solid #818cf8;
+            border-radius: 0 12px 12px 0;
+            padding: 18px 22px;
+            margin: 16px 0;
+        }
+
+        .list-box ul, .list-box ol {
+            padding-left: 20px;
+        }
+
+        .list-box li {
+            margin-bottom: 8px;
+            line-height: 1.65;
+            color: #e2e8f0;
+        }
+        .list-box li:last-child {
+            margin-bottom: 0;
+        }
+
+        .poem-box {
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid rgba(129, 140, 248, 0.25);
+            border-radius: 14px;
+            padding: 18px;
+            text-align: center;
+            font-style: italic;
+            color: #c7d2fe;
+            margin: 16px 0;
+            line-height: 1.8;
+            font-size: 1.02rem;
+        }
+
+        /* Conclusion Card */
+        .conclusion-card {
+            background: linear-gradient(135deg, rgba(30, 27, 75, 0.7) 0%, rgba(15, 23, 42, 0.8) 100%);
+            border: 1px solid rgba(129, 140, 248, 0.3);
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6),
+                        0 0 30px rgba(99, 102, 241, 0.15);
+            animation: slideUp 0.8s ease-out 0.8s backwards;
+        }
+
+        .conclusion-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+            color: #818cf8;
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .conclusion-text {
+            font-size: 1rem;
+            line-height: 1.75;
+            color: #e0e7ff;
+            font-weight: 400;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 { font-size: 1.6rem; }
+            .content-card, .conclusion-card { padding: 22px; }
+            .section-header { flex-direction: column; align-items: flex-start; gap: 8px; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="space-canvas"></canvas>
+    <div class="nebula"></div>
+
+    <div class="container">
+        <header>
+            <h1>SỰ XUẤT HIỆN CỦA BÁC HỒ, LỊCH SỬ DÂN TỘC & HÀNH TRÌNH TÂM LINH</h1>
+            <p>Sấm ký Nam Đàn — Bài học An Dương Vương — Phương pháp tu thiền — Đức Phật & Huyễn thuật</p>
+        </header>
+
+        <!-- PHẦN 1: SỰ XUẤT HIỆN CỦA BÁC HỒ LÀ ĐỊNH MỆNH CỦA DÂN TỘC -->
+        <div class="content-card">
+            <div class="section-header">
+                <span class="step-badge">PHẦN I</span>
+                <h3>Sự Xuất Hiện Của Bác Hồ Là Định Mệnh Của Dân Tộc</h3>
+            </div>
+            <div class="story-body">
+                <div class="poem-box">
+                    "Đụn sơn phân giới<br>
+                    Bò đới thất thanh<br>
+                    Thủy đáo Lam thành<br>
+                    Nam Đàn sinh thánh"
+                </div>
+
+                <p>Từ rất lâu trước đây, câu sấm ký đã lưu truyền vạn đại: Khi núi Đụn Sơn phân tách, khe nước Bò Đới lặng tiếng róc rách, dòng nước xói vào chân bờ thành sông Lam thì đất Nam Đàn sẽ xuất hiện một bậc Thánh nhân.</p>
+
+                <p style="margin-top: 12px;">Năm xưa, Cụ Nguyễn Sinh Sắc cùng Cụ Phan Bội Châu là hai người bạn thân thiết thường xuyên luận đàm việc nước. Cụ Phan Bội Châu bôn ba phong trào Đông Du vận động cách mạng công khai; trong khi Cụ Nguyễn Sinh Sắc đi sâu vào Miền Nam, âm thầm gieo mầm và chuẩn bị các lực lượng nòng cốt vĩ đại cho cách mạng sau này.</p>
+
+                <div class="quote-box">
+                    <strong>🌟 Linh tính của Cụ Phan Bội Châu:</strong><br>
+                    Trong những lần bàn luận câu sấm ký, cậu bé Nguyễn Sinh Cung (Bác Hồ lúc nhỏ) luôn ngoan ngoãn đứng hầu nước bên cạnh, lặng lẽ nghe hết chuyện đất nước thế giới. Đôi mắt cậu bé sáng quắt, mũi cao, gương mặt thần thái đặc biệt. Cụ Phan Bội Châu bất ngờ chỉ vào cậu bé bảo: <em>"Tôi nghĩ thằng bé này nó ứng vào điềm của câu sấm này. Hễ là Thánh thì chắc chắn là thằng bé này!"</em> — Và lịch sử đã chứng minh Cụ hoàn toàn đúng.
+                </div>
+
+                <p style="margin-top: 10px; font-style: italic; color: #94a3b8; font-size: 0.9rem;">
+                    (Trích: "Khoảng Cách Giữa Thánh Và Phàm" — TT. Thích Chân Quang giảng tại chùa Viên Quang 01/9/2019)
+                </p>
+            </div>
+        </div>
+
+        <!-- PHẦN 2: LỊCH SỬ AN DƯƠNG VƯƠNG & BÀI HỌC TÌNH RIÊNG - TÌNH CHUNG -->
+        <div class="content-card">
+            <div class="section-header">
+                <span class="step-badge">PHẦN II</span>
+                <h3>An Dương Vương & Bài Học "Tình Riêng Không Bằng Tình Chung"</h3>
+            </div>
+            <div class="story-body">
+                <p>Thục Phán (An Dương Vương) vốn là hậu duệ dòng Mẹ Tiên Âu Cơ. Khi Vua Hùng Duệ Vương (đời thứ 18) kết thúc triều đại, ngài đã nhường ngôi cho Thục Phán để thống nhất hai vùng đất nước, lấy hiệu An Dương Vương. Thục Phán lập cột đá thề ở Phú Thọ để tưởng nhớ ân nghĩa Hùng Vương.</p>
+
+                <div class="highlight-box">
+                    <strong>⚔️ Hai đường gươm đau xót trước biển khơi:</strong><br>
+                    Khi Trọng Thủy làm gián điệp phá Cổ Loa từ bên trong, thành mất nước tan, An Dương Vương đèo Mị Châu chạy về Thanh Hóa. Đến đường cùng, thần nhân báo: <em>"Giặc ở ngay sau lưng nhà vua đó!"</em>.<br><br>
+                    Nhìn con gái thương yêu nhất lại chính là kẻ vô tình dẫn giặc tới, trái tim người cha tan nát. Giữa tình cha con tha thiết và trách nhiệm lớn lao với muôn dân, lý trí vua đã cất lời. Vua vung 2 đường gươm — một cho con chịu tội với đất nước và một cho chính mình để giữ trọn lời thề với Hùng Vương.
+                </div>
+
+                <p style="margin-top: 12px; font-weight: 500; color: #fb7185;">
+                    💡 Lời nhắc nhở muôn đời: Tình riêng dù nặng đến đâu cũng không bao giờ được phép đặt trên Tình chung đối với dân tộc và cộng đồng!
+                </p>
+            </div>
+        </div>
+
+        <!-- PHẦN 3: HƯỚNG DẪN THỰC HÀNH TU THIỀN CHO NGƯỜI BẮT ĐẦU -->
+        <div class="content-card">
+            <div class="section-header">
+                <span class="step-badge">PHẦN III</span>
+                <h3>Lộ Trình Các Bước Thực Hành Tu Thiền Đúng Chánh Pháp</h3>
+            </div>
+            <div class="story-body">
+                <p style="font-weight: 600; color: #a5b4fc;">Nếu bắt đầu tu thiền, người tu cần trải qua các bước tuần tự:</p>
+                <div class="list-box">
+                    <ol>
+                        <li><strong>Hiểu Luật Nhân Quả — Nghiệp Báo</strong> thật sâu sắc.</li>
+                        <li><strong>Hiểu cấu trúc tâm thức:</strong> Từ lớp vỏ vọng tưởng bên ngoài đến lõi bản ngã thanh tịnh sâu bên trong, xác định mục tiêu <strong>VÔ NGÃ</strong>.</li>
+                        <li><strong>Tôn kính Phật tuyệt đối.</strong></li>
+                        <li><strong>Tu dưỡng đạo đức:</strong> Thấy lỗi sửa lỗi, đạt tâm Từ Bi rộng khắp và Khiêm Hạ tột cùng.</li>
+                        <li><strong>Làm phước cống hiến:</strong> Giúp người, sống nhân ái vị tha, lễ kính sám hối mỗi ngày.</li>
+                        <li><strong>Tập Khí Công:</strong> Kết hợp động tác với hơi thở (hít vào nhanh bằng mũi, thổi ra chậm bằng miệng).</li>
+                        <li><strong>Tập ngồi Kiết Già:</strong> Đúng tư thế (hai lòng bàn tay đặt lên nhau trước bụng dưới), kiểm soát toàn thân, buông lỏng, bất động toàn thân.</li>
+                        <li><strong>Thực hành phép CHỈ (Dừng vọng tưởng):</strong> Biết toàn thân, để tâm nhẹ nhàng ở bụng dưới, theo dõi hơi thở chậm - ít - êm.</li>
+                        <li><strong>Thực hành phép QUÁN:</strong> Quán thân vô thường, bất tịnh; thế giới tạm bợ; tâm thức chấp ngã; bản thân đầy tội lỗi.</li>
+                        <li><strong>Tỉnh giác tinh tế:</strong> Khi vọng tưởng vừa chớm khởi thì lập tức tan biến thành cảm giác toàn thân bên dưới, giữ tâm ở bụng dưới.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- PHẦN 4: ĐỨC PHẬT BIẾT TẤT CẢ MẸO ẢO THUẬT NHƯNG SỰ THỰC ĐẰNG SAU -->
+        <div class="content-card">
+            <div class="section-header">
+                <span class="step-badge">PHẦN IV</span>
+                <h3>Đức Phật & Sự Thật Đằng Sau Các Loại Huyễn Thuật</h3>
+            </div>
+            <div class="story-body">
+                <p>Tại khu núi đá Caliya, thôn trưởng Pataliya gặp người bạn Velitta. Velitta cho rằng Đức Phật dùng "huyễn thuật" (mẹo ảo thuật) để lôi kéo tín đồ. Pataliya bán tín bán nghi tìm đến hỏi Đức Phật.</p>
+
+                <div class="quote-box">
+                    <strong>💬 Đức Phật dạy thôn trưởng Pataliya:</strong><br>
+                    "Này thôn trưởng Pataliya, Như Lai biết rõ tất cả các loại huyễn thuật của các nhà huyễn thuật trên đời... Giống như ông biết rõ mọi hoạt động mờ ám của kẻ xấu để phòng tránh cho dân, nhưng ông có hoạt động giống họ chăng?<br><br>
+                    Biết rõ huyễn thuật không có nghĩa là sử dụng huyễn thuật! Khi một vị Tỳ-kheo chứng đạt <strong>Tam Minh Lục Thông</strong>, vị ấy thấy rõ nghiệp báo chúng sinh, nhớ vô số tiền kiếp và thấu suốt chân lý Tứ Diệu Đế."
+                </div>
+
+                <p style="margin-top: 10px; font-size: 0.9rem; color: #94a3b8; text-align: right;">
+                    (Trích: "Đỉnh Núi Tuyết - Tập 46", Trang 34 - 46)
+                </p>
+            </div>
+        </div>
+
+        <!-- PHẦN 5: BẢN CHẤT QUÁN TỘI ĐỂ VÀO THIỀN -->
+        <div class="conclusion-card">
+            <div class="conclusion-header">
+                <span>🧘 HIỂU NHỚ MÌNH CÓ LỖI HẾT SỨC QUAN TRỌNG</span>
+            </div>
+            <div class="conclusion-text">
+                Việc để tâm ở đáy bụng Hội âm, rồi tìm được hơi thở <strong>Chậm - Ít - Êm</strong> chỉ là kỹ thuật. Nhưng điều cốt lõi đòi hỏi phải có bề dày <strong>Quán tội trên tội</strong> (phần đạo lý):
+                <div style="background: rgba(15, 23, 42, 0.5); padding: 16px 20px; border-radius: 12px; margin-top: 12px; border-left: 3px solid #818cf8;">
+                    • Biết chính mình là một khối tội từ vô lượng kiếp.<br>
+                    • Biết vọng tưởng là dấu hiệu của tội lỗi (không thù hằn đối phó vọng tưởng).<br>
+                    • Khi tâm yên tĩnh, vẫn hiểu thẳm sâu bên trong mình còn vô minh, chấp ngã, kiêu mạn, ích kỷ.<br>
+                    • Kinh qua thời gian dài quán tội như vậy thành kiến giải tự nhiên tràn ngập tiềm thức, sau đó kết hợp kỹ thuật để tâm ở đáy bụng Hội âm cùng hơi thở chậm ít êm để đi vào Thiền định sâu thẳm.
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Universe Starry Script -->
+    <script>
+        const canvas = document.getElementById('space-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let width, height;
+        let stars = [];
+
+        function initSize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        class Star {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = Math.random() * 1.5;
+                this.baseAlpha = Math.random() * 0.7 + 0.3;
+                this.alpha = this.baseAlpha;
+                this.twinkleSpeed = Math.random() * 0.02 + 0.005;
+                this.vx = (Math.random() - 0.5) * 0.1;
+                this.vy = (Math.random() - 0.5) * 0.1;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x < 0) this.x = width;
+                if (this.x > width) this.x = 0;
+                if (this.y < 0) this.y = height;
+                if (this.y > height) this.y = 0;
+
+                this.alpha += Math.sin(Date.now() * this.twinkleSpeed) * 0.01;
+                if (this.alpha < 0.1) this.alpha = 0.1;
+                if (this.alpha > 1) this.alpha = 1;
+            }
+
+            draw() {
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initStars() {
+            stars = [];
+            const count = Math.floor((width * height) / 6000);
+            for (let i = 0; i < count; i++) {
+                stars.push(new Star());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            stars.forEach(star => {
+                star.update();
+                star.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', () => {
+            initSize();
+            initStars();
+        });
+
+        initSize();
+        initStars();
+        animate();
+    </script>
+</body>
+</html>

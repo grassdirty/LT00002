@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Câu Chuyện Luân Hồi Của Khương Tử Nha</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #05050f;
+            color: #e2e8f0;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Universe Background Effects */
+        #space-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+        }
+
+        .nebula {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(76, 29, 149, 0.18) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(30, 58, 138, 0.18) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(88, 28, 135, 0.12) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        /* Container */
+        .container {
+            max-width: 920px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 45px;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 50%, #818cf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 12px;
+            letter-spacing: 0.8px;
+            text-shadow: 0 0 30px rgba(129, 140, 248, 0.35);
+            line-height: 1.35;
+        }
+
+        header p {
+            color: #94a3b8;
+            font-size: 1.05rem;
+            font-weight: 300;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Content Cards */
+        .content-card {
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 32px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            animation: slideUp 0.8s ease-out backwards;
+        }
+
+        .content-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(129, 140, 248, 0.35);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7),
+                        0 0 25px rgba(129, 140, 248, 0.2);
+        }
+
+        .content-card:nth-child(1) { animation-delay: 0.15s; }
+        .content-card:nth-child(2) { animation-delay: 0.3s; }
+        .content-card:nth-child(3) { animation-delay: 0.45s; }
+        .content-card:nth-child(4) { animation-delay: 0.6s; }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 15px;
+            gap: 12px;
+        }
+
+        .step-badge {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            box-shadow: 0 0 15px rgba(124, 58, 237, 0.4);
+            flex-shrink: 0;
+        }
+
+        .section-header h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #f8fafc;
+        }
+
+        .story-body {
+            font-size: 0.98rem;
+            line-height: 1.75;
+            color: #cbd5e1;
+        }
+
+        .highlight-box {
+            background: rgba(30, 41, 59, 0.45);
+            border-left: 3px solid #38bdf8;
+            border-radius: 0 12px 12px 0;
+            padding: 18px 22px;
+            margin: 18px 0;
+            font-size: 0.98rem;
+            line-height: 1.7;
+            color: #e2e8f0;
+        }
+
+        .quote-box {
+            background: rgba(88, 28, 135, 0.25);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 14px;
+            padding: 20px 22px;
+            margin: 18px 0;
+            color: #f3e8ff;
+            line-height: 1.75;
+        }
+
+        .poem-box {
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid rgba(129, 140, 248, 0.25);
+            border-radius: 14px;
+            padding: 20px;
+            text-align: center;
+            font-style: italic;
+            color: #c7d2fe;
+            margin: 16px 0;
+            line-height: 1.8;
+            font-size: 1rem;
+        }
+
+        /* Conclusion Card */
+        .conclusion-card {
+            background: linear-gradient(135deg, rgba(30, 27, 75, 0.7) 0%, rgba(15, 23, 42, 0.8) 100%);
+            border: 1px solid rgba(129, 140, 248, 0.3);
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6),
+                        0 0 30px rgba(99, 102, 241, 0.15);
+            animation: slideUp 0.8s ease-out 0.8s backwards;
+        }
+
+        .conclusion-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+            color: #818cf8;
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .conclusion-text {
+            font-size: 1rem;
+            line-height: 1.75;
+            color: #e0e7ff;
+            font-weight: 400;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 { font-size: 1.6rem; }
+            .content-card, .conclusion-card { padding: 22px; }
+            .section-header { flex-direction: column; align-items: flex-start; gap: 8px; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="space-canvas"></canvas>
+    <div class="nebula"></div>
+
+    <div class="container">
+        <header>
+            <h1>CÂU CHUYỆN LUÂN HỒI CỦA KHƯƠNG TỬ NHA</h1>
+            <p>Khương Tử Nha phụng mệnh Nguyên Thủy Thiên Tôn giúp Văn Vương và Võ Vương lập nên nhà Chu, thay mặt sư phụ phong Thần cho các Thần nhân, nhưng bản thân ông lại không có tên trong bảng phong Thần. Rốt cuộc tại sao?</p>
+        </header>
+
+        <!-- KIẾP 1: KHƯƠNG TỬ NHA PHONG THẦN -->
+        <div class="content-card">
+            <div class="section-header">
+                <span class="step-badge">KIẾP THỨ NHẤT</span>
+                <h3>Khương Tử Nha Phong Thần & Thiên Định 808 Năm Nhà Chu</h3>
+            </div>
+            <div class="story-body">
+                <p>Khương Tử Nha vào năm 32 tuổi lên núi Côn Luân theo Nguyên Thủy Thiên Tôn tu đạo. Tu hành được 40 năm, một hôm Nguyên Thủy Thiên Tôn gọi ông tới và dạy: <em>"Đồ nhi, con người trần mắt thịt, sinh ra bạc mệnh, tiên đạo khó thành, chỉ có thể hưởng phúc ở nhân gian. Vừa hay Thành Thang khí số đã tận, nhà Chu đang hưng, con thay mặt ta phong Thần xuống núi, trợ giúp minh chủ, được làm khanh tướng, cũng không uổng công 40 năm con lên núi tu hành."</em></p>
+                
+                <p style="margin-top: 12px;">Đành từ biệt sư phụ xuống núi khi đã 72 tuổi, Khương Tử Nha kết hôn cùng Mã Thị (60 tuổi). Mã Thị chê ông vô dụng, thúc ép ông làm nghề bói toán. Vì toán quái, ông thiêu chết Tì Bà Tinh ngọc thạch, đắc tội Đát Kỷ rồi rời Triều Ca đến bên sông Vị câu cá chờ Tây Bá Hầu Cơ Xương.</p>
+
+                <div class="highlight-box">
+                    <strong>🎣 Điềm báo bên sông Vị:</strong><br>
+                    Văn Vương xem bói biết sẽ gặp bậc thầy đế vương phò tá ba đời, liền tắm rửa ba ngày đến đón. Để thử lòng thành, Khương Tử Nha xin Văn Vương cõng vì tuổi cao sức yếu.<br>
+                    • Văn Vương cõng đi <strong>48 bước</strong> ➔ Tương ứng <strong>48 vị hoàng đế</strong> nhà Chu.<br>
+                    • Con trai Văn Vương kéo xe đi <strong>808 bước</strong> ➔ Tương ứng giang sơn kéo dài <strong>808 năm</strong>.
+                </div>
+
+                <p style="margin-top: 12px;">Diệt xong nhà Thương, Khương Tử Nha phong Thần xong trở lại núi Côn Luân. Sư phụ bảo: <em>"Đồ nhi à, con căn cơ nông cạn, cho nên kiếp này chưa tu thành được, vẫn phải chuyển sinh đến nhân gian tu tiếp. Lần này hạ thế, ta sẽ an bài cho con một thân thể có <strong>trái tim long lanh 9 lỗ</strong>."</em></p>
+            </div>
+        </div>
+
+        <!-- KIẾP 2: CHUYỂN SINH THÀNH TÔN TẪN -->
+        <div class="content-card">
+            <div class="section-header">
+                <span class="step-badge">KIẾP THỨ HAI</span>
+                <h3>Chuyển Sinh Thành Tôn Tẫn — Giả Điên Trả Nợ Nghiệp Sát</h3>
+            </div>
+            <div class="story-body">
+                <p>Trái tim long lanh 9 lỗ phải 500 năm mới có một người có được, nên Khương Tử Nha đợi 700 năm mới chuyển sinh thành Tôn Tẫn. Ngài bái Quỷ Cốc Tử làm sư phụ. Quỷ Cốc Tử biết Tôn Tẫn kiếp trước phong Thần giết nhiều người nên kiếp này tất gặp đại nạn, nhưng không mất mạng.</p>
+
+                <p style="margin-top: 12px;">Đại sư huynh Bàng Quyên vì đố kỵ 13 thiên Binh Pháp Tôn Tử đã hãm hại ngụy tạo thư phản quốc khiến Tôn Tẫn bị chặt chân thành phế nhân. Bàng Quyên giả vờ chăm sóc để lừa lấy binh pháp.</p>
+
+                <div class="quote-box">
+                    <strong>💡 Mở túi gấm giả điên:</strong><br>
+                    Nhờ người hầu nhắc nhở, Tôn giả giật mình mở túi gấm sư phụ trao trước khi hạ sơn, thấy 2 chữ <strong>"Giả Điên"</strong>. Ông nằm chuồng lợn, ăn uống phân nước tiểu lừa Bàng Quyên, rồi nhờ sứ giả Tề quốc cứu thoát. Sau này trận Mã Lăng, Bàng Quyên vạn mũi tên bắn chết đúng như lời thề xưa.
+                </div>
+
+                <p style="margin-top: 12px;">Tôn Tẫn được 7 nước ban ấn tướng quốc, công thành danh toại rồi quy ẩn tu thành Tiên. Nhưng nhận thấy chân bị hỏng, ngồi xe lăn làm tổn hại uy nghiêm Thần Tiên, ông quyết định chuyển sinh lần nữa. Để có trái tim 9 lỗ, ông đợi thêm 500 năm trong âm tào địa phủ.</p>
+            </div>
+        </div>
+
+        <!-- KIẾP 3: CHUYỂN SINH THÀNH GIA CÁT LƯỢNG -->
+        <div class="content-card">
+            <div class="section-header">
+                <span class="step-badge">KIẾP THỨ BA</span>
+                <h3>Chuyển Sinh Thành Gia Cát Lượng — Chiếc Quạt Lông Vũ & Hỏa Thiêu Đằng Giáp</h3>
+            </div>
+            <div class="story-body">
+                <p>Đến thời Tam Quốc, Tôn Tẫn chuyển sinh thành Gia Cát Lượng. Năm 6 tuổi bị câm, năm 8 tuổi được lão Đạo sĩ nhận làm đồ đệ dẫn lên núi chữa bệnh và truyền Bát quái, Binh pháp.</p>
+
+                <div class="highlight-box">
+                    <strong>🪶 Sự tích chiếc quạt lông hạc:</strong><br>
+                    Nữ tử trong am hoang vốn là Tiên hạc bị đàng phàm. Sư phụ dặn Gia Cát Lượng thừa lúc hạc tắm Thiên Hà đốt am để không bị sắc đẹp dụ dỗ. Hạc thẹn quá mổ vào mắt, Gia Cát Lượng dùng trượng đầu rồng đánh đuổi và tóm được chùm lông đuôi. Cậu làm thành cây quạt luôn mang bên mình để tự nhắc nhở không bê trễ tu hành.
+                </div>
+
+                <p style="margin-top: 12px;">Nhờ ký ức tu luyện từ Khương Tử Nha, Khổng Minh thần cơ diệu toán, viết "Mã tiền khóa" tiên đoán hậu thế. Tuy nhiên khi nam chinh hỏa thiêu 3 vạn quân Đằng Giáp trong sơn cốc, tiếng kêu rên trong biển lửa khơi dậy bản tính. Ngài biết chiến tranh tuy thuận ý Trời nhưng sát sinh quá nhiều ảnh hưởng thọ mệnh và rơi rớt tầng thứ, đành mang tiếc nuối chuyển sinh lần nữa.</p>
+            </div>
+        </div>
+
+        <!-- KIẾP 4: CHUYỂN SINH THÀNH LƯU BÁ ÔN -->
+        <div class="content-card">
+            <div class="section-header">
+                <span class="step-badge">KIẾP THỨ TƯ</span>
+                <h3>Chuyển Sinh Thành Lưu Bá ÔN — Bức Thư Tứ Ngôn & Dự Ngôn Mạt Kiếp</h3>
+            </div>
+            <div class="story-body">
+                <p>500 năm sau vào triều Đại Minh, Gia Cát Lượng chuyển sinh thành Lưu Bá Ôn. Dân gian có câu: <em>"Chia ba thiên hạ Gia Cát Lượng, thống nhất giang sơn Lưu Bá Ôn."</em></p>
+
+                <p style="margin-top: 12px;">Một lần trú tại phủ cũ Khổng Minh ở Thiếu Thành, thấy biển đề "Thiên hạ đệ nhất nhân", Lưu Bá Ôn cho gỡ xuống thì phát hiện tấm biển phía sau khắc bài thơ tứ ngôn:</p>
+
+                <div class="poem-box">
+                    Quân sư triều trước Gia Cát Lượng<br>
+                    Quân sư triều sau Lưu Bá Ôn<br>
+                    Năm trăm năm trước ta biết ngươi<br>
+                    Năm trăm năm sau ngươi biết ai?
+                </div>
+
+                <p style="margin-top: 12px;">Lưu Bá Ôn giật mình kính phục. Sau đó tại một ngôi miếu, ông thấy bia đá ghi: <em>“Trước Khương Thượng, sau Tôn Tẫn, 500 năm trước Gia Cát Lượng, 500 năm sau Lưu Bá Ôn”</em>. Ông bừng sáng nhận ra các đời chuyển sinh đều là để tu luyện đắc Đạo thành Tiên, bèn rời xa thế tục đi tu hành.</p>
+
+                <div class="quote-box">
+                    <strong>📜 Các dự ngôn để lại cho hậu thế:</strong><br>
+                    Lưu Bá Ôn để lại "Thiêu Bính Ca", "Kim Lăng tháp bi văn" và "Cứu kiếp bi văn". Trong đó dự ngôn thời mạt kiếp Đức Phật Di Lặc hạ thế độ nhân:<br>
+                    <em>"Không giống tăng, không giống Đạo, đầu đội mũ lông nhung 4 lạng, chân Phật không ở trong chùa chiền, Ngài nắm Di Lặc nguyên đầu giáo..."</em>
+                </div>
+            </div>
+        </div>
+
+        <!-- KẾT LUẬN & CHIÊM NGHIỆM -->
+        <div class="conclusion-card">
+            <div class="conclusion-header">
+                <span>🌟 CHIÊM NGHIỆM VỀ CUỘC ĐỜI & LUÂN HỒI</span>
+            </div>
+            <div class="conclusion-text">
+                Khương Tử Nha qua 3.000 năm luân hồi chuyển kiếp cuối cùng cũng thành chính quả. Nhân sinh giống như một vở kịch, luân hồi chuyển thế mấy nghìn năm, công danh thành bại do ai sắp xếp và vì lẽ gì?
+                <br><br>
+                Phải chăng như trong dự ngôn tiết lộ: Mọi diễn biến lịch sử là để con người vào thời mạt kiếp đi theo <strong>“Con đường sợi dây vàng”</strong> — nỗ lực tu dưỡng đạo đức, hướng về điều thiện để trở về chốn Thiên quốc vĩnh hằng.
+                <p style="margin-top: 14px; font-size: 0.88rem; color: #94a3b8; text-align: right;">(Trung Hòa tổng hợp)</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Universe Starry Script -->
+    <script>
+        const canvas = document.getElementById('space-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let width, height;
+        let stars = [];
+
+        function initSize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        class Star {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = Math.random() * 1.5;
+                this.baseAlpha = Math.random() * 0.7 + 0.3;
+                this.alpha = this.baseAlpha;
+                this.twinkleSpeed = Math.random() * 0.02 + 0.005;
+                this.vx = (Math.random() - 0.5) * 0.1;
+                this.vy = (Math.random() - 0.5) * 0.1;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x < 0) this.x = width;
+                if (this.x > width) this.x = 0;
+                if (this.y < 0) this.y = height;
+                if (this.y > height) this.y = 0;
+
+                this.alpha += Math.sin(Date.now() * this.twinkleSpeed) * 0.01;
+                if (this.alpha < 0.1) this.alpha = 0.1;
+                if (this.alpha > 1) this.alpha = 1;
+            }
+
+            draw() {
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initStars() {
+            stars = [];
+            const count = Math.floor((width * height) / 6000);
+            for (let i = 0; i < count; i++) {
+                stars.push(new Star());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            stars.forEach(star => {
+                star.update();
+                star.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', () => {
+            initSize();
+            initStars();
+        });
+
+        initSize();
+        initStars();
+        animate();
+    </script>
+</body>
+</html>

@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lời Dạy Đạo Đức & Gương Sống Tu Tập — SPKY</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #05050f;
+            color: #e2e8f0;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Universe Background Effects */
+        #space-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+        }
+
+        .nebula {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(76, 29, 149, 0.18) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(30, 58, 138, 0.18) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(88, 28, 135, 0.12) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        /* Container */
+        .container {
+            max-width: 920px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 45px;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        header h1 {
+            font-size: 2.1rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 50%, #818cf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 12px;
+            letter-spacing: 0.8px;
+            text-shadow: 0 0 30px rgba(129, 140, 248, 0.35);
+            line-height: 1.35;
+        }
+
+        header p {
+            color: #94a3b8;
+            font-size: 1.05rem;
+            font-weight: 300;
+        }
+
+        /* Content Cards */
+        .content-card {
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 32px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            animation: slideUp 0.8s ease-out backwards;
+        }
+
+        .content-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(129, 140, 248, 0.35);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7),
+                        0 0 25px rgba(129, 140, 248, 0.2);
+        }
+
+        .content-card:nth-child(1) { animation-delay: 0.15s; }
+        .content-card:nth-child(2) { animation-delay: 0.3s; }
+        .content-card:nth-child(3) { animation-delay: 0.45s; }
+        .content-card:nth-child(4) { animation-delay: 0.6s; }
+        .content-card:nth-child(5) { animation-delay: 0.75s; }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 15px;
+            gap: 12px;
+        }
+
+        .step-badge {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            box-shadow: 0 0 15px rgba(124, 58, 237, 0.4);
+            flex-shrink: 0;
+        }
+
+        .section-header h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #f8fafc;
+        }
+
+        .story-body {
+            font-size: 0.98rem;
+            line-height: 1.75;
+            color: #cbd5e1;
+        }
+
+        .highlight-box {
+            background: rgba(30, 41, 59, 0.45);
+            border-left: 3px solid #38bdf8;
+            border-radius: 0 12px 12px 0;
+            padding: 18px 22px;
+            margin: 18px 0;
+            font-size: 0.98rem;
+            line-height: 1.7;
+            color: #e2e8f0;
+        }
+
+        .quote-box {
+            background: rgba(88, 28, 135, 0.25);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 14px;
+            padding: 20px 22px;
+            margin: 18px 0;
+            color: #f3e8ff;
+            line-height: 1.75;
+        }
+
+        .poem-box {
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid rgba(129, 140, 248, 0.25);
+            border-radius: 14px;
+            padding: 20px;
+            text-align: center;
+            font-style: italic;
+            color: #c7d2fe;
+            margin: 16px 0;
+            line-height: 1.8;
+            font-size: 1.02rem;
+        }
+
+        .list-box {
+            background: rgba(30, 41, 59, 0.45);
+            border-left: 3px solid #818cf8;
+            border-radius: 0 12px 12px 0;
+            padding: 18px 22px;
+            margin: 16px 0;
+        }
+
+        .list-box ul, .list-box ol {
+            padding-left: 20px;
+        }
+
+        .list-box li {
+            margin-bottom: 8px;
+            line-height: 1.65;
+            color: #e2e8f0;
+        }
+        .list-box li:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Conclusion Card */
+        .conclusion-card {
+            background: linear-gradient(135deg, rgba(30, 27, 75, 0.7) 0%, rgba(15, 23, 42, 0.8) 100%);
+            border: 1px solid rgba(129, 140, 248, 0.3);
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6),
+                        0 0 30px rgba(99, 102, 241, 0.15);
+            animation: slideUp 0.8s ease-out 0.9s backwards;
+        }
+
+        .conclusion-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+            color: #818cf8;
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .conclusion-text {
+            font-size: 1rem;
+            line-height: 1.75;
+            color: #e0e7ff;
+            font-weight: 400;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 { font-size: 1.6rem; }
+            .content-card, .conclusion-card { padding: 22px; }
+            .section-header { flex-direction: column; align-items: flex-start; gap: 8px; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="space-canvas"></canvas>
+    <div class="nebula"></div>
+
+    <div class="container">
+        <header>
+            <h1>LỜI DẠY ĐẠO ĐỨC & GƯƠNG SỐNG TU TẬP</h1>
+            <p>Đắp bờ đê yêu thương — Tài & Đức — Dạy trẻ mầm thiện — SPKY</p>
+        </header>
+
+        <!-- PHẦN 1: ĐẮP BỜ ĐÊ YÊU THƯƠNG (KHÓA ĐẠO ĐỨC HÈ 2023) -->
+        <div class="content-card">
+            <div class="section-header">
+                <span class="step-badge">PHẦN I</span>
+                <h3>Đắp Bờ Đê Yêu Thương & Phụng Sự Cuộc Đời</h3>
+            </div>
+            <div class="story-body">
+                <div class="quote-box">
+                    "Nhiều khi quá mệt mỏi... Sư ông cũng nghĩ đến chuyện giao hết chùa cho đệ tử, mình về vườn ở cốc nhỏ trồng rau, dưỡng già, vui thú điền viên 1 mình... Nhưng... Sư ông đã không làm như vậy. Vì nếu Sư ông chỉ nghĩ cho mình, chắc chắn tạm yên thời gian rồi cũng sẽ bị cơn lốc ác độc kéo đến cuốn trôi hết tất cả... trong đó có cái cốc của mình..."
+                </div>
+
+                <div class="highlight-box">
+                    <strong>🌊 Lời Thầy nhắn gửi thanh thiếu niên:</strong><br>
+                    "Nên, tụi con đừng bao giờ cho mình cái quyền nghĩ đến niềm riêng. Nhiệm vụ tụi con là <strong>đắp bờ đê yêu thương</strong>, đem đạo đức thiện lành chia sẻ đến mọi người để chặn những cơn lũ độc ác tàn phá dân làng trong đó có gia đình và chính tụi con. Hãy mang điều thiện đến cho mọi người càng nhiều càng tốt.<br><br>
+                    Nay tụi con 'lỡ dại' về đây học hè, được Thầy cô, huynh trưởng chăm lo từng chút, chưa kịp đói đã có đồ ăn bánh trái phục vụ tận nơi, khiến tụi con hạnh phúc, nhưng! Không được ngừng ngang đó. Tụi con đón nhận yêu thương đó, học cách yêu thương đó để nguyện lòng tiếp tục yêu thương người khác, phụng sự người khác như chính mình đã nhận, có như vậy mới xây dựng cuộc sống này tốt đẹp hơn."
+                    <p style="margin-top: 8px; font-size: 0.88rem; color: #94a3b8; text-align: right;">— SPKY giảng Khóa Đạo Đức Hè 2023</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- PHẦN 2: GƯƠNG TU TẬP AN LÀNH CỦA BÀ NGUYỆT TỪ ĐẠT (85 TUỔI) -->
+        <div class="content-card">
+            <div class="section-header">
+                <span class="step-badge">PHẦN II</span>
+                <h3>Gương Tu Tập An Lành Của Cụ Nguyệt Từ Đạt (85 Tuổi)</h3>
+            </div>
+            <div class="story-body">
+                <p style="font-weight: 500; color: #a5b4fc;">Chuyện kể từ Đạo tràng Phật Vinh:</p>
+                <p style="margin-top: 8px;">Cụ Nguyệt Từ Đạt 85 tuổi tham gia từ những ngày đầu tiên của đạo tràng, các khóa thiền không bỏ ngày nào trừ khi bệnh (từ chiều thứ 6 đến trưa chủ nhật). Các Đại lễ hiếm khi thiếu Ngoại dù tuổi đã cao, không ai chở thì tự đón xe buýt từ Hóc Môn xuống.</p>
+
+                <div class="list-box">
+                    <ul>
+                        <li><strong>Những ngày cuối đời:</strong> Ngoại bị trúng thực và tai biến nhẹ nằm viện 1 tuần. Xuất viện về nhà trị bấm huyệt 6 ngày, đến ngày thứ 7 Ngoại ra đi hết sức thanh thản, nhẹ nhàng và minh mẫn. Trước đó Ngoại vẫn còn nhắn nhủ mong được về chùa vào mùng 6.</li>
+                        <li><strong>Chí thành hộ trì:</strong> Ngoại không có gia đình, chỉ có cháu. Tuân theo lời Sư Phụ dạy, huynh đệ đạo tràng đã chung tay lo chu toàn hậu sự từ đầu đến cuối cho Ngoại. Gia đình sau đó rất xúc động và xin phép được tham gia sinh hoạt đạo tràng.</li>
+                        <li><strong>Sức mạnh thiền định:</strong> Cụ rất kính Sư Phụ, nhớ nằm lòng các bài giảng Tứ Niệm Xứ, ngồi thiền rất tốt, thân rất yên và ngồi khá lâu. Cụ là tấm gương tinh tấn mẫu mực — kết quả của sự tu tập trọn đời là ra đi an lành, bình an và chu toàn.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- PHẦN 3: TÀI VÀ ĐỨC -->
+        <div class="content-card">
+            <div class="section-header">
+                <span class="step-badge">PHẦN III</span>
+                <h3>Tài Và Đức — Móng Nhà Vững Chắc</h3>
+            </div>
+            <div class="story-body">
+                <div class="highlight-box" style="border-left-color: #38bdf8;">
+                    <strong>❓ Có người thắc mắc: "Tôi có đạo đức nhưng không có tài thì sao?"</strong><br>
+                    Thì cũng giống như xây móng mà chưa xây nhà. Có sao không? Không sao cả, khi nào đủ điều kiện rồi xây tiếp, cái móng vẫn cứ tồn tại vững chắc. Hoặc ít nhất thì họ cũng vô hại với cuộc đời, từ từ có tài rồi sẽ làm được nhiều việc cho đời.
+                </div>
+
+                <div class="highlight-box" style="border-left-color: #fb7185;">
+                    <strong>⚠️ Còn người có tài mà không có đức thì sao?</strong><br>
+                    Là <strong>đại họa cho đời</strong>. Họ có tài mà vô đạo đức, thủ đoạn mưu mô nên nếu họ dùng cái tài của mình để trục lợi, phá hoại thì hậu quả thật khôn lường. Họ đang liều lĩnh xây nhà lên cao mà không làm móng vững chắc. Nền móng không vững thì chắc chắn ngày nào đó căn nhà sẽ sụp đổ, tiền tài sự nghiệp rồi cũng “không cánh mà bay”.
+                </div>
+
+                <p style="margin-top: 12px; font-style: italic; color: #94a3b8;">
+                    Nhiều người nghĩ phải bươn chải làm ăn, làm giàu trước đã mà chưa chịu vun bồi đạo đức thì sự nghiệp tiêu tan là điều tất yếu không thể tránh. (SPKY)
+                </p>
+            </div>
+        </div>
+
+        <!-- PHẦN 4: DẠY TRẺ ĐỨC TÍNH & ĐỊNH HƯỚNG KHÓA HÈ -->
+        <div class="content-card">
+            <div class="section-header">
+                <span class="step-badge">PHẦN IV</span>
+                <h3>4 Đức Tính Cần Dạy Trẻ & Định Hướng Khóa Hè</h3>
+            </div>
+            <div class="story-body">
+                <p style="font-weight: 600; color: #a5b4fc;">🌱 4 Đức tính giúp trẻ trở thành người tốt:</p>
+                <div class="list-box">
+                    <ol>
+                        <li><strong>Biết kính trọng — Biết vâng lời</strong></li>
+                        <li><strong>Biết chia sẻ — Biết phụ giúp</strong></li>
+                        <li><strong>Biết xoay sở — Biết cố gắng</strong></li>
+                        <li><strong>Biết cảnh giác — Biết tránh nguy hiểm</strong></li>
+                    </ol>
+                </div>
+
+                <p style="font-weight: 600; color: #38bdf8; margin-top: 18px;">🎯 Quan điểm & Kỹ năng tập trung trong Khóa Đạo Đức Hè:</p>
+                <div class="list-box" style="border-left-color: #38bdf8;">
+                    <ul>
+                        <li>Hiếu kính bố mẹ;</li>
+                        <li>Yêu nước, yêu chế độ, yêu Đảng, yêu đường lối XHCN;</li>
+                        <li>Yêu Đạo Phật, quyết lòng tu hành có kinh nghiệm chia sẻ, hướng dẫn người quy y, tham gia chúng thanh niên / đạo tràng;</li>
+                        <li>Yêu thiên nhiên, bảo vệ môi trường, thích nhặt rác trồng cây;</li>
+                        <li>Tôn trọng thầy cô, tử tế cảm hóa bạn bè, siêng học;</li>
+                        <li>Tin hiểu sâu luật nhân quả, thích làm phước, thích lao động giúp đời, đắp sửa đường, thăm nom người già neo đơn;</li>
+                        <li>Phòng tránh nguy hiểm: đoán trước tai nạn, đoạn đường nguy cơ, lừa đảo, lừa khách, lửa, điện, nước, giao thông;</li>
+                        <li>Tránh bạo lực học đường và tệ nạn xâm nhập trường học.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- PHẦN 5: THƠ VALENTINE & NHÌN LÙI LẠI PHÍA SAU ĐỂ HỌC HỎI -->
+        <div class="conclusion-card">
+            <div class="conclusion-header">
+                <span>✨ THƠ TÌNH YÊU THƯƠNG & NỀN TẢNG SÂU XA</span>
+            </div>
+            <div class="conclusion-text">
+                <div class="poem-box">
+                    "Hôm nay là lễ tình nhân<br>
+                    Nguyện cầu nhân loại bội phần thương nhau<br>
+                    Để không còn cảnh khổ đau<br>
+                    Để không còn những mái đầu chia ly<br>
+                    Tinh cầu chỉ một đường đi<br>
+                    Về nơi giác ngộ diệu kỳ bao la" ✍️SPKY💖
+                </div>
+
+                <p style="margin-top: 18px; font-weight: 600; color: #a5b4fc;">🏢 Nhìn lùi lại phía sau để học hỏi:</p>
+                <p style="margin-top: 8px;">Khi nhìn thấy một tòa nhà cao tầng, ta hãy tìm hiểu về nền móng chìm sâu dưới lòng đất. Khi nhìn thấy sự thành công của ai đó, ta hãy bắt chước <strong>NỀN TẢNG SÂU XA</strong> từ quá khứ của họ, chứ đừng chạy đua vội vã theo cái thành công trong hiện tại.</p>
+
+                <p style="margin-top: 12px; font-weight: 600; color: #38bdf8;">Nền tảng ấy bao gồm những điều căn bản:</p>
+                <div style="background: rgba(15, 23, 42, 0.5); padding: 16px 20px; border-radius: 12px; margin-top: 8px; border-left: 3px solid #818cf8;">
+                    • Lòng yêu thương mọi người<br>
+                    • Sẵn sàng giúp đỡ<br>
+                    • Khiêm tốn không khoe khoang<br>
+                    • Thích học hỏi<br>
+                    • Không chê bai<br>
+                    • Kiên nhẫn với mục tiêu phụng sự
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Universe Starry Script -->
+    <script>
+        const canvas = document.getElementById('space-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let width, height;
+        let stars = [];
+
+        function initSize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        class Star {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = Math.random() * 1.5;
+                this.baseAlpha = Math.random() * 0.7 + 0.3;
+                this.alpha = this.baseAlpha;
+                this.twinkleSpeed = Math.random() * 0.02 + 0.005;
+                this.vx = (Math.random() - 0.5) * 0.1;
+                this.vy = (Math.random() - 0.5) * 0.1;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x < 0) this.x = width;
+                if (this.x > width) this.x = 0;
+                if (this.y < 0) this.y = height;
+                if (this.y > height) this.y = 0;
+
+                this.alpha += Math.sin(Date.now() * this.twinkleSpeed) * 0.01;
+                if (this.alpha < 0.1) this.alpha = 0.1;
+                if (this.alpha > 1) this.alpha = 1;
+            }
+
+            draw() {
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initStars() {
+            stars = [];
+            const count = Math.floor((width * height) / 6000);
+            for (let i = 0; i < count; i++) {
+                stars.push(new Star());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            stars.forEach(star => {
+                star.update();
+                star.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', () => {
+            initSize();
+            initStars();
+        });
+
+        initSize();
+        initStars();
+        animate();
+    </script>
+</body>
+</html>

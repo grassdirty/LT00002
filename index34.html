@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trống Đồng Đông Sơn, Kỹ Năng Ngoại Giao Phật Pháp & Chánh Pháp Cốt Lõi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #05050f;
+            color: #e2e8f0;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Universe Background Effects */
+        #space-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+        }
+
+        .nebula {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(76, 29, 149, 0.18) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(30, 58, 138, 0.18) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(88, 28, 135, 0.12) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        /* Container */
+        .container {
+            max-width: 920px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 45px;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        header h1 {
+            font-size: 2.1rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 50%, #818cf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 12px;
+            letter-spacing: 0.8px;
+            text-shadow: 0 0 30px rgba(129, 140, 248, 0.35);
+            line-height: 1.35;
+        }
+
+        header p {
+            color: #94a3b8;
+            font-size: 1.05rem;
+            font-weight: 300;
+        }
+
+        /* Content Cards */
+        .content-card {
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 32px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            animation: slideUp 0.8s ease-out backwards;
+        }
+
+        .content-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(129, 140, 248, 0.35);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7),
+                        0 0 25px rgba(129, 140, 248, 0.2);
+        }
+
+        .content-card:nth-child(1) { animation-delay: 0.15s; }
+        .content-card:nth-child(2) { animation-delay: 0.3s; }
+        .content-card:nth-child(3) { animation-delay: 0.45s; }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 15px;
+            gap: 12px;
+        }
+
+        .step-badge {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            box-shadow: 0 0 15px rgba(124, 58, 237, 0.4);
+            flex-shrink: 0;
+        }
+
+        .section-header h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #f8fafc;
+        }
+
+        .story-body {
+            font-size: 0.98rem;
+            line-height: 1.75;
+            color: #cbd5e1;
+        }
+
+        .highlight-box {
+            background: rgba(30, 41, 59, 0.45);
+            border-left: 3px solid #38bdf8;
+            border-radius: 0 12px 12px 0;
+            padding: 18px 22px;
+            margin: 18px 0;
+            font-size: 0.98rem;
+            line-height: 1.7;
+            color: #e2e8f0;
+        }
+
+        .quote-box {
+            background: rgba(88, 28, 135, 0.25);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 14px;
+            padding: 20px 22px;
+            margin: 18px 0;
+            color: #f3e8ff;
+            line-height: 1.75;
+        }
+
+        .list-box {
+            background: rgba(30, 41, 59, 0.45);
+            border-left: 3px solid #818cf8;
+            border-radius: 0 12px 12px 0;
+            padding: 18px 22px;
+            margin: 16px 0;
+        }
+
+        .list-box ul, .list-box ol {
+            padding-left: 20px;
+        }
+
+        .list-box li {
+            margin-bottom: 8px;
+            line-height: 1.65;
+            color: #e2e8f0;
+        }
+        .list-box li:last-child {
+            margin-bottom: 0;
+        }
+
+        .qa-item {
+            background: rgba(15, 23, 42, 0.5);
+            border-left: 3px solid #818cf8;
+            border-radius: 0 12px 12px 0;
+            padding: 18px;
+            margin-bottom: 16px;
+        }
+
+        .qa-question {
+            color: #38bdf8;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        .qa-answer {
+            color: #e2e8f0;
+            font-size: 0.96rem;
+            line-height: 1.7;
+        }
+
+        /* Conclusion Card */
+        .conclusion-card {
+            background: linear-gradient(135deg, rgba(30, 27, 75, 0.7) 0%, rgba(15, 23, 42, 0.8) 100%);
+            border: 1px solid rgba(129, 140, 248, 0.3);
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6),
+                        0 0 30px rgba(99, 102, 241, 0.15);
+            animation: slideUp 0.8s ease-out 0.6s backwards;
+        }
+
+        .conclusion-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+            color: #818cf8;
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .conclusion-text {
+            font-size: 1rem;
+            line-height: 1.75;
+            color: #e0e7ff;
+            font-weight: 400;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 { font-size: 1.6rem; }
+            .content-card, .conclusion-card { padding: 22px; }
+            .section-header { flex-direction: column; align-items: flex-start; gap: 8px; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="space-canvas"></canvas>
+    <div class="nebula"></div>
+
+    <div class="container">
+        <header>
+            <h1>TRỐNG ĐỒNG ĐÔNG SƠN, KỸ NĂNG NGOẠI GIAO PHẬT PHÁP & CHÁNH PHÁP CỐT LÕI</h1>
+            <p>Thuật toán Âm Dương cổ đại — Nghệ thuật kết duyên Tứ Nhiếp Pháp — Định hướng tìm về Đạo Phật chung</p>
+        </header>
+
+        <!-- CHỦ ĐỀ 1: TRỐNG ĐỒNG ĐÔNG SƠN & THUẬT TOÁN ÂM DƯƠNG -->
+        <div class="content-card">
+            <div class="section-header">
+                <span class="step-badge">CHỦ ĐỀ I</span>
+                <h3>Trống Đồng Đông Sơn, Thuật Toán Âm Dương & Kinh Dịch Việt Cổ</h3>
+            </div>
+            <div class="story-body">
+                <p>Nghiên cứu về hệ thống Nông lịch được mã hóa trên mặt Trống đồng Đông Sơn đã phơi bày ba sự thật lịch sử quan trọng:</p>
+                
+                <div class="list-box">
+                    <ol>
+                        <li><strong>Thuật toán nhị phân — Âm Dương thuộc về người Việt cổ.</strong></li>
+                        <li><strong>Kinh Dịch nguyên bản là di sản tư duy của đại tộc Bách Việt.</strong></li>
+                        <li>Gottfried Wilhelm Leibniz chỉ là người sao chép tri thức Á Đông qua tư liệu của các giáo sĩ Dòng Tên.</li>
+                    </ol>
+                </div>
+
+                <div class="highlight-box">
+                    <strong>🥁 Bằng chứng trên Trống Đồng Đông Sơn:</strong><br>
+                    Trên mặt các trống đồng cổ nhất như Ngọc Lũ, Hoàng Hạ, Sông Đà, tổ tiên người Việt đã đúc nổi hệ thống tính lịch bằng những tia sáng hình sao mang hệ số chẵn đối xứng tuyệt đối: 8, 12, 14, 16, 18 cánh. Đây là thuật toán nhị phân đa chiều dùng đo đạc góc nghiêng Mặt Trời, đối chiếu vòng quay tuần trăng và vận hành nông nghiệp.<br><br>
+                    Cấu trúc nhị phân đối ngẫu này chính là cội nguồn: <em>"Lưỡng nghi sinh Tứ tượng, Tứ tượng sinh Bát quái"</em>. Dấu vết vật chất và hằng số toán học sớm nhất nằm nguyên vẹn trên trống đồng Lạc Việt.
+                </div>
+
+                <div class="quote-box">
+                    <strong>💻 Sự trùng hợp với công nghệ hiện đại:</strong><br>
+                    Ngày nay, các siêu máy tính chạy thuật toán AI bằng cổng logic Bật/Tắt (0 và 1) của hệ nhị phân, đồng thời mã di truyền ADN gồm đúng 64 mã bộ ba trùng khớp hoàn hảo với 64 quẻ Kinh Dịch. Tổ tiên người Việt đã mã hóa tri thức sự sống này trên mặt trống từ thời tiền sử!
+                    <p style="margin-top: 8px; font-size: 0.88rem; color: #94a3b8; text-align: right;">(Hà Nội, ngày 27 tháng 8, 2026)</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CHỦ ĐỀ 2: KỸ NĂNG NGOẠI GIAO THEO TINH THẦN PHẬT PHÁP -->
+        <div class="content-card">
+            <div class="section-header">
+                <span class="step-badge">CHỦ ĐỀ II</span>
+                <h3>Kỹ Năng Ngoại Giao Theo Tinh Thần Phật Pháp (TT. Thích Chân Quang)</h3>
+            </div>
+            <div class="story-body">
+                <p>Ngoại giao trong đạo Phật là <strong>thiết lập thêm nhân duyên tốt đẹp với chúng sinh, mở đường cho sự giáo hóa về sau</strong>. Đức Phật từ xưa đã dạy bí quyết ngoại giao qua <strong>Tứ Nhiếp Pháp</strong> (Bố thí - Ái ngữ - Lợi hành - Đồng sự).</p>
+
+                <div class="highlight-box">
+                    <strong>1️⃣ Bố Thí — Công hạnh hàng đầu:</strong><br>
+                    Đồng tiền và vật chất chứa đựng ân nghĩa lớn, có thể thay đổi đường đi của nhân quả. Người trong đạo Phật bố thí để làm đẹp lòng nhau, kết duyên lành rồi mang đạo lý đến gieo mầm trong tâm hồn chúng sinh.
+                </div>
+
+                <div class="highlight-box" style="border-left-color: #818cf8;">
+                    <strong>2️⃣ Ái Ngữ — Lời nói chân thật từ lòng từ bi:</strong><br>
+                    Ái ngữ không phải là sự hình thức hay lòe loẹt, mà bắt nguồn từ lòng yêu thương chân thật:
+                    <ul>
+                        <li><strong>Với người quen thân:</strong> Luôn giữ lời nói tế nhị, không bỗ bã xuề xòa làm sứt mẻ duyên lành.</li>
+                        <li><strong>Với người có ác cảm / nghịch duyên:</strong> Tâm tuyệt đối không ghét họ, kiên trì nhẫn nại và chìa khóa lớn nhất là <em>"nhận lỗi về mình"</em> để tháo gỡ oan trái kiếp xưa.</li>
+                        <li><strong>Với người ngang tàng (Chí Phèo):</strong> Hiểu họ từng có phước làm điều thiện đời trước nhưng chấp công nên đời này phẫn uất. Hãy gợi lại tinh thần hào hiệp của họ, khuyên làm thiện không chấp công để bản ngã mềm xuống.</li>
+                        <li><strong>Kỹ năng bắt chuyện:</strong> Chuẩn bị sổ tay ghi chép thơ văn, câu chuyện ý vị, chọn chủ đề lý thú phù hợp hoàn cảnh.</li>
+                        <li><strong>Lời khen & Bày tỏ cảm thông:</strong> Dành lời khen đúng mực cho người xứng đáng để tạo phước; với sai lầm của người khác thì bao dung cảm thông trước rồi mới giáo hóa sau.</li>
+                    </ul>
+                </div>
+
+                <div class="quote-box">
+                    <strong>🏛️ Ngoại giao với Chính quyền, Tôn giáo bạn & Tổ chức:</strong><br>
+                    • Sống công khai, minh bạch, chủ động giúp chính quyền hiểu rõ đạo lý tu hành.<br>
+                    • Với tôn giáo bạn: Thăm hỏi, trân trọng nét hay tương đồng, làm nhịp cầu xích lại gần nhau.<br>
+                    • Với kẻ cực kỳ xấu ác có tổ chức phá đạo: Nhận diện đó là vấn nạn chung để ứng xử tỉnh giác.
+                </div>
+            </div>
+        </div>
+
+        <!-- CHỦ ĐỀ 3: PHÁP NÀO? — HỎI ĐÁP NIKAYA & ĐẠI THỪA -->
+        <div class="content-card">
+            <div class="section-header">
+                <span class="step-badge">CHỦ ĐỀ III</span>
+                <h3>Pháp Nào? — Hỏi Đáp Về Hệ Thống Kinh Điển & Đạo Phật Chung</h3>
+            </div>
+            <div class="story-body">
+                
+                <div class="qa-item">
+                    <div class="qa-question">❓ HỎI: Ưu và nhược điểm của hai hệ thống kinh điển Nguyên thủy (Nikaya) và Đại thừa?</div>
+                    <div class="qa-answer">
+                        • <strong>Nikaya (Pali):</strong> Ưu điểm là gần sát lời dạy của Đức Phật Thích Ca nhất. Nhược điểm là cách xa thời gian và ngôn ngữ nên phải có phước gia hộ mới hiểu đúng ý Phật, tránh nhầm vướng vào câu chữ.<br>
+                        • <strong>Đại Thừa (Sanskrit):</strong> Ưu điểm là triển khai sâu rộng đạo lý Vô Ngã và tạo khung cảnh pháp hội hoành tráng gây xúc động tâm linh. Nhược điểm là không ghi tên tác giả, nhiều quan điểm không nhất quán hoặc dễ lệch chánh pháp nếu không chọn lọc.
+                    </div>
+                </div>
+
+                <div class="qa-item">
+                    <div class="qa-question">❓ HỎI: Nên chọn hệ thống nào đúng với chánh pháp nhất?</div>
+                    <div class="qa-answer">
+                        • Ưu tiên chọn <strong>Kinh tạng Nikaya</strong> vì giá trị lịch sử không thể phủ nhận là gần sát lời dạy Đức Phật Thích Ca nhất.<br>
+                        • Đồng thời chọn lựa những quan điểm quy giá từ Kinh điển Đại thừa.<br>
+                        • Ủng hộ việc <strong>làm mới phương pháp trình bày</strong> nhưng phải đào sâu ý Phật, không được kiêu mạn cho rằng mình mới hơn hay khác hơn Phật.
+                    </div>
+                </div>
+
+                <div class="qa-item">
+                    <div class="qa-question">❓ HỎI: Hậu quả nếu các tông phái cứ giữ chặt sự cố chấp riêng?</div>
+                    <div class="qa-answer">
+                        Đó là bệnh chung của phàm phu cố chấp. Bỏ dần sự phân chia tông phái để tìm về <strong>MỘT ĐẠO PHẬT CHUNG</strong> không còn tông phái là con đường cứu hoãn sự suy tàn của Phật pháp.
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- KẾT LUẬN: ĐẠO PHẬT CHUNG -->
+        <div class="conclusion-card">
+            <div class="conclusion-header">
+                <span>☸️ CỐT LÕI CỦA ĐẠO PHẬT CHUNG VĨ ĐẠI</span>
+            </div>
+            <div class="conclusion-text">
+                Đạo Phật chung bao gồm những giáo lý bất biến vĩnh hằng:
+                <div style="background: rgba(15, 23, 42, 0.5); padding: 18px 20px; border-radius: 12px; margin-top: 12px; border-left: 3px solid #818cf8;">
+                    • Luật Nhân Quả — Nghiệp Báo<br>
+                    • Tứ Diệu Đế & Bát Chánh Đạo<br>
+                    • Lý tưởng Giác Ngộ — Giải Thóa & Mục tiêu Vô Ngã<br>
+                    • Lòng Tôn Kính Phật Tuyệt Đối<br>
+                    • Tâm Từ Bi Vô Hạn & Hạnh Nguyện Hóa Độ Chúng Sinh
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Universe Starry Script -->
+    <script>
+        const canvas = document.getElementById('space-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let width, height;
+        let stars = [];
+
+        function initSize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        class Star {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = Math.random() * 1.5;
+                this.baseAlpha = Math.random() * 0.7 + 0.3;
+                this.alpha = this.baseAlpha;
+                this.twinkleSpeed = Math.random() * 0.02 + 0.005;
+                this.vx = (Math.random() - 0.5) * 0.1;
+                this.vy = (Math.random() - 0.5) * 0.1;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x < 0) this.x = width;
+                if (this.x > width) this.x = 0;
+                if (this.y < 0) this.y = height;
+                if (this.y > height) this.y = 0;
+
+                this.alpha += Math.sin(Date.now() * this.twinkleSpeed) * 0.01;
+                if (this.alpha < 0.1) this.alpha = 0.1;
+                if (this.alpha > 1) this.alpha = 1;
+            }
+
+            draw() {
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initStars() {
+            stars = [];
+            const count = Math.floor((width * height) / 6000);
+            for (let i = 0; i < count; i++) {
+                stars.push(new Star());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            stars.forEach(star => {
+                star.update();
+                star.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', () => {
+            initSize();
+            initStars();
+        });
+
+        initSize();
+        initStars();
+        animate();
+    </script>
+</body>
+</html>

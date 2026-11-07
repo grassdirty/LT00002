@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hỏi Đáp Phật Pháp - Sự Tự Nhận Lỗi & Con Đường Thức Tỉnh Lương Tri</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #05050f;
+            color: #e2e8f0;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Universe Background Effects */
+        #space-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+        }
+
+        .nebula {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(76, 29, 149, 0.18) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(30, 58, 138, 0.18) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(88, 28, 135, 0.12) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        /* Container */
+        .container {
+            max-width: 920px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        header h1 {
+            font-size: 2.4rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 50%, #818cf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 12px;
+            letter-spacing: 0.8px;
+            text-shadow: 0 0 30px rgba(129, 140, 248, 0.35);
+        }
+
+        header p {
+            color: #94a3b8;
+            font-size: 1.05rem;
+            font-weight: 300;
+        }
+
+        /* Question Cards */
+        .qa-card {
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 32px;
+            margin-bottom: 35px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            animation: slideUp 0.8s ease-out backwards;
+        }
+
+        .qa-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(129, 140, 248, 0.35);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7),
+                        0 0 25px rgba(129, 140, 248, 0.2);
+        }
+
+        .qa-card:nth-child(1) { animation-delay: 0.2s; }
+        .qa-card:nth-child(2) { animation-delay: 0.4s; }
+        .qa-card:nth-child(3) { animation-delay: 0.6s; }
+
+        .question-header {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 22px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 18px;
+            gap: 15px;
+        }
+
+        .q-badge {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            box-shadow: 0 0 15px rgba(124, 58, 237, 0.4);
+            flex-shrink: 0;
+            margin-top: 3px;
+        }
+
+        .question-header h3 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #f8fafc;
+            line-height: 1.55;
+        }
+
+        .answer-section {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .meta-info {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            background: rgba(30, 41, 59, 0.4);
+            padding: 12px 18px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.9rem;
+        }
+
+        .lecture-name {
+            color: #c7d2fe;
+            font-weight: 500;
+        }
+
+        .youtube-link {
+            color: #fb7185;
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: opacity 0.2s, transform 0.2s;
+            background: rgba(244, 63, 94, 0.1);
+            padding: 6px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(244, 63, 94, 0.2);
+        }
+
+        .youtube-link:hover {
+            opacity: 0.9;
+            transform: scale(1.02);
+            background: rgba(244, 63, 94, 0.2);
+        }
+
+        .story-box {
+            background: rgba(30, 41, 59, 0.35);
+            border-left: 3px solid #38bdf8;
+            border-radius: 0 12px 12px 0;
+            padding: 16px 20px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #e2e8f0;
+        }
+
+        .story-title {
+            color: #38bdf8;
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .snippet-box {
+            background: rgba(15, 23, 42, 0.5);
+            border-left: 3px solid #818cf8;
+            border-radius: 0 12px 12px 0;
+            padding: 16px 20px;
+            font-size: 0.95rem;
+            line-height: 1.65;
+            color: #cbd5e1;
+            font-style: italic;
+        }
+
+        .snippet-title {
+            color: #818cf8;
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-style: normal;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 { font-size: 1.8rem; }
+            .question-header { flex-direction: column; gap: 10px; }
+            .qa-card { padding: 22px; }
+            .meta-info { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="space-canvas"></canvas>
+    <div class="nebula"></div>
+
+    <div class="container">
+        <header>
+            <h1>Hỏi Đáp Phật Pháp</h1>
+            <p>Nhìn Thấy Lỗi Lầm Bản Thân — Con Đường Bừng Tỉnh & Hướng Về Giác Ngộ</p>
+        </header>
+
+        <!-- CÂU HỎI 1 -->
+        <div class="qa-card">
+            <div class="question-header">
+                <span class="q-badge">CÂU HỎI 1</span>
+                <h3>Kính bạch Thầy, câu chuyện Tôn giả Nan Đà (Nanda) ban đầu vì tham ái mà tu hành gượng ép, khi bị huynh đệ chê là "tu mướn" để hưởng dục cõi trời, ngài đã xấu hổ bừng tỉnh nhận ra cái lỗi tâm tham dục thấp hèn của mình để dốc chí đắc quả A-la-hán ra sao ạ?</h3>
+            </div>
+            <div class="answer-section">
+                <div class="meta-info">
+                    <span class="lecture-name">📖 Vấn Đề Tính Dục - Pháp Cú 06 (media: 1380 & 3854)</span>
+                    <a href="https://youtu.be/2_lxbjK8IF8&t=1566" target="_blank" class="youtube-link">▶ Xem video [26:06 - 27:48]</a>
+                </div>
+
+                <div class="story-box">
+                    <div class="story-title">📜 Mẫu chuyện</div>
+                    <p>Bị Đức Phật dắt đi xuất gia ngay trong ngày cưới, Tôn giả Nan Đà ngày đêm tương tư vợ, không tha thiết tu hành. Đức Phật dùng thần thông đưa ngài lên cõi trời Đao Lợi xem các thiên nữ diễm lệ (khiến nhan sắc người vợ trần gian chỉ như khỉ cháy lông) và phương tiện hứa sẽ xin vua trời Đế Thích cho ngài bảy thiên nữ nếu chịu chăm chỉ tu. Chư Tăng biết chuyện liền chê cười ngài là kẻ "tu mướn" để đổi lấy dục lạc. Nghe lời chê trách, Nan Đà rúng động tâm can, xấu hổ tột cùng nhận ra động cơ tu hành sai lệch và tâm tham ái hèn kém của mình. Ngài chân thành sám hối, dẹp hết mọi tham dục, miên mật nhiếp tâm thiền định và đắc quả A-la-hán, được Phật ngợi khen tâm đã kiên cố như ngôi nhà lợp kín không giọt mưa phiền não nào lọt qua được.</p>
+                </div>
+
+                <div class="snippet-box">
+                    <div class="snippet-title">💬 Trích dẫn bài giảng</div>
+                    <p>"... Thì khi mà Ngài yên tâm Ngài tu hành như vậy thì các vị tỳ-kheo chung quanh biết hết... họ chỉ nói thầm thầm: 'Ông tu mướn! Tu để được bảy thiên nữ!'. Nên họ cũng không có nể phục... Ngài Nanda lúc này bắt đầu tinh tấn tu hành... Tứ Diệu Đế, Bát Chánh Đạo, 12 nhân duyên, phép tu tập hơi thở... bắt chân lên ngồi, Ngài nhiếp tâm trong hơi thở nghiêm chỉnh... và Ngài nhập định luôn, Ngài đắc đạo luôn... Nanda đã là con người khác, tâm đã như là một cái nóc nhà đã được lợp kín không còn kẽ hở nên mưa không thể lọt vào, nội tâm vững chắc ổn định không bao giờ còn có ý niệm tham dục..."</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CÂU HỎI 2 -->
+        <div class="qa-card">
+            <div class="question-header">
+                <span class="q-badge">CÂU HỎI 2</span>
+                <h3>Kính bạch Thầy, trong tích truyện Tỳ-kheo Vakkali (Bạt-ca-lê) vì mê đắm ngắm nhìn sắc thân Phật mà suýt nhảy vực tự tử, khoảnh khắc nghe Phật quở "Ai thấy Pháp mới là thấy Như Lai" đã giúp ngài bừng tỉnh nhận ra cái lỗi chấp trước hình tướng để đắc quả A-la-hán như thế nào ạ?</h3>
+            </div>
+            <div class="answer-section">
+                <div class="meta-info">
+                    <span class="lecture-name">📖 Thấy Pháp Là Thấy Như Lai - Pháp Cú 79 (media: 1348 & 4716)</span>
+                    <a href="https://youtu.be/QJW2EMFotrs&t=570" target="_blank" class="youtube-link">▶ Xem video [09:30 - 12:46]</a>
+                </div>
+
+                <div class="story-box">
+                    <div class="story-title">📜 Mẫu chuyện</div>
+                    <p>Thầy Tỳ-kheo Vakkali xuất gia chỉ vì quá say mê chiêm ngưỡng 32 tướng tốt và 80 vẻ đẹp rực rỡ của Đức Phật. Suốt ngày ngài chỉ tìm chỗ ngồi ngắm Phật đăm đăm mà lơ là nghe giáo pháp. Đến mùa an cư, Đức Phật lên núi cao tịnh tu và nghiêm khắc không cho Vakkali đi theo. Không được nhìn thấy Phật suốt ba tháng, ngài suy sụp tinh thần, tuyệt vọng lên vách núi định gieo mình tự tử. Đúng lúc ấy Đức Phật thị hiện khai thị: "Ai thấy Pháp mới là thấy Như Lai, kẻ phàm phu ôm giữ sắc thân hôi nhớp tạm bợ này có ích gì". Nghe lời quở dạy, Vakkali giật mình bừng tỉnh thấy rõ cái lỗi chấp tướng si mê của mình, buông sạch mọi vướng mắc trần gian, tâm bừng sáng đắc quả A-la-hán ngay trong lúc chạy về phía Thế Tôn.</p>
+                </div>
+
+                <div class="snippet-box">
+                    <div class="snippet-title">💬 Trích dẫn bài giảng</div>
+                    <p>"... Ngài biết tâm của ngài cứ nói rằng: 'Ai mới là người thấy được Như Lai?... Ai thấy Pháp là thấy Như Lai! Tức là ai thấy được giáo Pháp, hiểu được giáo Pháp là thấy được Phật'... Chứ không phải là người nhìn cái hình tướng này... Không thấy Phật, ông không có sức mạnh để sống và để tu... và ông quyết định ông tự tử, ông lên núi lại cái dốc vực đó là ông định nhảy xuống cắm đầu xuống tự tử... Ngay lúc đó Đức Phật hiện ra, Ngài mới nói bài kệ: 'Tỳ-kheo lòng hân hoan, vững tin trong Chánh Pháp, chứng cảnh giới tịch tịnh, đức hạnh như hồ trong'... vừa chạy vừa nghe bài kệ, nghe tới dứt cuối bài kệ thì bàn chân ông vừa đặt xuống đất thì chứng A-la-hán luôn..."</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CÂU HỎI 3 -->
+        <div class="qa-card">
+            <div class="question-header">
+                <span class="q-badge">CÂU HỎI 3</span>
+                <h3>Kính bạch Thầy, câu chuyện Đạo sư thờ lửa Ưu Lâu Tần Loa Ca Diếp (Uruvela Kassapa) tuổi cao đức trọng có 500 đệ tử, khi bị Đức Phật vạch trần tâm kiêu mạn ngấm ngầm, ngài đã giật mình nhận ra lỗi lầm giả dối của bản thân và phục thiện quy y Phật ra sao ạ?</h3>
+            </div>
+            <div class="answer-section">
+                <div class="meta-info">
+                    <span class="lecture-name">📖 06 Kỷ Nguyên Mới Của Loài Người (media: 3903)</span>
+                    <a href="https://youtu.be/aYf9TeXJosk&t=2945" target="_blank" class="youtube-link">▶ Xem video [49:05 - 50:00]</a>
+                </div>
+
+                <div class="story-box">
+                    <div class="story-title">📜 Mẫu chuyện</div>
+                    <p>Đạo sư Ca Diếp thờ lửa tuổi ngoài 60, có 500 đệ tử và được muôn dân kính phục như một bậc Thánh sống. Dù chứng kiến Đức Phật khuất phục mãng xà tinh và thấy chư thiên giáng trần đàm đạo với Phật mỗi đêm, ông vẫn giữ lòng tự ái kiêu ngạo, cho rằng mình mới là bậc chân tu A-la-hán. Đến ngày lễ lớn, ông còn sinh tâm ích kỷ sợ tín đồ thấy Phật sẽ bỏ rơi mình. Đọc được tâm niệm ấy, Đức Phật liền lánh mặt, sau đó trở lại nghiêm giọng bảo: "Này Kassapa, ông chưa phải là A-la-hán, cũng chưa từng biết đường đi đến A-la-hán, tâm ông vẫn còn đầy sự kiêu căng và giả dối!". Lời cảnh tỉnh xuyên thủng bản ngã khiến Ca Diếp rúng động kinh hoàng, bừng tỉnh thấy rõ sự giả dối, kiêu mạn che mắt mình bấy lâu nay. Ông lập tức sụp quỳ nhận lỗi dưới chân Đức Phật, xin xuất gia và sai đệ tử ném toàn bộ đồ tế tự thờ lửa xuống dòng sông.</p>
+                </div>
+
+                <div class="snippet-box">
+                    <div class="snippet-title">💬 Trích dẫn bài giảng</div>
+                    <p>"... Xong buổi lễ tín đồ đi hết rồi Đức Phật quay lại, ông mới ngạc nhiên nói: 'Ủa Sa-môn này đọc được cái tâm của mình', bắt đầu ông sợ rồi. Khi mà thấy ông sợ rồi Đức Phật mới gọi ông lại nói: 'Này Kassapa, ông chưa phải là A-la-hán! Ông chưa hề chứng là A-la-hán, ông chưa biết thế nào là đạo của A-la-hán, hãy ngồi đây Ta nói cho nghe!'. Và lúc đó ông vì sợ rồi ông ngồi xuống Đức Phật thuyết pháp... ông quỳ xuống xin làm đệ tử của Đức Phật... Sau đó là ông mới dắt hết 500 đệ tử xuất gia của mình cùng đảnh lễ và theo làm đệ tử của Phật, phá vỡ hết những cái dụng cụ thờ lửa quăng hết xuống sông..."</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Universe Starry Script -->
+    <script>
+        const canvas = document.getElementById('space-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let width, height;
+        let stars = [];
+
+        function initSize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        class Star {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = Math.random() * 1.5;
+                this.baseAlpha = Math.random() * 0.7 + 0.3;
+                this.alpha = this.baseAlpha;
+                this.twinkleSpeed = Math.random() * 0.02 + 0.005;
+                this.vx = (Math.random() - 0.5) * 0.1;
+                this.vy = (Math.random() - 0.5) * 0.1;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x < 0) this.x = width;
+                if (this.x > width) this.x = 0;
+                if (this.y < 0) this.y = height;
+                if (this.y > height) this.y = 0;
+
+                this.alpha += Math.sin(Date.now() * this.twinkleSpeed) * 0.01;
+                if (this.alpha < 0.1) this.alpha = 0.1;
+                if (this.alpha > 1) this.alpha = 1;
+            }
+
+            draw() {
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initStars() {
+            stars = [];
+            const count = Math.floor((width * height) / 6000);
+            for (let i = 0; i < count; i++) {
+                stars.push(new Star());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            stars.forEach(star => {
+                star.update();
+                star.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', () => {
+            initSize();
+            initStars();
+        });
+
+        initSize();
+        initStars();
+        animate();
+    </script>
+</body>
+</html>
