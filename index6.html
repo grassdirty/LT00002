@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài Toán Trực Tâm & Hình Chiếu Chân Đường Cao - MathJax & SVG</title>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        :root {
+            --gold: #ffd700;
+            --cyan: #00f2fe;
+            --emerald: #00e676;
+            --pink: #ff6b8b;
+            --orange: #ff9100;
+            --card-bg: rgba(15, 23, 42, 0.9);
+            --border: rgba(255, 255, 255, 0.15);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background: #060916;
+            color: #e2e8f0;
+            line-height: 1.68;
+            padding: 24px 16px 50px;
+        }
+        .container { max-width: 1180px; margin: 0 auto; }
+        header {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 215, 0, 0.35);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        header h1 {
+            color: var(--gold);
+            font-size: 1.5rem;
+            text-align: center;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+        .problem-box {
+            background: rgba(0, 242, 254, 0.08);
+            border-left: 4px solid var(--cyan);
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 0.98rem;
+        }
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1.15fr 1fr;
+            gap: 20px;
+            align-items: start;
+        }
+        .figure-card, .proof-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 18px;
+        }
+        .btn-bar {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 12px;
+        }
+        .step-btn {
+            background: rgba(30, 41, 59, 0.9);
+            color: #cbd5e1;
+            border: 1px solid var(--border);
+            padding: 7px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: 0.2s;
+        }
+        .step-btn.active, .step-btn:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+            background: rgba(255, 215, 0, 0.15);
+        }
+        svg {
+            width: 100%;
+            height: auto;
+            background: #0a1022;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+        .step-caption {
+            margin-top: 10px;
+            padding: 10px 14px;
+            background: rgba(0, 242, 254, 0.1);
+            border: 1px solid rgba(0, 242, 254, 0.3);
+            border-radius: 8px;
+            color: var(--cyan);
+            font-size: 0.92rem;
+        }
+        .proof-step {
+            margin-bottom: 12px;
+            padding: 12px 15px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.03);
+            border-left: 3px solid var(--gold);
+        }
+        .proof-step h3 {
+            color: var(--gold);
+            font-size: 1.02rem;
+            margin-bottom: 6px;
+        }
+        @media (max-width: 900px) {
+            .main-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Bài Toán Trực Tâm & Hình Chiếu Chân Đường Cao (3 Ý Đồng Quy)</h1>
+        <div class="problem-box">
+            <strong>Đề bài:</strong> Cho $\triangle ABC$ nhọn, 3 đường cao $AD, BE, CF$ đồng quy tại $H$. $M, N$ lần lượt là chân đường vuông góc hạ từ $D$ xuống $AB, AC$. Kẻ $DX \parallel AC, DY \parallel AB$ ($X \in AB, Y \in AC$). $MN$ cắt $DX, DY$ lần lượt tại $R, Q$. Chứng minh:<br>
+            1. $XY, MN, BC$ đồng quy tại $S$. &nbsp;|&nbsp; 2. $BE, DX, MN$ đồng quy tại $R$ và $CF, DY, MN$ đồng quy tại $Q$. &nbsp;|&nbsp; 3. Đường thẳng qua $A$ vuông góc với $HM'$ ($M'$ là trung điểm $BC$), $EF, BC$ đồng quy tại $T$.
+        </div>
+    </header>
+
+    <div class="main-grid">
+        <!-- CỘT TRÁI: HÌNH VẼ SVG TỌA ĐỘ CHÍNH XÁC -->
+        <div class="figure-card">
+            <div class="btn-bar">
+                <button class="step-btn active" onclick="showStep(0, this)">🔍 Toàn bộ</button>
+                <button class="step-btn" onclick="showStep(1, this)">Ý 1: XY, MN, BC</button>
+                <button class="step-btn" onclick="showStep(2, this)">Ý 2: R ∈ BE, Q ∈ CF</button>
+                <button class="step-btn" onclick="showStep(3, this)">Ý 3: AT ⊥ HM' & AT // XY</button>
+                <button class="step-btn" onclick="downloadPNG()">📥 Tải PNG</button>
+            </div>
+
+            <!-- Hệ tọa độ chuẩn:
+                 D(380,350), B(300,350) [b=80], C(540,350) [c=160], A(380,110) [h=240]
+                 H(380,296.7), M'(420,350)
+                 E(476,206), F(324,278)
+                 M(308,326), N(490.8,276.2)
+                 X(326.7,270), Y(433.3,190)
+                 R(346.9,300.3), Q(437.6,236.9)
+                 S(220,350) [XY ∩ MN ∩ BC], T(60,350) [EF ∩ BC]
+            -->
+            <svg id="geo-svg" viewBox="40 80 540 320" xmlns="http://www.w3.org/2000/svg">
+                <rect width="540" height="320" x="40" y="80" fill="#0a1022"/>
+
+                <!-- Trục đáy BC kéo dài tới S và T -->
+                <line x1="50" y1="350" x2="560" y2="350" stroke="#64748b" stroke-width="1.5"/>
+
+                <!-- Lớp Ý 1: XY, MN, BC đồng quy tại S(220,350) -->
+                <g id="layer-1">
+                    <line x1="220" y1="350" x2="433.3" y2="190" stroke="#00f2fe" stroke-width="2" stroke-dasharray="5,3"/>
+                    <line x1="220" y1="350" x2="490.8" y2="276.2" stroke="#ffd700" stroke-width="2"/>
+                    <circle cx="220" cy="350" r="4.5" fill="#ffd700"/>
+                    <text x="215" y="370" fill="#ffd700" font-size="13" font-weight="bold">S</text>
+                </g>
+
+                <!-- Lớp Ý 2: DX, DY và các đường tròn (BMRD), (CNQD) -->
+                <g id="layer-2">
+                    <!-- DX và DY -->
+                    <line x1="380" y1="350" x2="326.7" y2="270" stroke="#00e676" stroke-width="1.8"/>
+                    <line x1="380" y1="350" x2="433.3" y2="190" stroke="#00e676" stroke-width="1.8"/>
+                    <!-- Đường tròn đường kính BD và CD -->
+                    <circle cx="340" cy="350" r="40" fill="none" stroke="rgba(0,230,118,0.4)" stroke-width="1.2" stroke-dasharray="3,3"/>
+                    <circle cx="460" cy="350" r="80" fill="none" stroke="rgba(0,230,118,0.4)" stroke-width="1.2" stroke-dasharray="3,3"/>
+                    <circle cx="346.9" cy="300.3" r="4" fill="#00e676"/><text x="335" y="294" fill="#00e676" font-size="12" font-weight="bold">R</text>
+                    <circle cx="437.6" cy="236.9" r="4" fill="#00e676"/><text x="444" y="236" fill="#00e676" font-size="12" font-weight="bold">Q</text>
+                </g>
+
+                <!-- Lớp Ý 3: EF, AT, HM' (AT ⊥ HM' và AT // XY đồng quy tại T(60,350)) -->
+                <g id="layer-3">
+                    <line x1="60" y1="350" x2="476" y2="206" stroke="#ff6b8b" stroke-width="1.8" stroke-dasharray="5,3"/>
+                    <line x1="60" y1="350" x2="380" y2="110" stroke="#ff6b8b" stroke-width="2.2"/>
+                    <line x1="380" y1="296.7" x2="420" y2="350" stroke="#ff9100" stroke-width="2.2"/>
+                    <circle cx="60" cy="350" r="4.5" fill="#ff6b8b"/><text x="55" y="370" fill="#ff6b8b" font-size="13" font-weight="bold">T</text>
+                    <circle cx="420" cy="350" r="4" fill="#ff9100"/><text x="415" y="368" fill="#ff9100" font-size="12" font-weight="bold">M'</text>
+                </g>
+
+                <!-- Tam giác ABC và 3 đường cao AD, BE, CF -->
+                <polygon points="380,110 300,350 540,350" fill="none" stroke="#f8fafc" stroke-width="2.2"/>
+                <line x1="380" y1="110" x2="380" y2="350" stroke="#94a3b8" stroke-width="1.4"/>
+                <line x1="300" y1="350" x2="476" y2="206" stroke="#94a3b8" stroke-width="1.4"/>
+                <line x1="540" y1="350" x2="324" y2="278" stroke="#94a3b8" stroke-width="1.4"/>
+
+                <!-- Các điểm chính -->
+                <circle cx="380" cy="110" r="4" fill="#fff"/><text x="375" y="100" fill="#fff" font-weight="bold" font-size="14">A</text>
+                <circle cx="300" cy="350" r="4" fill="#fff"/><text x="295" y="368" fill="#fff" font-weight="bold" font-size="14">B</text>
+                <circle cx="540" cy="350" r="4" fill="#fff"/><text x="545" y="368" fill="#fff" font-weight="bold" font-size="14">C</text>
+                <circle cx="380" cy="350" r="4" fill="#fff"/><text x="375" y="368" fill="#fff" font-weight="bold" font-size="14">D</text>
+                <circle cx="380" cy="296.7" r="3.5" fill="#ff9100"/><text x="385" y="295" fill="#ff9100" font-weight="bold" font-size="12">H</text>
+
+                <circle cx="476" cy="206" r="3.5" fill="#ff6b8b"/><text x="483" y="208" fill="#ff6b8b" font-weight="bold" font-size="12">E</text>
+                <circle cx="324" cy="278" r="3.5" fill="#ff6b8b"/><text x="307" y="278" fill="#ff6b8b" font-weight="bold" font-size="12">F</text>
+                <circle cx="308" cy="326" r="3.5" fill="#ffd700"/><text x="290" y="328" fill="#ffd700" font-weight="bold" font-size="12">M</text>
+                <circle cx="490.8" cy="276.2" r="3.5" fill="#ffd700"/><text x="498" y="280" fill="#ffd700" font-weight="bold" font-size="12">N</text>
+                <circle cx="326.7" cy="270" r="3.5" fill="#00f2fe"/><text x="310" y="264" fill="#00f2fe" font-weight="bold" font-size="12">X</text>
+                <circle cx="433.3" cy="190" r="3.5" fill="#00f2fe"/><text x="440" y="190" fill="#00f2fe" font-weight="bold" font-size="12">Y</text>
+            </svg>
+
+            <div class="step-caption" id="cap-box">
+                🌟 <strong>Tổng quan:</strong> (1) $XY, MN, BC$ đồng quy tại $S$. (2) $BE, DX, MN$ đồng quy tại $R$; $CF, DY, MN$ đồng quy tại $Q$. (3) Đường thẳng $AT$ ($\perp HM'$ và $\parallel XY$), $EF, BC$ đồng quy tại $T$, trong đó $S$ là trung điểm $DT$.
+            </div>
+        </div>
+
+        <!-- CỘT PHẢI: TÓM TẮT LỜI GIẢI -->
+        <div class="proof-card">
+            <div class="proof-step">
+                <h3>1. Chứng minh $XY, MN, BC$ đồng quy tại $S$</h3>
+                <p>• Hệ thức lượng trong $\triangle ADB, \triangle ADC$: $\frac{AM}{MB} = \frac{AD^2}{BD^2}$ và $\frac{CN}{NA} = \frac{CD^2}{AD^2}$.</p>
+                <p>• Định lý Thales với $DX \parallel AC, DY \parallel AB$: $\frac{AX}{XB} = \frac{CY}{YA} = \frac{CD}{DB}$.</p>
+                <p>• Áp dụng định lý Menelaus cho $MN$ và $XY$ cắt $BC$ tại $S, S'$ đều cho $\frac{SB}{SC} = \frac{S'B}{S'C} = \frac{DB^2}{DC^2} \implies S \equiv S'$.</p>
+            </div>
+
+            <div class="proof-step">
+                <h3>2. Chứng minh $BE, DX, MN$ đồng quy tại $R$</h3>
+                <p>• Gọi $R' = BE \cap DX$. Do $BE \perp AC$ và $DX \parallel AC$ nên $\angle BR'D = 90^\circ = \angle BMD$.</p>
+                <p>• Tứ giác $BMR'D$ nội tiếp đường tròn đường kính $BD \implies \angle DMR' = \angle DBR' = 90^\circ - \angle C$.</p>
+                <p>• Tứ giác $AMDN$ nội tiếp đường tròn đường kính $AD \implies \angle DMN = \angle DAC = 90^\circ - \angle C$.</p>
+                <p>• Suy ra $\angle DMR' = \angle DMN \implies M, R', N$ thẳng hàng hay $R' \equiv R$. Tương tự $CF, DY, MN$ đồng quy tại $Q$.</p>
+            </div>
+
+            <div class="proof-step">
+                <h3>3. Chứng minh $AT \perp HM'$ ($M'$ là trung điểm $BC$) và $AT \parallel XY$</h3>
+                <p>• Gọi $T = EF \cap BC$. Vì $(T, D; B, C) = -1$ nên $DM' \cdot DT = DB \cdot DC = DH \cdot DA \implies \triangle DHM' \sim \triangle DTA \implies AT \perp HM'$.</p>
+                <p>• Hơn nữa, $S$ là trung điểm $DT$ và $XY$ đi qua trung điểm $J$ của $AD$, nên $XY$ là đường trung bình của $\triangle ADT \implies AT \parallel XY$.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function showStep(step, btn) {
+    document.querySelectorAll('.step-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('layer-1').style.display = (step === 0 || step === 1 || step === 3) ? 'block' : 'none';
+    document.getElementById('layer-2').style.display = (step === 0 || step === 2) ? 'block' : 'none';
+    document.getElementById('layer-3').style.display = (step === 0 || step === 3) ? 'block' : 'none';
+}
+
+function downloadPNG() {
+    const svg = document.getElementById('geo-svg');
+    const serializer = new XMLSerializer();
+    const svgBlob = new Blob([serializer.serializeToString(svg)], { type: 'image/svg+xml;charset=utf-8' });
+    const url = URL.createObjectURL(svgBlob);
+    const img = new Image();
+    img.onload = function () {
+        const canvas = document.createElement('canvas');
+        canvas.width = 1080;
+        canvas.height = 640;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        URL.revokeObjectURL(url);
+        const a = document.createElement('a');
+        a.download = 'hinh_ve_truc_tam_3_y_dong_quy.png';
+        a.href = canvas.toDataURL('image/png');
+        a.click();
+    };
+    img.src = url;
+}
+</script>
+</body>
+</html>

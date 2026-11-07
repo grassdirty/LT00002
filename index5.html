@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bộ Hỏi - Đáp: Nhân Quả Và Tìm Lỗi - Sửa Lỗi (Phần Tiếp Theo)</title>
+    <style>
+        :root {
+            --primary-glow: #7928CA;
+            --secondary-glow: #00F2FE;
+            --accent-gold: #FFD700;
+            --accent-pink: #FF0080;
+            --bg-card: rgba(15, 23, 42, 0.82);
+            --border-card: rgba(255, 255, 255, 0.15);
+            --text-main: #F8FAFC;
+            --text-muted: #94A3B8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            color: var(--text-main);
+            background: #030712;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            line-height: 1.7;
+        }
+
+        /* Background Vũ Trụ */
+        .stars-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(ellipse at bottom, #0d1527 0%, #030712 100%);
+            overflow: hidden;
+        }
+
+        .nebula {
+            position: absolute;
+            width: 650px;
+            height: 650px;
+            border-radius: 50%;
+            filter: blur(140px);
+            opacity: 0.35;
+            animation: float 25s infinite alternate ease-in-out;
+        }
+
+        .nebula-1 {
+            top: -120px;
+            right: -100px;
+            background: var(--primary-glow);
+        }
+
+        .nebula-2 {
+            bottom: -150px;
+            left: -100px;
+            background: var(--secondary-glow);
+            animation-delay: -10s;
+        }
+
+        .nebula-3 {
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--accent-pink);
+            width: 450px;
+            height: 450px;
+            opacity: 0.18;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(-70px, 50px) scale(1.15); }
+        }
+
+        /* Layout Container */
+        .container {
+            max-width: 1050px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Header Styling */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 35px 25px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: 24px;
+            backdrop-filter: blur(16px);
+            box-shadow: 0 0 35px rgba(0, 242, 254, 0.15);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 6px 18px;
+            border-radius: 50px;
+            background: linear-gradient(90deg, var(--accent-gold), var(--primary-glow));
+            color: #000;
+            font-size: 0.85rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 14px;
+        }
+
+        h1 {
+            font-size: 2.1rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #FFF 30%, var(--accent-gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            font-style: italic;
+        }
+
+        /* Card Section */
+        .qa-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 35px;
+            backdrop-filter: blur(14px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .qa-card:hover {
+            border-color: rgba(255, 215, 0, 0.4);
+            transform: translateY(-3px);
+        }
+
+        .question-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 1.25rem;
+            color: var(--accent-gold);
+            border-bottom: 2px solid rgba(255, 215, 0, 0.2);
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+            font-weight: 700;
+            line-height: 1.4;
+        }
+
+        .q-symbol {
+            color: var(--secondary-glow);
+            font-size: 1.4rem;
+            flex-shrink: 0;
+        }
+
+        /* Question Box */
+        .question-box {
+            background: rgba(0, 242, 254, 0.06);
+            border-left: 4px solid var(--secondary-glow);
+            padding: 18px 22px;
+            border-radius: 0 12px 12px 0;
+            margin-bottom: 22px;
+            font-size: 1.02rem;
+            color: #E2E8F0;
+        }
+
+        .question-box strong {
+            color: var(--secondary-glow);
+        }
+
+        /* Answer Box */
+        .answer-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 22px;
+        }
+
+        .source-tag {
+            display: inline-block;
+            background: rgba(121, 40, 202, 0.3);
+            color: #E2E8F0;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.88rem;
+            margin-bottom: 14px;
+            border: 1px solid rgba(121, 40, 202, 0.5);
+        }
+
+        .answer-content {
+            font-size: 1.02rem;
+            color: #F1F5F9;
+        }
+
+        .answer-content p {
+            margin-bottom: 12px;
+        }
+
+        .answer-content ul, .answer-content ol {
+            padding-left: 22px;
+            margin-bottom: 14px;
+        }
+
+        .answer-content li {
+            margin-bottom: 10px;
+        }
+
+        .highlight-gold {
+            color: var(--accent-gold);
+            font-weight: 600;
+        }
+
+        .highlight-cyan {
+            color: var(--secondary-glow);
+            font-weight: 600;
+        }
+
+        .highlight-pink {
+            color: var(--accent-pink);
+            font-weight: 600;
+        }
+
+        /* Footer Nav */
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="stars-container">
+        <div class="nebula nebula-1"></div>
+        <div class="nebula nebula-2"></div>
+        <div class="nebula nebula-3"></div>
+    </div>
+
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <span class="badge">Bộ Hỏi - Đáp Tâm Linh & Phật Pháp • Phần Tiếp Theo</span>
+            <h1>NHÂN QUẢ VÀ TÌM LỖI - SỬA LỖI</h1>
+            <p class="subtitle">Trích từ các bài giảng của Thượng tọa Thích Chân Quang</p>
+        </header>
+
+        <!-- CÂU HỎI 1 -->
+        <div class="qa-card">
+            <div class="question-header">
+                <span class="q-symbol">📌</span>
+                <span>CÂU HỎI 1: BẢNG "THƯỚC ĐO CĂN CƠ" TU HÀNH THEO TỐC ĐỘ THẤY LỖI VẬN HÀNH NHƯ THẾ NÀO? LỖI GÌ MÀ "TỪNG GIÂY PHÚT ĐỀU THẤY"?</span>
+            </div>
+
+            <div class="question-box">
+                <strong>1. Hỏi:</strong> ❝ Kính bạch Thầy, trong Thanh quy và bài giảng, Thầy từng đưa ra các cấp độ để đánh giá một người đệ tử tu đúng hay tu sai dựa vào tần suất phát hiện lỗi lầm của bản thân. Xin Thầy khai thị các cấp độ căn cơ đó theo luật nhân quả, và vì sao bậc siêu việt lại có thể thấy lỗi trong từng giây phút trôi qua ạ? ❞
+            </div>
+
+            <div class="answer-box">
+                <div class="source-tag">📖 <strong>Trích bài giảng:</strong> Vị Thầy Dạy Đạo (media: 3990 & 5192) kết hợp bài Tu Thì Đông Mà Chở Xuồng Dông Không Đầy (media: 6170)</div>
+                <div class="answer-content">
+                    <p><strong>2. Đáp:</strong></p>
+                    <p>❝ Đây là thước đo trí tuệ và sự tiến bộ tâm linh chính xác nhất của người tu:</p>
+                    <ul>
+                        <li><span class="highlight-pink">Hạng Đại Si Mê (chưa bước vào cổng chùa):</span> Một tuần, một tháng, thậm chí cả năm trôi qua mà chưa bao giờ thấy mình có lỗi gì, lúc nào cũng nghĩ mình sống tốt, sống đúng. Người này chưa phải đệ tử Phật, còn đang rong chơi ngoài đường.</li>
+                        <li><span class="highlight-cyan">Hạng bắt đầu biết tu (căn cơ thấp):</span> Tệ lắm thì một năm cũng phải tự thấy và sửa được 2 đến 3 lỗi lầm.</li>
+                        <li><span class="highlight-cyan">Hạng giỏi (trí tuệ mở ra):</span> Một tháng phát hiện và chiến đấu sửa được 2 đến 3 lỗi của mình.</li>
+                        <li><span class="highlight-gold">Hạng xuất sắc (căn cơ lớn):</span> Mỗi ngày trôi qua đều phát hiện ra ít nhất một khuyết điểm trong lời nói, suy nghĩ, hành động để điều chỉnh ngay.</li>
+                        <li><span class="highlight-gold">Hạng siêu việt (bậc thượng căn tiến vào Thánh đạo):</span> Là người thấy lỗi trong từng niệm, từng giây phút trôi qua!</li>
+                    </ul>
+                    <p>Lỗi gì mà nhiều dữ vậy? Lúc này không còn là những lỗi thô như trộm cắp, nói dối hay đánh nhau nữa, mà là <span class="highlight-gold">LỖI VI TẾ CỦA BẢN NGÃ (CHẤP NGÃ):</span> Chỉ một thoáng tâm vừa gợn lên sự hài lòng về mình, một thoáng kiêu hãnh ngấm ngầm, một thoáng so đo hơn thiệt với huynh đệ... là ánh sáng Chánh niệm lập tức soi rọi phát hiện và quét sạch ngay. Càng quét sạch vi tế chấp ngã từng giây từng phút thì đại định và quả vị giải thoát mới hiển lộ. ❞</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CÂU HỎI 2 -->
+        <div class="qa-card">
+            <div class="question-header">
+                <span class="q-symbol">📌</span>
+                <span>CÂU HỎI 2: KHI BỊ NGƯỜI KHÁC GÓP Ý, NHÂN QUẢ CỦA 5 HẠNG NGƯỜI PHẢN ỨNG RA SAO? KẺ CÃI LẠI VÀ THÙ HẰN SẼ ĐỌA VỀ ĐÂU?</span>
+            </div>
+
+            <div class="question-box">
+                <strong>1. Hỏi:</strong> ❝ Kính bạch Thầy, khi một người làm sai và được thầy tổ hoặc bạn đạo chỉ lỗi, tâm lý phản ứng của con người thường phân chia thành những hạng nào? Vì sao Thầy cảnh báo rằng kẻ gân cổ cãi lại và sinh tâm thù ghét người góp ý là đã bước thẳng vào nẻo đọa lạc? ❞
+            </div>
+
+            <div class="answer-box">
+                <div class="source-tag">📖 <strong>Trích bài giảng:</strong> Chính Ta Còn Không Có - Pháp Cú 23 (media: 1361) kết hợp bài Đường Lối Mới Của Phật Pháp (media: 5340)</div>
+                <div class="answer-content">
+                    <p><strong>2. Đáp:</strong></p>
+                    <p>❝ Khi có người chỉ lỗi cho mình, tâm lý phàm phu lộ rõ 5 tầng bậc nhân quả:</p>
+                    <ol>
+                        <li><span class="highlight-gold">Hạng thứ nhất (bậc thượng trí):</span> Tự mình thấy lỗi và sửa trước khi người khác kịp nhìn thấy.</li>
+                        <li><span class="highlight-gold">Hạng thứ hai:</span> Chỉ cần người khác nhìn bằng ánh mắt nghiêm khắc là đã tự hiểu mình sai ở đâu để cúi đầu sửa đổi.</li>
+                        <li><span class="highlight-cyan">Hạng thứ ba:</span> Khi được bạn đạo nhắc nhở nhẹ nhàng liền hoan hỷ nói: <em>'Dạ, em sơ suất, em xin lỗi'</em> và sửa ngay.</li>
+                        <li><span class="highlight-pink">Hạng thứ tư (đạo đức rất kém, rất ngu muội):</span> Khi có lỗi, người ta nhắc thì không chịu thấy, mà lập tức trừng mắt gân cổ lên cãi, đưa ra trăm ngàn lý lẽ để chứng minh là mình đúng, mình bị oan.</li>
+                        <li><span class="highlight-pink">Hạng thứ năm (hạng đọa lạc nguy hiểm nhất):</span> Chẳng những không thấy lỗi, không nghe góp ý, mà còn <span class="highlight-pink">SINH TÂM OÁN HẬN, CĂM THÙ NGƯỜI CHỈ LỖI CHO MÌNH!</span></li>
+                    </ol>
+                    <p>Hạng thứ năm này giống như người thị giả bất hảo xưa kia: bị Thầy rầy vì vi phạm giới luật thì đùng đùng tức giận, đập bể hết ghè nước, hũ gạo trong chùa rồi bỏ đi.</p>
+                    <p>Nhân quả của kẻ ôm lòng thù hận bậc chỉ lỗi là: Phước đức tiêu tán sạch sành sanh, ma vương dẫn lối và đời đời kiếp kiếp trôi lăn vào chỗ tối tăm, đê tiện vì tự tay bẻ gãy chiếc gương soi của cuộc đời mình. ❞</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CÂU HỎI 3 -->
+        <div class="qa-card">
+            <div class="question-header">
+                <span class="q-symbol">📌</span>
+                <span>CÂU HỎI 3: VÌ SAO SƯ PHỤ ĐƯA GIỚI "KHÔNG THÀNH TÂM LẮNG NGHE CHỈ LỖI" THÀNH MỘT TRONG NHỮNG GIỚI LUẬT RẤT NẶNG TRONG CHÙA?</span>
+            </div>
+
+            <div class="question-box">
+                <strong>1. Hỏi:</strong> ❝ Kính bạch Thầy, trong sinh hoạt tùng lâm, Thầy đã chế định giới: "Không thành tâm lắng nghe chỉ lỗi" và xử phạt rất nghiêm khắc nếu ai có thái độ phản ứng khi huynh đệ góp ý. Vì sao việc không chịu nghe chỉ lỗi lại có tính chất phá hoại đời sống tu tập ghê gớm đến như vậy ạ? ❞
+            </div>
+
+            <div class="answer-box">
+                <div class="source-tag">📖 <strong>Trích bài giảng:</strong> 03. Người Xuất Gia Và Thời Gian Tu Tập (media: 1188)</div>
+                <div class="answer-content">
+                    <p><strong>2. Đáp:</strong></p>
+                    <p>❝ Đây là bức tường bảo vệ sự sống còn của một ngôi chùa và tiền đồ của người đệ tử:</p>
+                    <p>Trong nhiều chùa viện xưa, có quan niệm sai lầm: sợ rằng 'thấy lỗi người khác thì lỗi mình tới chân', nên ai làm gì sai quấy cũng làm ngơ, không ai dám nhắc ai. Hậu quả là: Bên ngoài nhìn ngôi chùa có vẻ yên bình, danh tiếng, nhưng bên trong thì rệu rã, tha hóa và tan nát hết vì lỗi lầm của từng cá nhân cứ mặc sức dung dưỡng!</p>
+                    <p>Bởi vậy, trong thanh quy của Thầy quy định rất rõ:</p>
+                    <ul>
+                        <li>Thấy người khác có lỗi là phải tìm cách chỉ lỗi, khuyên răn cho bằng được bằng lòng thương yêu.</li>
+                        <li>Và ngược lại, <span class="highlight-pink">NGƯỜI NÀO ĐƯỢC HUYNH ĐỆ GÓP Ý MÀ SẴN GIỌNG, PHẢN ỨNG, BẰNG MẶT MÀ KHÔNG BẰNG LÒNG THÌ PHẠM GIỚI RẤT NẶNG!</span> Thầy bắt quỳ hương sám hối liền lập tức!</li>
+                    </ul>
+                    <p>Bởi vì cái thái độ tự ái, chống chế đó chứng minh bản ngã còn quá dày. Một người không mở lòng đón nhận sự chỉ lỗi của đại chúng thì không bao giờ sửa được mình, sớm muộn gì cũng thoái đạo và làm hoen ố thanh danh của giáo đoàn. ❞</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CÂU HỎI 4 -->
+        <div class="qa-card">
+            <div class="question-header">
+                <span class="q-symbol">📌</span>
+                <span>CÂU HỎI 4: MUỐN CÓ PHƯỚC ĐỨC CHỈ LỖI ĐƯỢC CHO NGƯỜI KHÁC THÌ PHẢI TU NHƯ THẾ NÀO? NÓI LỖI SAI CÁCH SẼ RƯỚC HỌA GÌ?</span>
+            </div>
+
+            <div class="question-box">
+                <strong>1. Hỏi:</strong> ❝ Kính bạch Thầy, nhiều người thấy người khác sai là xông vào mắng mỏ, chỉ trích công khai trước đám đông rồi tự nhận là mình "thẳng tính, giúp người sửa sai". Giữa "chỉ trích" và "chỉ lỗi chân chính" khác nhau thế nào theo luật nhân quả, và làm sao để việc chỉ lỗi tạo ra đại công đức ạ? ❞
+            </div>
+
+            <div class="answer-box">
+                <div class="source-tag">📖 <strong>Trích bài giảng:</strong> 05. Chỉ Trích Và Chỉ Lỗi (media: 1239 & 3834) kết hợp bài 06. Cố Chấp 2 (media: 911)</div>
+                <div class="answer-content">
+                    <p><strong>2. Đáp:</strong></p>
+                    <p>❝ Hai việc này nhìn bề ngoài tưởng giống nhau nhưng bản chất tâm lý và quả báo nhân quả cách xa nhau một trời một vực:</p>
+                    <ol>
+                        <li><span class="highlight-pink">Thói "chỉ trích" hằn học (mang tội tổn phước):</span> Là đem lỗi của người khác đi rêu rao cho nhiều người biết, nói với giọng điệu cay cú, hằn học, khinh miệt để 'làm ông nội người ta' hoặc dìm danh dự người khác xuống. Kẻ thích chỉ trích như vậy thì phiền não, vô minh và ngã mạn tăng vùn vụt, người đời xa lánh ghét bỏ, đời sau mắc quả báo bị người ta bêu rếu, nhục mạ không ngóc đầu lên nổi.</li>
+                        <li><span class="highlight-gold">Nghệ thuật "chỉ lỗi" chân chính (công đức vô lượng):</span> Muốn chỉ lỗi được người khác, bản thân mình phải trải qua 10 năm, 20 năm cặm cụi xét lỗi mình sâu sắc để tâm hồn thực sự khiêm tốn và tràn đầy tình thương:
+                            <ul>
+                                <li>Khi góp ý: Chỉ gặp riêng người đó, nói bằng giọng từ tốn, kín đáo, bảo vệ danh dự cho họ.</li>
+                                <li><strong>Nguyên tắc vàng:</strong> Phải khen ưu điểm của họ trước! (Nói họ có thiện tâm, có công sức, có nhiều điểm dễ thương trước... rồi mới nhẹ nhàng chỉ ra một vài điểm sơ suất cần sửa).</li>
+                            </ul>
+                        </li>
+                    </ol>
+                    <p>Khi ta sâu sắc chỉ lỗi được cho người khác sửa đổi bằng tình thương như vậy, ta cứu được một linh hồn và làm cho Phật Pháp hưng thịnh trở lại. Phước báu đó lớn vô cùng, đời đời sinh ra đều gặp được các bậc minh sư chỉ đường dẫn lối. ❞</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CÂU HỎI 5 -->
+        <div class="qa-card">
+            <div class="question-header">
+                <span class="q-symbol">📌</span>
+                <span>CÂU HỎI 5: TẠI SAO NGƯỜI CÓ TÂM THƯỜNG XUYÊN XÉT LỖI MÌNH THÌ ĐẾN CÕI ÂM CŨNG KHÔNG BỊ TRA KHẢO, QUỶ THẦN ĐỀU CÚI ĐẦU?</span>
+            </div>
+
+            <div class="question-box">
+                <strong>1. Hỏi:</strong> ❝ Kính bạch Thầy, người đời khi làm sai thường giấu giếm, sợ người khác biết thì mất mặt. Vì sao Thầy dạy: Người biết tự kiểm điểm, ghi chép lỗi lầm của mình ra giấy mỗi ngày để thành tâm sám hối thì khi nhắm mắt qua cõi âm sẽ được tự do, thanh thản mà không một phán quan hay quỷ sứ nào có thể hạch tội được ạ? ❞
+            </div>
+
+            <div class="answer-box">
+                <div class="source-tag">📖 <strong>Trích bài giảng:</strong> 51. Cúng Dường Chân Chính (media: 4679) kết hợp bài Nền Tảng Đạo Đức (Facebook 2018-07-08)</div>
+                <div class="answer-content">
+                    <p><strong>2. Đáp:</strong></p>
+                    <p>❝ Đây là bí mật vận hành của tòa án lương tâm và cõi vô hình:</p>
+                    <p>Dưới cõi âm, các vị Thần linh và Diêm vương nắm rõ từng chân tơ kẽ tóc, từng ý niệm kín đáo và hành vi nhỏ nhặt suốt cả cuộc đời ta, không ai có thể chối cãi hay gian lận được:</p>
+                    <ul>
+                        <li><span class="highlight-pink">Kẻ ngoan cố, lì lợm sống ngoài đời luôn chối tội, đổ lỗi cho người khác:</span> Khi chết xuống cõi âm sẽ bị quỷ sứ đánh đập tàn nhẫn, tra khảo đau đớn đến tận cùng cho tới khi nào phải chịu mở miệng nhận lỗi mới thôi! Mục đích tối hậu của sự trừng phạt cõi âm cũng chỉ là bắt linh hồn đó phải nhận ra lỗi lầm của mình.</li>
+                        <li><span class="highlight-gold">Còn người khi sống trên dương gian đã TỰ NGUYỆN LÀM QUAN TÒA XÉT XỬ CHÍNH MÌNH MỖI NGÀY:</span> Họ không đợi ai đánh đập, không đợi ai nhắc nhở; tối nào trước khi ngủ họ cũng quỳ trước bàn thờ Phật, tự vạch ra từng lỗi lầm thiếu sót trong ngày, rơi nước mắt sám hối và tìm cách bù đắp.</li>
+                    </ul>
+                    <p>Luật nhân quả tâm linh quy định: <span class="highlight-gold">NGƯỜI ĐÃ TỰ THẤY VÀ SỬA XONG LỖI CỦA MÌNH RỒI THÌ THẦN THÁNH KHÔNG CÒN KẾT TỘI NỮA!</span></p>
+                    <p>Linh hồn người đó nhẹ tênh như một làn mây trắng, bước qua cõi chết trong tư thế hiên ngang, tự tại, được chư thiên hoan hỷ đón rước và quỷ thần đều cúi đầu kính trọng. ❞</p>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>© Trích lọc từ bài giảng Thượng tọa Thích Chân Quang • Thiết kế trang web đọc và học tập Phật Pháp</p>
+        </footer>
+    </div>
+
+</body>
+</html>

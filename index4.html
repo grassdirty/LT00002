@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bộ Hỏi - Đáp: Nhân Quả Và Việc Tìm Lỗi - Sửa Lỗi</title>
+    <style>
+        :root {
+            --primary-glow: #7928CA;
+            --secondary-glow: #00F2FE;
+            --accent-gold: #FFD700;
+            --accent-pink: #FF0080;
+            --bg-card: rgba(15, 23, 42, 0.82);
+            --border-card: rgba(255, 255, 255, 0.15);
+            --text-main: #F8FAFC;
+            --text-muted: #94A3B8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            color: var(--text-main);
+            background: #030712;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            line-height: 1.7;
+        }
+
+        /* Background Vũ Trụ */
+        .stars-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(ellipse at bottom, #0d1527 0%, #030712 100%);
+            overflow: hidden;
+        }
+
+        .nebula {
+            position: absolute;
+            width: 650px;
+            height: 650px;
+            border-radius: 50%;
+            filter: blur(140px);
+            opacity: 0.35;
+            animation: float 25s infinite alternate ease-in-out;
+        }
+
+        .nebula-1 {
+            top: -120px;
+            left: -100px;
+            background: var(--primary-glow);
+        }
+
+        .nebula-2 {
+            bottom: -150px;
+            right: -100px;
+            background: var(--secondary-glow);
+            animation-delay: -10s;
+        }
+
+        .nebula-3 {
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--accent-pink);
+            width: 450px;
+            height: 450px;
+            opacity: 0.18;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(70px, -50px) scale(1.15); }
+        }
+
+        /* Layout Container */
+        .container {
+            max-width: 1050px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Header Styling */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 35px 25px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: 24px;
+            backdrop-filter: blur(16px);
+            box-shadow: 0 0 35px rgba(0, 242, 254, 0.15);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 6px 18px;
+            border-radius: 50px;
+            background: linear-gradient(90deg, var(--accent-gold), var(--primary-glow));
+            color: #000;
+            font-size: 0.85rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 14px;
+        }
+
+        h1 {
+            font-size: 2.1rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #FFF 30%, var(--accent-gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            font-style: italic;
+        }
+
+        /* Card Section */
+        .qa-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 35px;
+            backdrop-filter: blur(14px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .qa-card:hover {
+            border-color: rgba(255, 215, 0, 0.4);
+            transform: translateY(-3px);
+        }
+
+        .question-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 1.25rem;
+            color: var(--accent-gold);
+            border-bottom: 2px solid rgba(255, 215, 0, 0.2);
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+            font-weight: 700;
+            line-height: 1.4;
+        }
+
+        .q-symbol {
+            color: var(--secondary-glow);
+            font-size: 1.4rem;
+            flex-shrink: 0;
+        }
+
+        /* Question Box */
+        .question-box {
+            background: rgba(0, 242, 254, 0.06);
+            border-left: 4px solid var(--secondary-glow);
+            padding: 18px 22px;
+            border-radius: 0 12px 12px 0;
+            margin-bottom: 22px;
+            font-size: 1.02rem;
+            color: #E2E8F0;
+        }
+
+        .question-box strong {
+            color: var(--secondary-glow);
+        }
+
+        /* Answer Box */
+        .answer-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 22px;
+        }
+
+        .source-tag {
+            display: inline-block;
+            background: rgba(121, 40, 202, 0.3);
+            color: #E2E8F0;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.88rem;
+            margin-bottom: 14px;
+            border: 1px solid rgba(121, 40, 202, 0.5);
+        }
+
+        .answer-content {
+            font-size: 1.02rem;
+            color: #F1F5F9;
+        }
+
+        .answer-content p {
+            margin-bottom: 12px;
+        }
+
+        .answer-content ul, .answer-content ol {
+            padding-left: 22px;
+            margin-bottom: 14px;
+        }
+
+        .answer-content li {
+            margin-bottom: 10px;
+        }
+
+        .highlight-gold {
+            color: var(--accent-gold);
+            font-weight: 600;
+        }
+
+        .highlight-cyan {
+            color: var(--secondary-glow);
+            font-weight: 600;
+        }
+
+        .highlight-pink {
+            color: var(--accent-pink);
+            font-weight: 600;
+        }
+
+        /* Footer Nav */
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="stars-container">
+        <div class="nebula nebula-1"></div>
+        <div class="nebula nebula-2"></div>
+        <div class="nebula nebula-3"></div>
+    </div>
+
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <span class="badge">Bộ Hỏi - Đáp Tâm Linh & Phật Pháp</span>
+            <h1>NHÂN QUẢ VÀ VIỆC TÌM LỖI - SỬA LỖI</h1>
+            <p class="subtitle">Trích bài giảng Sư Phụ Thích Chân Quang</p>
+        </header>
+
+        <!-- CÂU HỎI 1 -->
+        <div class="qa-card">
+            <div class="question-header">
+                <span class="q-symbol">📌</span>
+                <span>CÂU HỎI 1: VÌ SAO SƯ PHỤ NÓI "THẤY ĐƯỢC LỖI MÌNH LÀ CÓ TRÍ TUỆ, CÒN TỐI NGÀY THẤY LỖI NGƯỜI KHÁC LÀ 'TRÍ TỆ'"?</span>
+            </div>
+
+            <div class="question-box">
+                <strong>1. Hỏi:</strong> ❝ Kính bạch Thầy, trong cuộc sống có nhiều người rất thông minh sắc sảo, ai làm sai điều gì là họ nhìn ra ngay lập tức và phân tích vanh vách. Tại sao Thầy lại gọi người hay nhìn thấy lỗi của người khác là người mang "trí tệ" (trí tuệ tồi tệ), còn người biết tìm thấy lỗi của chính mình mới thật sự là người có Chánh trí tuệ ạ? ❞
+            </div>
+
+            <div class="answer-box">
+                <div class="source-tag">📖 <strong>Trích bài giảng:</strong> Thấy Pháp Là Thấy Như Lai - Pháp Cú 79 (media: 1348 & 4716) kết hợp bài Tu Hành Vất Vả (media: 5883)</div>
+                <div class="answer-content">
+                    <p><strong>2. Đáp:</strong></p>
+                    <p>❝ Đó là dấu hiệu đầu tiên để phân biệt người tu đúng hay tu sai:</p>
+                    <ul>
+                        <li><span class="highlight-pink">Người mang cái "trí tệ" (do tu sai):</span> Càng tu càng thấy mình sáng mắt ra, nhưng cái sáng đó lại toàn dùng để rọi vào khuyết điểm của thiên hạ: <em>'Liếc mắt qua thấy người này tham ăn, nhìn động tác thấy người kia nóng giận, nghe câu nói thấy người nọ thích khoe khoang...'</em>. Người khác nhúc nhích một chút là thấy lỗi liền, nhưng bản thân mình như <strong>MỘT NGỌN NÚI LỖI LẦM SỪNG SỮNG</strong> thì lại hoàn toàn mù tịt không thấy gì cả! Cái đó là trí tệ, cực kỳ tệ hại, càng soi mói thì bản ngã càng phình to và tội lỗi càng chất chồng.</li>
+                        <li><span class="highlight-gold">Người có Chánh trí tuệ chân thật:</span> Là người luôn quay kính hiển vi vào tận đáy tâm can của mình để tìm kiếm khuyết điểm mỗi ngày: <em>'Hôm nay mình nói câu đó có kiêu ngạo không? Mình làm việc đó có ích kỷ, có hơn thua không?'</em>. Họ nhận ra lỗi lầm từ ngàn kiếp xưa đến nay nhiều như cát sông Hằng. Cánh cửa đầu tiên để đặt chân vào Đạo là thấy được lỗi mình; <em>ai chưa thấy lỗi mình thì vẫn đang đứng ở ngoài cổng chùa, chưa bước chân vào cửa Phật được một bước nào cả!</em> ❞</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- CÂU HỎI 2 -->
+        <div class="qa-card">
+            <div class="question-header">
+                <span class="q-symbol">📌</span>
+                <span>CÂU HỎI 2: THEO LUẬT NHÂN QUẢ, TỰ THẤY LỖI VÀ NHẬN LỖI VỀ MÌNH ĐƯỢC PHƯỚC GÌ? KẢ ĐỔ LỖI CHO NGƯỜI KHÁC MẮC TỘI GÌ?</span>
+            </div>
+
+            <div class="question-box">
+                <strong>1. Hỏi:</strong> ❝ Kính bạch Thầy, khi một sự cố hoặc tranh cãi xảy ra, đa phần người đời đều tìm cách chối bỏ trách nhiệm và đổ lỗi cho đối phương. Dưới góc nhìn nhân quả và nghiệp báo, việc can đảm tự nhận lỗi về mình mang lại phước báu gì trước cõi vô hình? ❞
+            </div>
+
+            <div class="answer-box">
+                <div class="source-tag">📖 <strong>Trích bài giảng:</strong> 16. Tập Khí (media: 748 & 5197) kết hợp bài 06 Đạo Đế (media: 3825), và bài Nền Tảng Đạo Đức (2018-07-08)</div>
+                <div class="answer-content">
+                    <p><strong>2. Đáp:</strong></p>
+                    <p>❝ Đây là bài học đạo đức phân định ranh giới giữa người quân tử và kẻ tiểu nhân:</p>
+                    <ol>
+                        <li><span class="highlight-pink">Kẻ hèn nhát chỉ thích đổ lỗi cho người khác:</span> Đụng chuyện gì xảy ra cũng gân cổ cãi: <em>'Tại anh, tại chị chứ không phải tại tôi!'</em>. Kẻ thích trút cái nhục nhã, sai quấy cho người khác là kẻ tạo nghiệp chia rẽ và hèn mạt. Nhân quả xử phạt: Tội chồng thêm tội, trước mắt làm mất hòa khí cộng đồng, đời sau sinh ra bị người đời vu oan giá họa, mất uy tín và không ai tin tưởng.</li>
+                        <li><span class="highlight-gold">Người có đạo đức khiêm hạ luôn nhận lỗi về mình trước:</span> Dù xét theo lý lẽ thông thường đối phương có sai 8, 9 phần, nhưng người biết tu vẫn nghiêm khắc suy xét lại mình: <em>'Chắc do mình thiếu cẩn trọng, do tâm mình chưa đủ rộng mở và chưa đủ từ bi cảm hóa nên sự việc mới đổ bể như vậy'</em>.</li>
+                    </ol>
+                    <p>Luật nhân quả quy định rất mầu nhiệm: <span class="highlight-gold">NGƯỜI NÀO ĐÃ THẬT SỰ TỰ THẤY LỖI VÀ CAN ĐẢM NHẬN LỖI VỀ MÌNH THÌ KHÔNG BỊ THẦN THÁNH KẾT TỘI NỮA!</span> Hành động đó làm tan biến sự thù hận giữa đôi bên, tạo nên một từ trường hòa khí mát mẻ, biến nghiệp dữ thành lành, phước đức tăng trưởng vô lượng. ❞</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CÂU HỎI 3 -->
+        <div class="qa-card">
+            <div class="question-header">
+                <span class="q-symbol">📌</span>
+                <span>CÂU HỎI 3: NHÂN QUẢ CỦA THÓI QUEN "HAY BỚI LỖI, CHÊ BAI NGƯỜI KHÁC" SẼ BỊ CHIÊU CẢM QUẢ BÁO GÌ TRONG TƯƠNG LAI?</span>
+            </div>
+
+            <div class="question-box">
+                <strong>1. Hỏi:</strong> ❝ Kính bạch Thầy, có những người tính tình rất khó chịu, cứ gặp ai là thích soi mói, vạch lá tìm sâu, hễ tìm ra lỗi sai của người khác là rêu rao chê bai đầy đắc chí. Thói quen tâm lý này theo luật nhân quả sẽ dẫn đến quả báo nhãn tiền và kiếp sau ra sao ạ? ❞
+            </div>
+
+            <div class="answer-box">
+                <div class="source-tag">📖 <strong>Trích bài giảng:</strong> 15 Phẩm Tùng Địa Dũng Xuất (media: 5296) kết hợp bài Cầu Cho Người Hết Lỗi (media: 7754), và bài Xét Lỗi Người Khác - Pháp Cú 19 (media: 7607)</div>
+                <div class="answer-content">
+                    <p><strong>2. Đáp:</strong></p>
+                    <p>❝ Mỗi con người sinh ra trên cõi đời này đều là một sự tổng hợp giữa ưu điểm và khuyết điểm, không ai hoàn hảo mười phân vẹn mười:</p>
+                    <ul>
+                        <li><span class="highlight-pink">Quả báo thứ nhất: Bị thiên hạ bới móc khuyết điểm:</span> Người suốt đời có thói quen soi lỗi người khác, hễ thấy ai sai là vui mừng nói xấu thì mắc quả báo rất kỳ lạ: Đời này và đời sau, người đời nhìn vào mình chỉ toàn thấy khuyết điểm mà không bao giờ nhìn thấy ưu điểm! Dù mình có làm được cả trăm việc tốt thì người ta vẫn làm ngơ, chỉ chực chờ mình sơ suất một chút là xúm vào bêu rếu, chỉ trích thậm tệ.</li>
+                        <li><span class="highlight-pink">Quả báo thứ hai: Chính mình sẽ phạm đúng vào cái lỗi mà mình từng chê:</span> Hễ ta khinh khi, chê bai ai điều gì (chê người ta vụng về, chê người ta nóng tính, chê người ta làm ăn thất bại...) thì dòng xoáy nhân quả sẽ đẩy cuộc đời ta hoặc con cái ta rơi đúng vào hoàn cảnh y hệt như vậy để nếm trải nỗi cay đắng đó!</li>
+                    </ul>
+                    <p>Bởi vậy, thấy người có lỗi thì tâm phải răn mình: <em>"Chỉ lặng lẽ dùng lời cầu cho người hết lỗi"</em> và khởi lòng thương xót, tuyệt đối không được khinh khi chê bai. ❞</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CÂU HỎI 4 -->
+        <div class="qa-card">
+            <div class="question-header">
+                <span class="q-symbol">📌</span>
+                <span>CÂU HỎI 4: VÌ SAO CÓ NGƯỜI KHI PHÁT HIỆN LỖI SAI CỦA MÌNH LẠI BỊ RƠI VÀO BI QUAN, TUYỆT VỌNG? CƠ CHẾ NHÂN QUẢ Ở ĐÂY LÀ GÌ?</span>
+            </div>
+
+            <div class="question-box">
+                <strong>1. Hỏi:</strong> ❝ Kính bạch Thầy, Thầy thường dạy rằng càng tu càng phải phát hiện ra nhiều lỗi lầm của bản thân. Nhưng có những Phật tử khi phát hiện mình có quá nhiều sai trái, xấu xa thì lại rơi vào tâm lý ray rứt, sầu muộn, bi quan tuyệt vọng đến mức không muốn tu nữa. Vì sao lại xảy ra tâm lý bế tắc này và cách hóa giải theo nhân quả là gì ạ? ❞
+            </div>
+
+            <div class="answer-box">
+                <div class="source-tag">📖 <strong>Trích bài giảng:</strong> Ứng Xử Trước Lỗi Lầm (media: 7697) kết hợp bài Sức Khỏe Của Tình Cảm (media: 6533)</div>
+                <div class="answer-content">
+                    <p><strong>2. Đáp:</strong></p>
+                    <p>❝ Đây là một mắt xích nhân quả tâm lý rất vi tế ít ai ngờ tới: Tại sao khi biết mình có lỗi, ta lại đau khổ, sầu muộn và tuyệt vọng đến mức muốn buông xuôi?</p>
+                    <p>Chính là vì trước đây, mỗi khi thấy ai phạm lỗi, ta đã khởi tâm ghét bỏ, khinh bỉ và ruồng rẫy người ta! Do cái nhân ghét bỏ lỗi lầm của người khác quá tàn nhẫn, nên hôm nay khi nghiệp phản hồi, phát hiện chính mình phạm lỗi, cái năng lượng chối bỏ tàn nhẫn đó quay lại tấn công chính tâm thức của ta, làm cho ta tự căm ghét bản thân, tự dằn vặt đến u uất, trầm cảm.</p>
+                    <p><span class="highlight-gold">Muốn phá vỡ bế tắc này, ta phải sửa ngay từ gốc nhân quả:</span></p>
+                    <ul>
+                        <li><span class="highlight-cyan">Khi nhìn thấy người khác phạm lỗi:</span> Hãy mở lòng độ lượng, bao dung, thương xót tìm nguyên nhân giúp đỡ họ sửa sai.</li>
+                        <li><span class="highlight-cyan">Khi đó, hễ phát hiện lỗi của chính mình:</span> Ta sẽ vô cùng tỉnh táo, can đảm đối diện, thành tâm sám hối rồi mạnh dạn tìm cách bù đắp, chuộc lỗi để tiến lên chứ tuyệt đối không bao giờ bi lụy, sầu muộn. ❞</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- CÂU HỎI 5 -->
+        <div class="qa-card">
+            <div class="question-header">
+                <span class="q-symbol">📌</span>
+                <span>CÂU HỎI 5: TẠI SAO NGƯỜI CÀNG THƯỜNG XUYÊN THẤY LỖI VÀ DIỆT ĐƯỢC LỖI MÌNH LẠI TRỞ THÀNH "BẬC THUYẾT PHÁP ĐẠI TÀI"?</span>
+            </div>
+
+            <div class="question-box">
+                <strong>1. Hỏi:</strong> ❝ Kính bạch Thầy, người ta thường nghĩ một vị giảng sư muốn thuyết pháp hay thì phải đọc nhiều sách, học rộng hiểu cao, ăn nói lưu loát. Nhưng vì sao Thầy lại khẳng định: Người thuyết pháp đại tài làm rung động hàng vạn con tim thực chất là người suốt đời âm thầm tìm lỗi và diệt lỗi của chính mình? ❞
+            </div>
+
+            <div class="answer-box">
+                <div class="source-tag">📖 <strong>Trích bài giảng:</strong> Sống Để Làm Gì (media: 7413)</div>
+                <div class="answer-content">
+                    <p><strong>2. Đáp:</strong></p>
+                    <p>❝ Cái căn bản tột cùng của sự tu hành không phải là ngồi thiền được bao nhiêu tiếng hay đọc thuộc bao nhiêu bộ kinh điển, mà chính là: <span class="highlight-gold">THẤY ĐƯỢC LỖI VÀ DIỆT ĐƯỢC LỖI!</span></p>
+                    <ul>
+                        <li><span class="highlight-pink">Kẻ chỉ lo học chữ nghĩa, khoe khoang kiến thức:</span> Nói chuyện nghe rất hoa mỹ, uyên bác nhưng lời nói rỗng tuếch, trơ như đá nguội, không mang từ trường đạo đức nên không lay chuyển được tâm hồn ai.</li>
+                        <li><span class="highlight-gold">Còn người suốt đời chỉ cặm cụi đi tìm lỗi của mình để sửa:</span> Họ từng nếm trải sự nhọc nhằn, vật lộn với từng cái tham, cái giận, cái ích kỷ, đố kỵ trong tâm can; họ hiểu rõ gốc rễ của từng ngóc ngách sai lầm mà một con người phải trải qua.</li>
+                    </ul>
+                    <p>Nhờ công phu chiến đấu diệt lỗi đó mà:</p>
+                    <ul>
+                        <li>Nội tâm họ tỏa ra một nguồn năng lượng thanh tịnh, chân thật và vô ngã sâu thẳm.</li>
+                        <li>Khi bước ra đời mở lời chia sẻ, họ không cần dùng văn vẻ cao siêu; từng lời nói mộc mạc, thực tế của họ đi thẳng vào tim gan người nghe, vạch rõ căn bệnh tâm lý và chỉ đúng con đường thoát khổ.</li>
+                    </ul>
+                    <p>Chính sự trải nghiệm diệt lỗi biến họ thành bậc sứ giả chân chính của Như Lai, <em>nói một lời chạm đến muôn lòng, mở ra cõi giới tâm linh bao la và cảm hóa vô số chúng sinh quay về nẻo thiện.</em> ❞</p>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>© Trích lọc từ bài giảng Sư Phụ Thích Chân Quang • Thiết kế trang web đọc và học tập Phật Pháp</p>
+        </footer>
+    </div>
+
+</body>
+</html>
