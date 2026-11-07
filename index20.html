@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thư Cảm Ơn Từ Quản Lý Trại Giam Gửi Thượng Tọa Thích Chân Quang</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #05050f;
+            color: #e2e8f0;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Universe Background Effects */
+        #space-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+        }
+
+        .nebula {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(76, 29, 149, 0.18) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(30, 58, 138, 0.18) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(88, 28, 135, 0.12) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        /* Container */
+        .container {
+            max-width: 920px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 45px;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        header h1 {
+            font-size: 2.1rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 50%, #818cf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 12px;
+            letter-spacing: 0.8px;
+            text-shadow: 0 0 30px rgba(129, 140, 248, 0.35);
+            line-height: 1.35;
+        }
+
+        header p {
+            color: #94a3b8;
+            font-size: 1.05rem;
+            font-weight: 300;
+        }
+
+        /* Content Cards */
+        .content-card {
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 32px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            animation: slideUp 0.8s ease-out backwards;
+        }
+
+        .content-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(129, 140, 248, 0.35);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7),
+                        0 0 25px rgba(129, 140, 248, 0.2);
+        }
+
+        .content-card:nth-child(1) { animation-delay: 0.2s; }
+        .content-card:nth-child(2) { animation-delay: 0.35s; }
+        .content-card:nth-child(3) { animation-delay: 0.5s; }
+        .content-card:nth-child(4) { animation-delay: 0.65s; }
+        .content-card:nth-child(5) { animation-delay: 0.8s; }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 15px;
+            gap: 12px;
+        }
+
+        .step-badge {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            box-shadow: 0 0 15px rgba(124, 58, 237, 0.4);
+            flex-shrink: 0;
+        }
+
+        .section-header h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #f8fafc;
+        }
+
+        .story-body {
+            font-size: 0.98rem;
+            line-height: 1.75;
+            color: #cbd5e1;
+        }
+
+        .highlight-box {
+            background: rgba(30, 41, 59, 0.45);
+            border-left: 3px solid #38bdf8;
+            border-radius: 0 12px 12px 0;
+            padding: 18px 22px;
+            margin: 18px 0;
+            font-size: 0.98rem;
+            line-height: 1.7;
+            color: #e2e8f0;
+        }
+
+        .quote-box {
+            background: rgba(88, 28, 135, 0.25);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 14px;
+            padding: 20px 22px;
+            margin: 18px 0;
+            color: #f3e8ff;
+            line-height: 1.75;
+        }
+
+        /* Conclusion Card */
+        .conclusion-card {
+            background: linear-gradient(135deg, rgba(30, 27, 75, 0.7) 0%, rgba(15, 23, 42, 0.8) 100%);
+            border: 1px solid rgba(129, 140, 248, 0.3);
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6),
+                        0 0 30px rgba(99, 102, 241, 0.15);
+            animation: slideUp 0.8s ease-out 0.95s backwards;
+        }
+
+        .conclusion-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+            color: #818cf8;
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .conclusion-text {
+            font-size: 1rem;
+            line-height: 1.75;
+            color: #e0e7ff;
+            font-weight: 400;
+        }
+
+        /* Signature Box */
+        .signature-box {
+            margin-top: 35px;
+            text-align: right;
+            padding: 20px;
+            color: #c7d2fe;
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 { font-size: 1.6rem; }
+            .content-card, .conclusion-card { padding: 22px; }
+            .section-header { flex-direction: column; align-items: flex-start; gap: 8px; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="space-canvas"></canvas>
+    <div class="nebula"></div>
+
+    <div class="container">
+        <header>
+            <h1>QUẢN LÝ TRẠI GIAM GỬI THƯ CẢM ƠN THƯỢNG TỌA THÍCH CHÂN QUANG</h1>
+            <p>Trích nội dung bức thư tri ân sâu sắc từ cán bộ, chiến sĩ đơn vị quản lý phân trại</p>
+        </header>
+
+        <!-- KÍNH GỬI -->
+        <div class="content-card">
+            <div class="story-body" style="font-size: 1.05rem; font-weight: 500; color: #e2e8f0;">
+                “Kính gửi Sư Phụ Chân Quang cùng quý Thầy Cô chùa Phật Quang,”
+            </div>
+            <p style="margin-top: 14px;" class="story-body">
+                Thay mặt cán bộ, chiến sĩ đơn vị, chúng tôi xin được gửi đến Sư Phụ cùng quý Thầy Cô lòng biết ơn và sự tri ân sâu sắc nhất.
+            </p>
+        </div>
+
+        <!-- PHẦN 1: THÁCH THỨC BAN ĐẦU -->
+        <div class="content-card">
+            <div class="section-header">
+                <span class="step-badge">PHẦN I</span>
+                <h3>Thực Tạng Môi Trường & Những Trăn Trở Ban Đầu</h3>
+            </div>
+            <div class="story-body">
+                <p>Trong môi trường trại tạm giam, hằng ngày chúng tôi tiếp xúc với rất nhiều mảnh đời khác nhau. Có những người khi bước vào đây mang theo nỗi mặc cảm, có người mang theo sự bất mãn với cuộc đời, có người lại chất chứa trong lòng những oán hận, sân si và những tổn thương chưa thể hóa giải. Chính vì vậy, công tác quản lý, giáo dục và cảm hóa luôn là một nhiệm vụ đầy khó khăn và thử thách.</p>
+                <div class="highlight-box">
+                    Thú thật rằng, vào thời điểm ban đầu, những quyển kinh và tài liệu đạo đức Phật giáo vẫn nằm trong danh mục những loại sách không được phép đưa vào trại tạm giam (có thể là cấm tuyệt đối). Nhưng có lẽ chúng tôi khi ấy chỉ nhìn dưới góc độ quản lý, chỉ nhìn thấy quy định và trách nhiệm của mình một cách dập khuôn mà chưa thể hình dung được những giá trị lớn lao mà những trang kinh ấy có thể mang lại.
+                </div>
+                <p style="margin-top: 12px;">Thế nhưng đồng chí Tiến Mạnh vẫn luôn tha thiết mong muốn những lời dạy về đạo đức, lòng hiếu thảo, nhân quả và tình yêu thương con người của Sư Phụ Chân Quang cùng quý Thầy Cô được đến với những người đang cải tạo nơi đây.</p>
+            </div>
+        </div>
+
+        <!-- PHẦN 2: CHUYỂN BẾN KỲ DIỆU -->
+        <div class="content-card">
+            <div class="section-header">
+                <span class="step-badge">PHẦN II</span>
+                <h3>Sự Chuyển Biến Âm Thầm Nhưng Rõ Rệt</h3>
+            </div>
+            <div class="story-body">
+                <p>Rồi thời gian trôi qua, điều khiến chúng tôi bất ngờ nhất đã xuất hiện. Những con người vốn mang trong mình nhiều thù hận dần biết lắng lại. Những người thường xuyên nóng nảy, bất cần bắt đầu biết suy nghĩ cho người khác.</p>
+                
+                <div class="quote-box">
+                    • Có người lần đầu tiên bật khóc khi nhắc đến cha mẹ.<br>
+                    • Có người viết thư xin lỗi gia đình sau nhiều năm xa cách.<br>
+                    • Có người tâm sự rằng họ muốn làm lại cuộc đời khi trở về với xã hội.
+                </div>
+
+                <p style="margin-top: 12px;">Những sự thay đổi ấy diễn ra âm thầm nhưng rất rõ rệt, đến mức chính những người làm công tác quản lý như chúng tôi cũng phải ngạc nhiên.</p>
+            </div>
+        </div>
+
+        <!-- PHẦN 3: NHẬN THỨC MỚI VỀ SỨC MẠNH CỦA ĐẠO ĐỨC -->
+        <div class="content-card">
+            <div class="section-header">
+                <span class="step-badge">PHẦN III</span>
+                <h3>Sức Mạnh Của Lòng Từ Bi & Lời Dạy Chân Thành</h3>
+            </div>
+            <div class="story-body">
+                <p>Khi chứng kiến những chuyển biến ấy, chúng tôi mới thực sự hiểu rằng có những điều mà mệnh lệnh không thể làm được, có những điều mà sự quản lý nghiêm khắc cũng khó có thể chạm tới, nhưng <strong>lòng từ bi, đạo đức và những lời dạy chân thành lại có thể cảm hóa được tâm hồn con người</strong>.</p>
+                <p style="margin-top: 12px;">Lúc đó chúng tôi mới nhận ra giá trị của những quyển kinh mà trước đây mình từng e ngại, mới hiểu được tâm huyết của Sư Phụ Chân Quang, quý Thầy Cô chùa Phật Quang và tấm lòng kiên trì của đồng chí Tiến Mạnh.</p>
+                <div class="highlight-box">
+                    Hôm nay nhìn lại, chúng tôi không chỉ biết ơn những cuốn kinh đã đến được với các phạm nhân, mà còn biết ơn những người đã âm thầm gieo những hạt giống thiện lành vào nơi tưởng chừng chỉ có sự mặc cảm và tuyệt vọng. Những món quà vật chất rồi sẽ qua đi theo thời gian, nhưng những bài học về đạo đức, lòng hiếu kính, tình yêu thương và trách nhiệm với cuộc đời có thể theo một con người suốt cả quãng đời còn lại.
+                </div>
+            </div>
+        </div>
+
+        <!-- PHẦN 4: THÁI ĐỘ TRI ÂN & LỜI MỜI CUNG THỈNH -->
+        <div class="conclusion-card">
+            <div class="conclusion-header">
+                <span>🙏 LỜI MỜI CUNG THỈNH & TRI ÂN</span>
+            </div>
+            <div class="conclusion-text">
+                <p>Chúng tôi xin thành kính tri ân Sư Phụ Chân Quang, tri ân quý Thầy Cô chùa Phật Quang và chân thành cảm ơn đồng chí Tiến Mạnh đã trở thành nhịp cầu đưa những giá trị tốt đẹp ấy đến với đơn vị.</p>
+                <p style="margin-top: 14px;">Nếu đủ nhân duyên và điều kiện cho phép, chúng tôi tha thiết được cung thỉnh Sư Phụ quang lâm đơn vị để trực tiếp gặp gỡ, chia sẻ và truyền trao những giá trị đạo đức đến cán bộ, chiến sĩ cùng những người đang cải tạo, góp phần thắp sáng niềm tin và khát vọng hoàn lương trong nhiều mảnh đời còn đang lạc lối.</p>
+                <p style="margin-top: 14px; font-weight: 600; color: #818cf8;">Xin thành kính tri ân.</p>
+            </div>
+        </div>
+
+        <!-- CHỮ KÝ -->
+        <div class="signature-box">
+            Đ/c Quản lý phân trại.
+        </div>
+
+    </div>
+
+    <!-- Universe Starry Script -->
+    <script>
+        const canvas = document.getElementById('space-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let width, height;
+        let stars = [];
+
+        function initSize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        class Star {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = Math.random() * 1.5;
+                this.baseAlpha = Math.random() * 0.7 + 0.3;
+                this.alpha = this.baseAlpha;
+                this.twinkleSpeed = Math.random() * 0.02 + 0.005;
+                this.vx = (Math.random() - 0.5) * 0.1;
+                this.vy = (Math.random() - 0.5) * 0.1;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x < 0) this.x = width;
+                if (this.x > width) this.x = 0;
+                if (this.y < 0) this.y = height;
+                if (this.y > height) this.y = 0;
+
+                this.alpha += Math.sin(Date.now() * this.twinkleSpeed) * 0.01;
+                if (this.alpha < 0.1) this.alpha = 0.1;
+                if (this.alpha > 1) this.alpha = 1;
+            }
+
+            draw() {
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initStars() {
+            stars = [];
+            const count = Math.floor((width * height) / 6000);
+            for (let i = 0; i < count; i++) {
+                stars.push(new Star());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            stars.forEach(star => {
+                star.update();
+                star.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', () => {
+            initSize();
+            initStars();
+        });
+
+        initSize();
+        initStars();
+        animate();
+    </script>
+</body>
+</html>

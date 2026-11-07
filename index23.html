@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lời Dạy Đạo Đức & Tu Hành Tâm Linh</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #05050f;
+            color: #e2e8f0;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Universe Background Effects */
+        #space-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+        }
+
+        .nebula {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(76, 29, 149, 0.18) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(30, 58, 138, 0.18) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(88, 28, 135, 0.12) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        /* Container */
+        .container {
+            max-width: 920px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 45px;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        header h1 {
+            font-size: 2.1rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 50%, #818cf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 12px;
+            letter-spacing: 0.8px;
+            text-shadow: 0 0 30px rgba(129, 140, 248, 0.35);
+            line-height: 1.35;
+        }
+
+        header p {
+            color: #94a3b8;
+            font-size: 1.05rem;
+            font-weight: 300;
+        }
+
+        /* Content Cards */
+        .content-card {
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 32px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            animation: slideUp 0.8s ease-out backwards;
+        }
+
+        .content-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(129, 140, 248, 0.35);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7),
+                        0 0 25px rgba(129, 140, 248, 0.2);
+        }
+
+        .content-card:nth-child(1) { animation-delay: 0.2s; }
+        .content-card:nth-child(2) { animation-delay: 0.35s; }
+        .content-card:nth-child(3) { animation-delay: 0.5s; }
+        .content-card:nth-child(4) { animation-delay: 0.65s; }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 15px;
+            gap: 12px;
+        }
+
+        .step-badge {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            box-shadow: 0 0 15px rgba(124, 58, 237, 0.4);
+            flex-shrink: 0;
+        }
+
+        .section-header h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #f8fafc;
+        }
+
+        .story-body {
+            font-size: 0.98rem;
+            line-height: 1.75;
+            color: #cbd5e1;
+        }
+
+        .list-box {
+            background: rgba(30, 41, 59, 0.45);
+            border-left: 3px solid #38bdf8;
+            border-radius: 0 12px 12px 0;
+            padding: 18px 22px;
+            margin: 16px 0;
+        }
+
+        .list-box ol, .list-box ul {
+            padding-left: 20px;
+        }
+
+        .list-box li {
+            margin-bottom: 8px;
+            line-height: 1.65;
+            color: #e2e8f0;
+        }
+        .list-box li:last-child {
+            margin-bottom: 0;
+        }
+
+        .highlight-box {
+            background: rgba(88, 28, 135, 0.25);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 14px;
+            padding: 20px 22px;
+            margin: 18px 0;
+            color: #f3e8ff;
+            line-height: 1.75;
+        }
+
+        .grid-quotes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 18px;
+            margin-top: 20px;
+        }
+
+        .quote-item {
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 20px;
+            line-height: 1.65;
+            font-size: 0.95rem;
+            color: #e2e8f0;
+            transition: border-color 0.3s;
+        }
+
+        .quote-item:hover {
+            border-color: rgba(129, 140, 248, 0.4);
+        }
+
+        .quote-icon {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        /* Conclusion Card */
+        .conclusion-card {
+            background: linear-gradient(135deg, rgba(30, 27, 75, 0.7) 0%, rgba(15, 23, 42, 0.8) 100%);
+            border: 1px solid rgba(129, 140, 248, 0.3);
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6),
+                        0 0 30px rgba(99, 102, 241, 0.15);
+            animation: slideUp 0.8s ease-out 0.8s backwards;
+        }
+
+        .conclusion-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+            color: #818cf8;
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .conclusion-text {
+            font-size: 1rem;
+            line-height: 1.75;
+            color: #e0e7ff;
+            font-weight: 400;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 { font-size: 1.6rem; }
+            .content-card, .conclusion-card { padding: 22px; }
+            .section-header { flex-direction: column; align-items: flex-start; gap: 8px; }
+            .grid-quotes { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="space-canvas"></canvas>
+    <div class="nebula"></div>
+
+    <div class="container">
+        <header>
+            <h1>LỜI DẠY ĐẠO ĐỨC & TU HÀNH TÂM LINH</h1>
+            <p>Tuyển tập những bài học đạo lý, phương pháp đối trị và châm ngôn sống — SPKY</p>
+        </header>
+
+        <!-- PHẦN 1: CÁC NGUYÊN TẮC TU TẬP & PHÉP QUÁN -->
+        <div class="content-card">
+            <div class="section-header">
+                <span class="step-badge">PHẦN I</span>
+                <h3>5 Điều Yếu Yếu Trong Tu Tập & 4 Phép Quán Đối Trị</h3>
+            </div>
+            <div class="story-body">
+                <p style="font-weight: 600; color: #a5b4fc;">Nền tảng căn bản cho người tu học:</p>
+                <div class="list-box">
+                    <ol>
+                        <li>Phải gần bậc minh sư, thiện hữu.</li>
+                        <li>Phải giữ giới, thấy sự nguy hiểm trong từng lỗi nhỏ nhặt.</li>
+                        <li>Phải thường nghe nói về những đạo lý cao đẹp.</li>
+                        <li>Phải thanh lọc nội tâm để được đạo đức thuần thiện.</li>
+                        <li>Phải có trí tuệ để khéo léo dụng công tu hành.</li>
+                    </ol>
+                </div>
+
+                <p style="font-weight: 600; color: #38bdf8; margin-top: 18px;">✳️ Bốn phép quán để đối trị với 4 loại lệnh của tâm:</p>
+                <div class="list-box" style="border-left-color: #818cf8;">
+                    <ol>
+                        <li><strong>Quán bất tịnh</strong> để diệt tham dục.</li>
+                        <li><strong>Quán từ bi</strong> để diệt sân hận.</li>
+                        <li><strong>Quán hơi thở</strong> để diệt động loạn của tâm.</li>
+                        <li><strong>Quán vô thường, vô ngã</strong> để diệt trừ kiêu mạn chấp ngã.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- PHẦN 2: THÂN TÂM LÀ KHỐI TỘI LỖI & CẢNH BÁO KIÊU MẠN -->
+        <div class="content-card">
+            <div class="section-header">
+                <span class="step-badge">PHẦN II</span>
+                <h3>Thân Tâm Này Là Một Khối Tội Lỗi Nhiều Đời Nhiều Kiếp</h3>
+            </div>
+            <div class="story-body">
+                <p>Ngay cả trong việc tu tập thiền định cũng vậy. Một người ngồi thiền, tâm bắt đầu có kết quả, nhiếp được tâm và trong lòng nghĩ rằng: <em>“Mình có kết quả rồi. Từ đây mình đã thấy đường đi, ánh sáng đã mở ra, chân lý đã hiện bày, đạo lý đã rõ. Mình cứ vậy mà tu, cứ vậy mà giáo hóa chúng sinh được rồi”</em>.</p>
+                
+                <p style="margin-top: 12px; color: #fb7185; font-weight: 600;">Nghĩ như thế, người này không bao lâu tâm sẽ nổi loạn, thậm chí bị điên.</p>
+                <p style="margin-top: 8px;">Lạ như vậy! Chỉ những ý nghĩ thầm kín trong tâm mình thôi, mà ý nghĩ đó có tính ỷ lại, chủ quan cho rằng đã bền vững rồi, thì sẽ mất hết.</p>
+
+                <div class="highlight-box">
+                    <strong>💬 Lời chỉ dạy của SPKY:</strong><br>
+                    "Khi các con không chấp ý mình, biết buông cái ý của mình xuống thì đạo lý của Phật, của SP tràn ngập trong tim các con. Còn các con cứ khăng khăng chấp cái ý của mình thì ma nó xúi giục liền. Khi con khiêm hạ thì đó là ý của Phật, mà khi kiêu mạn thì đó là ý của ma."
+                </div>
+            </div>
+        </div>
+
+        <!-- PHẦN 3: NHỮNG BÀI HỌC THỰC TẾ TRONG CUỘC SỐNG -->
+        <div class="content-card">
+            <div class="section-header">
+                <span class="step-badge">PHẦN III</span>
+                <h3>Bài Học Ứng Dụng Đạo Đức Trong Cuộc Sống</h3>
+            </div>
+            <div class="story-body">
+                <div class="grid-quotes">
+                    <div class="quote-item">
+                        <span class="quote-icon">🎂</span>
+                        <strong>Ý nghĩa Lễ Sinh Nhật:</strong><br>
+                        Sinh nhật là lời nhắc nhở hãy sống có trách nhiệm với cuộc đời, hãy sống yêu thương giúp đỡ mọi người, hãy sống một cuộc đời đầy ý nghĩa để sau này mất đi không còn gì phải hối hận. Đừng để tiệc sinh nhật chỉ là cuộc vui vô nghĩa rỗng tuếch.
+                    </div>
+
+                    <div class="quote-item">
+                        <span class="quote-icon">🎒</span>
+                        <strong>Mẹo chọn Ba Lô An Toàn:</strong><br>
+                        Loại túi ba lô kéo khóa mở phía sau rất dễ bị kẻ xấu ăn cắp. Ta nên tìm mua loại ba lô có thiết kế dây kéo giấu ở sát lưng, chỉ khi nào thả ba lô xuống mới nhìn thấy dây kéo để mở túi ra.
+                    </div>
+
+                    <div class="quote-item">
+                        <span class="quote-icon">🌳</span>
+                        <strong>Phước Trồng Rừng Tự Nhiên:</strong><br>
+                        Người nào trồng rừng bằng cây cho quả ăn được, sẽ có phúc no đủ sung túc sống lâu khỏe mạnh, và cũng khá giả.
+                    </div>
+
+                    <div class="quote-item">
+                        <span class="quote-icon">💚</span>
+                        <strong>Sức Khỏe & Công Đức:</strong><br>
+                        Muốn có sức khỏe thì không phải nghỉ dưỡng cho nhiều, mà đi phóng sanh, chăm sóc mọi người, đem sức lực mình có để phục vụ cộng đồng... Muốn có con đường tâm thì phải tạo thật nhiều công đức.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PHẦN 4: TÂM HẠNH CAO QUÝ & TẬP HỢP CHÂM NGÔN -->
+        <div class="conclusion-card">
+            <div class="conclusion-header">
+                <span>✨ 3 TÂM HẠNH BẢO VỆ & NHỮNG CHÂM NGÔN SÂU SẮC</span>
+            </div>
+            <div class="conclusion-text">
+                <div style="background: rgba(15, 23, 42, 0.5); padding: 18px; border-radius: 12px; margin-bottom: 20px; border-left: 3px solid #818cf8;">
+                    <strong>🛡️ Ba Tâm Hạnh Bảo Vệ Thiền Định:</strong><br>
+                    3 tâm hạnh <strong>TÔN KÍNH PHẬT — TỪ BI — KHIÊM HẠ</strong> là bức tường chắn giữ ta không bị rơi xuống vực thẳm trong Thiền Định.
+                </div>
+
+                <div class="grid-quotes" style="margin-top: 0;">
+                    <div class="quote-item">
+                        <span class="quote-icon">🕊️</span>
+                        <strong>Thiên Đường là gì?</strong><br>
+                        Nơi mà ai cũng thương nhau!
+                    </div>
+
+                    <div class="quote-item">
+                        <span class="quote-icon">❤️</span>
+                        <strong>Hòa Hợp Tôn Giáo:</strong><br>
+                        Tất cả đệ tử của Phật Quang đều Yêu Kính Chúa.
+                    </div>
+
+                    <div class="quote-item">
+                        <span class="quote-icon">🌍</span>
+                        <strong>Bảo Vệ Hành Tinh Xanh:</strong><br>
+                        Ta chưa tìm được một chiếc lá xanh trên sao Hỏa, trong khi Trái đất này có sẵn bao nhiêu cánh rừng. Hãy giữ gìn sự sống ở đây trước đã!
+                    </div>
+
+                    <div class="quote-item">
+                        <span class="quote-icon">⚖️</span>
+                        <strong>Sự Sống & Cái Chết:</strong><br>
+                        Ai rồi cũng chết. Chết không phải là điều đáng sợ mà làm việc sai quấy mới là điều đáng sợ!
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Universe Starry Script -->
+    <script>
+        const canvas = document.getElementById('space-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let width, height;
+        let stars = [];
+
+        function initSize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        class Star {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = Math.random() * 1.5;
+                this.baseAlpha = Math.random() * 0.7 + 0.3;
+                this.alpha = this.baseAlpha;
+                this.twinkleSpeed = Math.random() * 0.02 + 0.005;
+                this.vx = (Math.random() - 0.5) * 0.1;
+                this.vy = (Math.random() - 0.5) * 0.1;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x < 0) this.x = width;
+                if (this.x > width) this.x = 0;
+                if (this.y < 0) this.y = height;
+                if (this.y > height) this.y = 0;
+
+                this.alpha += Math.sin(Date.now() * this.twinkleSpeed) * 0.01;
+                if (this.alpha < 0.1) this.alpha = 0.1;
+                if (this.alpha > 1) this.alpha = 1;
+            }
+
+            draw() {
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initStars() {
+            stars = [];
+            const count = Math.floor((width * height) / 6000);
+            for (let i = 0; i < count; i++) {
+                stars.push(new Star());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            stars.forEach(star => {
+                star.update();
+                star.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', () => {
+            initSize();
+            initStars();
+        });
+
+        initSize();
+        initStars();
+        animate();
+    </script>
+</body>
+</html>

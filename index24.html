@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hỏi Đáp Phật Pháp - Sự Tự Nhận Lỗi & Con Đường Tự Thức Tỉnh</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #05050f;
+            color: #e2e8f0;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Universe Background Effects */
+        #space-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+        }
+
+        .nebula {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(76, 29, 149, 0.18) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(30, 58, 138, 0.18) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(88, 28, 135, 0.12) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        /* Container */
+        .container {
+            max-width: 920px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        header h1 {
+            font-size: 2.4rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 50%, #818cf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 12px;
+            letter-spacing: 0.8px;
+            text-shadow: 0 0 30px rgba(129, 140, 248, 0.35);
+        }
+
+        header p {
+            color: #94a3b8;
+            font-size: 1.05rem;
+            font-weight: 300;
+        }
+
+        /* Question Cards */
+        .qa-card {
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 32px;
+            margin-bottom: 35px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            animation: slideUp 0.8s ease-out backwards;
+        }
+
+        .qa-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(129, 140, 248, 0.35);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7),
+                        0 0 25px rgba(129, 140, 248, 0.2);
+        }
+
+        .qa-card:nth-child(1) { animation-delay: 0.2s; }
+        .qa-card:nth-child(2) { animation-delay: 0.4s; }
+        .qa-card:nth-child(3) { animation-delay: 0.6s; }
+
+        .question-header {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 22px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 18px;
+            gap: 15px;
+        }
+
+        .q-badge {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            box-shadow: 0 0 15px rgba(124, 58, 237, 0.4);
+            flex-shrink: 0;
+            margin-top: 3px;
+        }
+
+        .question-header h3 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #f8fafc;
+            line-height: 1.55;
+        }
+
+        .answer-section {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .meta-info {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            background: rgba(30, 41, 59, 0.4);
+            padding: 12px 18px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.9rem;
+        }
+
+        .lecture-name {
+            color: #c7d2fe;
+            font-weight: 500;
+        }
+
+        .youtube-link {
+            color: #fb7185;
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: opacity 0.2s, transform 0.2s;
+            background: rgba(244, 63, 94, 0.1);
+            padding: 6px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(244, 63, 94, 0.2);
+        }
+
+        .youtube-link:hover {
+            opacity: 0.9;
+            transform: scale(1.02);
+            background: rgba(244, 63, 94, 0.2);
+        }
+
+        .story-box {
+            background: rgba(30, 41, 59, 0.35);
+            border-left: 3px solid #38bdf8;
+            border-radius: 0 12px 12px 0;
+            padding: 16px 20px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #e2e8f0;
+        }
+
+        .story-title {
+            color: #38bdf8;
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .snippet-box {
+            background: rgba(15, 23, 42, 0.5);
+            border-left: 3px solid #818cf8;
+            border-radius: 0 12px 12px 0;
+            padding: 16px 20px;
+            font-size: 0.95rem;
+            line-height: 1.65;
+            color: #cbd5e1;
+            font-style: italic;
+        }
+
+        .snippet-title {
+            color: #818cf8;
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-style: normal;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 { font-size: 1.8rem; }
+            .question-header { flex-direction: column; gap: 10px; }
+            .qa-card { padding: 22px; }
+            .meta-info { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="space-canvas"></canvas>
+    <div class="nebula"></div>
+
+    <div class="container">
+        <header>
+            <h1>Hỏi Đáp Phật Pháp</h1>
+            <p>Tâm Tự Nhận Lỗi — Nền Tảng Diệt Trừ Bản Ngã & Chứng Đắc Thánh Quả</p>
+        </header>
+
+        <!-- CÂU HỎI 1 -->
+        <div class="qa-card">
+            <div class="question-header">
+                <span class="q-badge">CÂU HỎI 1</span>
+                <h3>Kính bạch Thầy, câu chuyện Đức Phật dùng chậu nước rửa chân để dạy dỗ Tôn giả La Hầu La lúc còn nhỏ đã đánh thức tâm hổ thẹn tự thấy lỗi mình sâu sắc, để từ đó ngài rèn luyện thành bậc Thánh A-la-hán Mật Hạnh đệ nhất như thế nào ạ?</h3>
+            </div>
+            <div class="answer-section">
+                <div class="meta-info">
+                    <span class="lecture-name">📖 Nước (media: 3858 & 631)</span>
+                    <a href="https://youtu.be/SarRp3-ZYYM&t=995" target="_blank" class="youtube-link">▶ Xem video [16:35 - 17:45]</a>
+                </div>
+
+                <div class="story-box">
+                    <div class="story-title">📜 Mẫu chuyện</div>
+                    <p>Lúc mới xuất gia còn nhỏ tuổi, Tôn giả La Hầu La có phần nghịch ngợm, ỷ mình là con Phật và là hoàng tử nên thỉnh thoảng nói dối trêu ghẹo khách đến tìm Phật. Một hôm Đức Phật đến thăm, La Hầu La bưng chậu nước hầu Phật rửa chân. Rửa chân xong, Đức Phật hỏi: "Nước này rửa chân rồi có uống hoặc nấu ăn được nữa không?". La Hầu La thưa: "Bạch Thế Tôn, nước đã dơ bẩn chỉ đem đổ đi chứ không dùng được việc gì nữa". Phật dạy: "Cũng vậy, một người tu mà còn nói dối, tâm dơ bẩn buông lung thì không dùng làm được việc gì cao quý, chỉ đáng bỏ đi". Rồi Phật lật úp cái chậu lại dạy tiếp: "Tâm không chân thật thì giáo pháp không thể chứa đựng được, như cái chậu úp này". Lời dạy nghiêm khắc đánh thẳng vào tâm thức khiến La Hầu La run rẩy, hổ thẹn tột cùng nhìn thấy lỗi lầm của mình, từ đó cẩn trọng từng lời nói hành vi, nỗ lực tu hành và chứng đắc quả vị A-la-hán với mật hạnh tột bậc.</p>
+                </div>
+
+                <div class="snippet-box">
+                    <div class="snippet-title">💬 Trích dẫn bài giảng</div>
+                    <p>"... Đức Phật rửa chân xong rồi Đức Phật mới hỏi Ngài La Hầu La: Sau khi mà nước rửa chân xong thì còn dùng làm được việc gì không? Nói: Bạch Thế Tôn, nước rửa chân xong đã thành nước bẩn chỉ đem để đổ, để tưới cây thôi chứ còn không dùng được nữa vì nước đã dơ bẩn. Đức Phật nói: Cũng vậy, cái người mà tâm đã dơ bẩn rồi không dùng được việc gì nữa, chỉ đổ đi... thì con phải cố gắng... Ngài La Hầu La từ đó hổ thẹn và gắng tu, sau này đắc A-la-hán, mà khi Ngài đắc A-la-hán rồi thì Ngài có cái mật hạnh đặc biệt: từng cái oai nghi, từng lời nói của Ngài đều là một cái đạo đức vô biên..."</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CÂU HỎI 2 -->
+        <div class="qa-card">
+            <div class="question-header">
+                <span class="q-badge">CÂU HỎI 2</span>
+                <h3>Kính bạch Thầy, trong tích truyện Kinh Pháp Cú, Tôn giả Chu-lợi Bàn-đặc (Châu Lợi Bàn Đặc) bị người anh đuổi đi vì học một bài kệ suốt ba tháng không thuộc, tâm trạng đau đớn đứng khóc vì tự thấy mình ngu dốt, làm phiền đại chúng đã mở đường cho Đức Phật hóa độ ngài chứng Thánh quả bằng chiếc khăn lau bụi như thế nào ạ?</h3>
+            </div>
+            <div class="answer-section">
+                <div class="meta-info">
+                    <span class="lecture-name">📖 Bước Lên Đỉnh Núi Cao - Pháp Cú 10 (media: 1450 & 1294) & Sức Mạnh Của Tập Khí - Pháp Cú 85 (media: 920)</span>
+                    <a href="https://youtu.be/xj6vh8J15QU&t=96" target="_blank" class="youtube-link">▶ Xem video [01:36 - 02:42]</a>
+                </div>
+
+                <div class="story-box">
+                    <div class="story-title">📜 Mẫu chuyện</div>
+                    <p>Tôn giả Chu-lợi Bàn-đặc bẩm sinh tối dạ, một bài kệ ngắn học suốt nhiều tháng vẫn quên trước quên sau, làm mất thời gian và kinh động việc tu học của Tăng đoàn. Người anh ruột là một vị A-la-hán nghiêm khắc trách mắng và đuổi ngài về vì không đủ tư cách làm sa-môn. Ngài tha thiết mến mộ Phật pháp, không hề oán hận anh mình mà chỉ thấy bản thân quá dốt nát, tội lỗi và làm gánh nặng cho mọi người, liền đứng ngoài cổng tinh xá khóc nức nở trong sự ăn năn. Đức Phật đi qua thấy rõ tâm khiêm hạ tự thấy lỗi tột cùng ấy, liền trao cho ngài một chiếc khăn trắng tinh làm bằng thần thông, dạy ngài ngồi lau mặt và quán chiếu câu: "Trừ cấu khử uế / Tẩy sạch dơ bẩn". Nhìn chiếc khăn trắng dần dần ố vàng dơ bẩn, ngài nhận ra bụi trần bên ngoài cũng như phiền não cấu uế sâu kín trong tâm mình cần phải gột rửa, nhờ đó tâm bừng sáng chứng đắc Thánh quả A-la-hán cùng đầy đủ thần thông.</p>
+                </div>
+
+                <div class="snippet-box">
+                    <div class="snippet-title">💬 Trích dẫn bài giảng</div>
+                    <p>"... Em không thể làm một người tỳ-kheo gương mẫu được vì học dốt quá, đây là đuổi đi. Thì Ngài rất mến đạo, tâm tu rất mạnh ra đứng ngoài cổng tinh xá khóc... Đức Phật thấy tới cái duyên, Ngài đi ra ngoài hỏi: Châu Lợi Bàn Đặc, con đứng đây làm gì?... Rồi sau đó Đức Phật y bát cùng với Chư Tăng gần cả ngàn người rời khỏi vườn xoài... Ngài Châu Lợi Bàn Đặc mới ngồi kiết già lau cái mặt của mình, dùng cái khăn thần thông của Phật lau mặt của mình, Ngài cứ nói là: Tẩy sạch dơ bẩn... Ngài cầm một chốc bắt đầu từ từ nó đổi màu, nó dơ... Ngài thấy thân Ngài cũng thay đổi, mọi vật vô thường, tẩy sạch cấu uế nội tâm và đắc đạo..."</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CÂU HỎI 3 -->
+        <div class="qa-card">
+            <div class="question-header">
+                <span class="q-badge">CÂU HỎI 3</span>
+                <h3>Kính bạch Thầy, câu chuyện sáu vị hoàng tử cao quý dòng tộc Thích Ca cùng nhau xuất gia nhưng xin Đức Phật cho người thợ cạo hèn mọn Ưu-ba-ly (Upali) được thọ giới trước để làm sư huynh đã thể hiện tinh thần tự thấy lỗi kiêu mạn của bản thân và bài học diệt trừ bản ngã giai cấp vĩ đại ra sao ạ?</h3>
+            </div>
+            <div class="answer-section">
+                <div class="meta-info">
+                    <span class="lecture-name">📖 07 Đời Sau Còn Nhiều Hơn (media: 3855 & 1379)</span>
+                    <a href="https://youtu.be/Fx1rzhgJd5g&t=4332" target="_blank" class="youtube-link">▶ Xem video [1:12:12 - 1:13:12]</a>
+                </div>
+
+                <div class="story-box">
+                    <div class="story-title">📜 Mẫu chuyện</div>
+                    <p>Sáu vị hoàng tử quý tộc dòng dõi Thích Ca (như A-na-luật, Bạt-đề, Kim-tỳ-la, A-nan...) rủ nhau từ bỏ cung vàng điện ngọc để xin Phật xuất gia. Đi theo hầu cạo tóc cho các vị là chàng thợ cạo Ưu-ba-ly thuộc giai cấp Thủ-đà-la cùng đinh. Khi đến nơi, thấy Ưu-ba-ly cũng tha thiết muốn tu, sáu vị hoàng tử đã chủ động thưa xin Đức Phật cho Ưu-ba-ly được thế phát xuất gia trước mình. Các vị tự thấy rõ cái lỗi lớn nhất của giai cấp quý tộc là bản ngã kiêu căng, ỷ lại nguồn gốc hoàng gia ăn sâu trong huyết quản, nên muốn Ưu-ba-ly làm sư huynh để mỗi ngày các vị phải cúi đầu đảnh lễ, xưng con gọi thầy với chính người từng hầu hạ cắt tóc cho mình. Nhờ dũng cảm nhận ra lỗi kiêu mạn và quyết tâm triệt hạ bản ngã từ ngày đầu bước vào đạo, tất cả các vị sau này đều chứng đắc Thánh quả giải thoát.</p>
+                </div>
+
+                <div class="snippet-box">
+                    <div class="snippet-title">💬 Trích dẫn bài giảng</div>
+                    <p>"... Sáu người đi xuất gia như vậy thì họ mới rủ theo cái người cạo tóc là Upali cùng đi theo. Đến nơi khi bảy người đến, thì khi xin xuất gia, sáu người hoàng tộc mới nói là: 'Thôi xin Phật cho Upali xuất gia trước để cho chúng con diệt cái kiêu mạn. Đây là người hầu hạ chúng con, người cạo tóc cho chúng con, người cắt tóc chúng con mà được xuất gia trước thì coi như vai vế trong Đạo là sư huynh, thì như vậy chúng con sẽ được cái tâm khiêm hạ'..."</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Universe Starry Script -->
+    <script>
+        const canvas = document.getElementById('space-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let width, height;
+        let stars = [];
+
+        function initSize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        class Star {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = Math.random() * 1.5;
+                this.baseAlpha = Math.random() * 0.7 + 0.3;
+                this.alpha = this.baseAlpha;
+                this.twinkleSpeed = Math.random() * 0.02 + 0.005;
+                this.vx = (Math.random() - 0.5) * 0.1;
+                this.vy = (Math.random() - 0.5) * 0.1;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x < 0) this.x = width;
+                if (this.x > width) this.x = 0;
+                if (this.y < 0) this.y = height;
+                if (this.y > height) this.y = 0;
+
+                this.alpha += Math.sin(Date.now() * this.twinkleSpeed) * 0.01;
+                if (this.alpha < 0.1) this.alpha = 0.1;
+                if (this.alpha > 1) this.alpha = 1;
+            }
+
+            draw() {
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initStars() {
+            stars = [];
+            const count = Math.floor((width * height) / 6000);
+            for (let i = 0; i < count; i++) {
+                stars.push(new Star());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            stars.forEach(star => {
+                star.update();
+                star.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', () => {
+            initSize();
+            initStars();
+        });
+
+        initSize();
+        initStars();
+        animate();
+    </script>
+</body>
+</html>

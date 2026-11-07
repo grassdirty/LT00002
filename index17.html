@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hỏi Đáp Phật Pháp - Tâm Hạnh Biết Lỗi Chính Mình</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #05050f;
+            color: #e2e8f0;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Universe Background Effects */
+        #space-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+        }
+
+        .nebula {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(76, 29, 149, 0.18) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(30, 58, 138, 0.18) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(88, 28, 135, 0.12) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        /* Container */
+        .container {
+            max-width: 920px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        header h1 {
+            font-size: 2.4rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 50%, #818cf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 12px;
+            letter-spacing: 0.8px;
+            text-shadow: 0 0 30px rgba(129, 140, 248, 0.35);
+        }
+
+        header p {
+            color: #94a3b8;
+            font-size: 1.05rem;
+            font-weight: 300;
+        }
+
+        /* Question Cards */
+        .qa-card {
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 32px;
+            margin-bottom: 35px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            animation: slideUp 0.8s ease-out backwards;
+        }
+
+        .qa-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(129, 140, 248, 0.35);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7),
+                        0 0 25px rgba(129, 140, 248, 0.2);
+        }
+
+        .qa-card:nth-child(1) { animation-delay: 0.2s; }
+        .qa-card:nth-child(2) { animation-delay: 0.4s; }
+        .qa-card:nth-child(3) { animation-delay: 0.6s; }
+
+        .question-header {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 22px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 18px;
+            gap: 15px;
+        }
+
+        .q-badge {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            box-shadow: 0 0 15px rgba(124, 58, 237, 0.4);
+            flex-shrink: 0;
+            margin-top: 3px;
+        }
+
+        .question-header h3 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #f8fafc;
+            line-height: 1.55;
+        }
+
+        .answer-section {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .meta-info {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            background: rgba(30, 41, 59, 0.4);
+            padding: 12px 18px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.9rem;
+        }
+
+        .lecture-name {
+            color: #c7d2fe;
+            font-weight: 500;
+        }
+
+        .youtube-link {
+            color: #fb7185;
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: opacity 0.2s, transform 0.2s;
+            background: rgba(244, 63, 94, 0.1);
+            padding: 6px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(244, 63, 94, 0.2);
+        }
+
+        .youtube-link:hover {
+            opacity: 0.9;
+            transform: scale(1.02);
+            background: rgba(244, 63, 94, 0.2);
+        }
+
+        .story-box {
+            background: rgba(30, 41, 59, 0.35);
+            border-left: 3px solid #38bdf8;
+            border-radius: 0 12px 12px 0;
+            padding: 16px 20px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #e2e8f0;
+        }
+
+        .story-title {
+            color: #38bdf8;
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .snippet-box {
+            background: rgba(15, 23, 42, 0.5);
+            border-left: 3px solid #818cf8;
+            border-radius: 0 12px 12px 0;
+            padding: 16px 20px;
+            font-size: 0.95rem;
+            line-height: 1.65;
+            color: #cbd5e1;
+            font-style: italic;
+        }
+
+        .snippet-title {
+            color: #818cf8;
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-style: normal;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 { font-size: 1.8rem; }
+            .question-header { flex-direction: column; gap: 10px; }
+            .qa-card { padding: 22px; }
+            .meta-info { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="space-canvas"></canvas>
+    <div class="nebula"></div>
+
+    <div class="container">
+        <header>
+            <h1>Hỏi Đáp Phật Pháp</h1>
+            <p>Tâm Hạnh "Luôn Tìm Thấy Lỗi Mình" & Sự Soi Xét Nội Tâm Vi Tế</p>
+        </header>
+
+        <!-- CÂU HỎI 1 -->
+        <div class="qa-card">
+            <div class="question-header">
+                <span class="q-badge">CÂU HỎI 1</span>
+                <h3>Kính bạch Thầy, câu chuyện chiếc chén trên bàn bị rơi vỡ và người khác đổ thừa cho mình làm bể dù tay mình chưa hề đụng tới, vì sao người có tâm đạo đức vẫn tìm ra được lỗi của chính mình để làm cho "hoa sen vừa nở ra" ạ?</h3>
+            </div>
+            <div class="answer-section">
+                <div class="meta-info">
+                    <span class="lecture-name">📖 Cuộc Sống Có Ý Nghĩa (media: 3986)</span>
+                    <a href="https://youtu.be/pOtojotPwcg&t=3474" target="_blank" class="youtube-link">▶ Xem video [57:54 - 59:02]</a>
+                </div>
+
+                <div class="story-box">
+                    <div class="story-title">📜 Mẫu chuyện</div>
+                    <p>Một người đang đứng gần bàn thì chiếc chén bị rơi xuống đất vỡ tan, người xung quanh liền đổ lỗi rằng do người đó quơ tay làm rơi. Dù trên thực tế tay người ấy chưa từng chạm vào chiếc chén và hoàn toàn có lý do để thanh minh mình bị oan, nhưng người biết tu không hề phân bua cãi cọ. Vị ấy lập tức tự xét và tìm ra lỗi của mình: "Lỗi tại mắt mình đã thoáng thấy chiếc chén đặt ở chỗ chông chênh, mép bàn dễ rơi mà lười biếng không chịu chủ động nhấc nó dời vào bên trong". Vừa tìm thấy lỗi mình như vậy thì tâm hồn thanh thản, ví như đóa hoa sen thanh khiết vừa bừng nở.</p>
+                </div>
+
+                <div class="snippet-box">
+                    <div class="snippet-title">💬 Trích dẫn bài giảng</div>
+                    <p>"... Người ta đổ thừa là lúc đó mình đứng gần đó quơ tay đụng bể, thì lúc đó mình thấy mình oan rõ ràng... Nếu mình thấy mình không có lỗi thì hoa sen không nở. Mà lúc đó mình thấy mình có lỗi là hoa sen vừa nở! Tại sao trong trường hợp đó mình vẫn thấy mình có lỗi? Trong khi tay mình chưa hề đụng cái chén mà nó rớt bể, mà mình vẫn tìm ra được cái lỗi của mình ở chỗ nào? Đúng! Lỗi của mình là mắt mình đã phớt nhìn thấy nó nằm ở chỗ dễ rớt mà không chịu để nó xích vô trong... Tìm ra được cái lỗi mình liền, thì người mà tìm được lỗi như vậy hoa sen vừa nở ra..."</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CÂU HỎI 2 -->
+        <div class="qa-card">
+            <div class="question-header">
+                <span class="q-badge">CÂU HỎI 2</span>
+                <h3>Kính bạch Thầy, câu chuyện nghe tin người bạn hàng xóm bình thường bỗng thi đỗ Á hậu và tâm mình thoáng qua một chút khó chịu, vì sao người học Phật sau đó khi quán chiếu lại phải can đảm thừa nhận đó là một lỗi lầm tiềm ẩn vô cùng nguy hiểm ạ?</h3>
+            </div>
+            <div class="answer-section">
+                <div class="meta-info">
+                    <span class="lecture-name">📖 Những Tâm Lý Đẹp (media: 6086 & 6096)</span>
+                    <a href="https://youtu.be/9F70CMFwLhg&t=3763" target="_blank" class="youtube-link">▶ Xem video [1:02:43 - 1:03:57]</a>
+                </div>
+
+                <div class="story-box">
+                    <div class="story-title">📜 Mẫu chuyện</div>
+                    <p>Một người có cô bạn hàng xóm quen biết bình thường, một hôm nghe tin cô ấy đi thi hoa hậu và bất ngờ đạt giải Á hậu. Bên ngoài người đó vẫn chào hỏi chúc mừng lịch sự, không ai phát hiện điều gì bất thường. Tuy nhiên, sâu kín trong nội tâm người ấy lại có một tích tắc gợn lên sự khó chịu, so đo: "Ủa, con nhỏ đó có gì đâu mà đậu Á hậu". Người đời sẽ coi đó là cảm xúc tự nhiên vô hại, nhưng khi có sự tu tập và biết nhìn lại tâm mình, người đó giật mình nhận ra cái khó chịu thoáng qua ấy chính là tâm đố kỵ bất thiện - một lỗi lầm ngấm ngầm ăn mòn đạo đức nếu không kịp thời nhận diện và sám hối.</p>
+                </div>
+
+                <div class="snippet-box">
+                    <div class="snippet-title">💬 Trích dẫn bài giảng</div>
+                    <p>"... Bỗng nhiên một hôm nghe tin là cô đó bỗng nhiên đi thi hoa hậu được đậu Á hậu, cái lòng ta hơi khó chịu: Nói ủa con nhỏ đó đây mà, nào giờ bạn mình sao không nói vậy mà Á hậu à? Rồi thôi ta bỏ qua... Nói chung không có gì, không ai nhìn thấy gì. Nhưng khi ta đi chùa ta tu tập, ta mới phát hiện là cái giây phút mà ta nghe cô hàng xóm đậu Á hậu, ta hơi khó chịu: ĐÓ LÀ LỖI! Mặc dù nó chỉ xuất hiện ngắn ngủi, nhưng bây giờ biết đạo rồi, nó chính là lỗi. Một cái lỗi tiềm ẩn nguy hiểm có thể xuất hiện..."</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CÂU HỎI 3 -->
+        <div class="qa-card">
+            <div class="question-header">
+                <span class="q-badge">CÂU HỎI 3</span>
+                <h3>Kính bạch Thầy, câu chuyện khi ta đi đứng hiền lành mà bất ngờ bị một người lạ mặt xông tới chửi bới vô cớ, ba lý do nhân quả nào giúp người biết tu lập tức nhận lỗi về mình để hóa giải oán kết và biến cuộc đời thành mùa xuân mãi mãi ạ?</h3>
+            </div>
+            <div class="answer-section">
+                <div class="meta-info">
+                    <span class="lecture-name">📖 Chỉ Cần Như Thế Thôi (media: 6690)</span>
+                    <a href="https://youtu.be/slCbjh4R1Rw&t=4177" target="_blank" class="youtube-link">▶ Xem video [1:09:37 - 1:11:08]</a>
+                </div>
+
+                <div class="story-box">
+                    <div class="story-title">📜 Mẫu chuyện</div>
+                    <p>Một người đang đi trên đường bỗng nhiên bị kẻ khác vô duyên vô cớ xông vào chửi bới thậm tệ. Người thường sẽ nổi tam bành lục tặc, chửi bới đánh trả để ăn thua. Nhưng người hiểu đạo sâu sắc thì tuyệt đối không trách đối phương hung dữ, cộc cằn mà lập tức quay về tìm lỗi ở nơi mình: Thứ nhất, lỗi do diện mạo mình chưa đủ phước đức dịu hiền, mặt mũi còn khó ưa nên làm người ta hiểu lầm; thứ hai, chắc chắn trong tiền kiếp mình đã từng xúc phạm, chửi bới người khác vô cớ nên nay quả báo trổ ra để mình trả cho sạch nợ; thứ ba, có thể khuôn mặt mình vô tình giống một kẻ xấu nào đó khiến người ta bực tức... Nghĩ được "chắc lỗi tại mình" thì oán thù tan biến, tâm hồn thanh thản nhẹ nhàng.</p>
+                </div>
+
+                <div class="snippet-box">
+                    <div class="snippet-title">💬 Trích dẫn bài giảng</div>
+                    <p>"... Chỉ cần có một chút xoay lại nhận lỗi về mình thì cuộc đời này biến thành mùa xuân mãi mãi... Ví dụ tự nhiên vô cớ chửi mình, mình ngồi mình ngẫm nghĩ, đừng nói là người đó dữ, người đó hung, người đó ẩu. Coi coi mình cái lỗi gì mà tự nhiên không có cớ gì hết mà người ta chửi mình? Lỗi gì? Thứ nhất: Mặt mình chưa đẹp, chưa đủ 5 năm khen người, mặt chắc hơi khó ưa nên bị hiểu lầm, cái lỗi về mình. Thứ hai: Chắc kiếp trước mình cũng chửi ai vô cớ, bây giờ nó chửi thôi cho nó chửi để hết nghiệp, trả hết cái tội ngày xưa. Thứ ba: Chắc nó hiểu lầm, nó dòm mặt mình giống cái thằng nào ở đâu đó làm nó liên tưởng tới một cái tay bợm đâu đó nên nó chửi... Thôi, chắc tại mình!..."</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Universe Starry Script -->
+    <script>
+        const canvas = document.getElementById('space-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let width, height;
+        let stars = [];
+
+        function initSize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        class Star {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = Math.random() * 1.5;
+                this.baseAlpha = Math.random() * 0.7 + 0.3;
+                this.alpha = this.baseAlpha;
+                this.twinkleSpeed = Math.random() * 0.02 + 0.005;
+                this.vx = (Math.random() - 0.5) * 0.1;
+                this.vy = (Math.random() - 0.5) * 0.1;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x < 0) this.x = width;
+                if (this.x > width) this.x = 0;
+                if (this.y < 0) this.y = height;
+                if (this.y > height) this.y = 0;
+
+                this.alpha += Math.sin(Date.now() * this.twinkleSpeed) * 0.01;
+                if (this.alpha < 0.1) this.alpha = 0.1;
+                if (this.alpha > 1) this.alpha = 1;
+            }
+
+            draw() {
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initStars() {
+            stars = [];
+            const count = Math.floor((width * height) / 6000);
+            for (let i = 0; i < count; i++) {
+                stars.push(new Star());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            stars.forEach(star => {
+                star.update();
+                star.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', () => {
+            initSize();
+            initStars();
+        });
+
+        initSize();
+        initStars();
+        animate();
+    </script>
+</body>
+</html>
