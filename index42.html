@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hỏi Đáp Phật Pháp - Lòng Tôn Kính Phật Tuyệt Đối & Phước Báu Vô Tận</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #05050f;
+            color: #e2e8f0;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Universe Background Effects */
+        #space-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+        }
+
+        .nebula {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(76, 29, 149, 0.18) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(30, 58, 138, 0.18) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(88, 28, 135, 0.12) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        /* Container */
+        .container {
+            max-width: 920px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        header h1 {
+            font-size: 2.4rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 50%, #818cf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 12px;
+            letter-spacing: 0.8px;
+            text-shadow: 0 0 30px rgba(129, 140, 248, 0.35);
+        }
+
+        header p {
+            color: #94a3b8;
+            font-size: 1.05rem;
+            font-weight: 300;
+        }
+
+        /* Question Cards */
+        .qa-card {
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 32px;
+            margin-bottom: 35px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            animation: slideUp 0.8s ease-out backwards;
+        }
+
+        .qa-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(129, 140, 248, 0.35);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7),
+                        0 0 25px rgba(129, 140, 248, 0.2);
+        }
+
+        .qa-card:nth-child(1) { animation-delay: 0.2s; }
+        .qa-card:nth-child(2) { animation-delay: 0.4s; }
+        .qa-card:nth-child(3) { animation-delay: 0.6s; }
+
+        .question-header {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 22px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 18px;
+            gap: 15px;
+        }
+
+        .q-badge {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            box-shadow: 0 0 15px rgba(124, 58, 237, 0.4);
+            flex-shrink: 0;
+            margin-top: 3px;
+        }
+
+        .question-header h3 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #f8fafc;
+            line-height: 1.55;
+        }
+
+        .answer-section {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .meta-info {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            background: rgba(30, 41, 59, 0.4);
+            padding: 12px 18px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.9rem;
+        }
+
+        .lecture-name {
+            color: #c7d2fe;
+            font-weight: 500;
+        }
+
+        .youtube-link {
+            color: #fb7185;
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: opacity 0.2s, transform 0.2s;
+            background: rgba(244, 63, 94, 0.1);
+            padding: 6px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(244, 63, 94, 0.2);
+        }
+
+        .youtube-link:hover {
+            opacity: 0.9;
+            transform: scale(1.02);
+            background: rgba(244, 63, 94, 0.2);
+        }
+
+        .story-box {
+            background: rgba(30, 41, 59, 0.35);
+            border-left: 3px solid #38bdf8;
+            border-radius: 0 12px 12px 0;
+            padding: 16px 20px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #e2e8f0;
+        }
+
+        .story-title {
+            color: #38bdf8;
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .snippet-box {
+            background: rgba(15, 23, 42, 0.5);
+            border-left: 3px solid #818cf8;
+            border-radius: 0 12px 12px 0;
+            padding: 16px 20px;
+            font-size: 0.95rem;
+            line-height: 1.65;
+            color: #cbd5e1;
+            font-style: italic;
+        }
+
+        .snippet-title {
+            color: #818cf8;
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-style: normal;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 { font-size: 1.8rem; }
+            .question-header { flex-direction: column; gap: 10px; }
+            .qa-card { padding: 22px; }
+            .meta-info { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="space-canvas"></canvas>
+    <div class="nebula"></div>
+
+    <div class="container">
+        <header>
+            <h1>Hỏi Đáp Phật Pháp</h1>
+            <p>Lòng Tôn Kính Đức Phật Tuyệt Đối & Phước Báu Cúng Dường Vô Tận</p>
+        </header>
+
+        <!-- CÂU HỎI 1 -->
+        <div class="qa-card">
+            <div class="question-header">
+                <span class="q-badge">CÂU HỎI 1</span>
+                <h3>Kính bạch Thầy, trong tích truyện Kinh Pháp Cú, người thợ hái hoa Sumana chấp nhận cái chết để đem 8 bó hoa lài dành riêng cho vua dâng cúng Đức Phật, vì sao lòng tôn kính tuyệt đối ấy chẳng những giúp ông thoát tội chém đầu mà còn được Đức Thế Tôn thọ ký thành một vị Phật Độc Giác trong tương lai ạ?</h3>
+            </div>
+            <div class="answer-section">
+                <div class="meta-info">
+                    <span class="lecture-name">📖 Gánh Hoa Lài - Pháp Cú 26 (media: 1366, 1797 & 4644)</span>
+                    <a href="https://youtu.be/nx_bQz1yFNs&t=1140" target="_blank" class="youtube-link">▶ Xem video [19:00 - 20:16]</a>
+                </div>
+
+                <div class="story-box">
+                    <div class="story-title">📜 Mẫu chuyện</div>
+                    <p>Ông Sumana có nhiệm vụ mỗi sáng phải hái 8 bó hoa lài tươi dâng cúng vua Tần Bà Sa La, nếu thiếu sẽ bị xử trảm. Sáng nọ trên đường mang hoa vào cung, ông diện kiến Đức Phật uy nghi ôm bình bát đi khất thực. Bị xúc động mãnh liệt trước vẻ đẹp thanh tịnh của Thế Tôn, ông quyết định liều mạng đem trọn 8 bó hoa dâng cúng Phật, sẵn sàng chấp nhận bị chém đầu. Kỳ diệu thay, hoa tung lên không trung liền kết thành những bức rèm và tàn lọng lơ lửng che mát theo từng bước chân Phật. Vua hay tin chẳng những không bắt tội mà còn hết lời ca ngợi, ban thưởng bạc vàng trọng hậu; Đức Thế Tôn cũng thọ ký rằng nhờ lòng tôn kính Phật tuyệt đối dám hy sinh tính mạng, sau vô lượng kiếp luân hồi ông sẽ chứng quả Phật Độc Giác mang tôn hiệu Sumana.</p>
+                </div>
+
+                <div class="snippet-box">
+                    <div class="snippet-title">💬 Trích dẫn bài giảng</div>
+                    <p>"... Anh biết như vậy mà anh chấp nhận hậu quả để dâng cúng Phật tám cái bó hoa lài này. Thì ở chỗ này cái thử thách này rất là lớn, là anh lấy cái sinh mạng của mình ra để bày tỏ được cái lòng tôn kính Phật. Nên vì vậy ở mức độ này, cái lòng tôn kính Phật của anh trong giây phút đó là tuyệt đối. Chính vì cái lòng tôn kính Phật nó đạt được cái mức độ tuyệt đối này nên Phật ứng chứng cho anh luôn là sau này sẽ thành Phật Độc Giác hiệu là Sumana, là Bông Lài... Một quả báo gần là chiều hôm đó vua ra lệnh ban thưởng rất là nhiều bạc vàng cho anh... và một quả báo cực lớn của nhiều kiếp sau là sẽ thành một vị Độc Giác Phật luôn..."</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CÂU HỎI 2 -->
+        <div class="qa-card">
+            <div class="question-header">
+                <span class="q-badge">CÂU HỎI 2</span>
+                <h3>Kính bạch Thầy, tiền thân Tôn giả Khandasumana bất chấp lệnh cấm ngặt nghèo của triều đình, liều mạng hái cành hoa lài cúng dường lên bảo tháp Đức Phật Ca Diếp (Kassapa), lòng tôn kính tột độ ấy đã trổ ra quả báo thù thắng suốt 8 ức năm ở cõi trời và Thánh quả A-la-hán ra sao ạ?</h3>
+            </div>
+            <div class="answer-section">
+                <div class="meta-info">
+                    <span class="lecture-name">📖 Luận Về Nhân Quả - Phần 5 (media: 776, 4828 & 18807)</span>
+                    <a href="https://youtu.be/kd3scs5E22k&t=1266" target="_blank" class="youtube-link">▶ Xem video [21:06 - 22:27]</a>
+                </div>
+
+                <div class="story-box">
+                    <div class="story-title">📜 Mẫu chuyện</div>
+                    <p>Vào thời Đức Phật Ca Diếp nhập diệt, vua ban lệnh cấm nghiêm ngặt không ai được phép hái hoa trong ngự uyển. Bất chấp hiểm nguy tính mạng, tiền thân ngài Khandasumana vì lòng kính ngưỡng bảo tháp Đức Thế Tôn vô hạn đã can đảm bứt một nhành hoa lài tinh khiết đem đặt lên bảo tháp để cúng dường. Nhờ phước báu vô lượng của hành vi cúng hoa với tâm tôn kính tuyệt đối nơi bậc Giác ngộ, ngài được sinh lên cõi trời hưởng thọ an lạc suốt 8 ức năm. Đến thời Đức Phật Thích Ca ra đời, ngài chuyển sinh làm hoàng tử xứ Malla, kỳ lạ là lúc chào đời quanh giường hoa lài tự nhiên trổ bông thơm ngát; lớn lên gặp Phật nghe pháp, ngài xuất gia và chứng đắc lục thông, đắc quả vị Đại A-la-hán.</p>
+                </div>
+
+                <div class="snippet-box">
+                    <div class="snippet-title">💬 Trích dẫn bài giảng</div>
+                    <p>"... Hành vi cúng hoa nơi tháp Phật Kassapa của tiền thân Ngài Khandasumana là một trong bốn hành vi công đức. Chúng ta sẽ ngạc nhiên tại sao hành vi cúng hoa bình thường dễ làm như vậy lại được công đức quá lớn lao: tám ức năm nơi cõi trời và quả vị A-la-hán sau đó... Hơn nữa, Ngài gan dạ bất chấp lệnh cấm của vua không cho ai hái hoa, đã hái cành hoa lài cung kính đặt nơi tháp Phật. Sự gan dạ này nói lên lòng kính trọng tột độ của Ngài đối với đấng Chánh Giác Kassapa. Niềm kính trọng tuyệt đối đó đã hứa hẹn quả vị A-la-hán cho Ngài... Cái nhân mà cung kính bậc Giác ngộ thì sẽ được giác ngộ..."</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CÂU HỎI 3 -->
+        <div class="qa-card">
+            <div class="question-header">
+                <span class="q-badge">CÂU HỎI 3</span>
+                <h3>Kính bạch Thầy, trong pháp hội thắp đèn cúng Phật, câu chuyện bà lão ăn mày nghèo khổ cắt phăng mái tóc đổi lấy hai xu lẻ mua chút dầu cặn thắp lên ngọn đèn nhỏ, vì sao ngọn đèn ấy cháy sáng suốt đêm không thể thổi tắt và đem lại phước báo Bồ-đề vô tận ạ?</h3>
+            </div>
+            <div class="answer-section">
+                <div class="meta-info">
+                    <span class="lecture-name">📖 Ý Nghĩa Lễ Khánh Vía Đức Phật A Di Đà (media: 6591) & Giá Trị Của Sự Tĩnh Lặng Trong Nội Tâm (media: 6289)</span>
+                    <a href="https://youtu.be/H_YXDryXo6c&t=283" target="_blank" class="youtube-link">▶ Xem video [04:43 - 05:58]</a>
+                </div>
+
+                <div class="story-box">
+                    <div class="story-title">📜 Mẫu chuyện</div>
+                    <p>Nhân ngày vua quan và dân chúng mở đại hội thắp đèn cúng dường Đức Phật, một bà lão ăn xin nghèo khó cả ngày chỉ xin được hai xu lẻ. Thay vì mua thức ăn độ nhật, bà gom hết số tiền ít ỏi cùng việc cắt bán mái tóc để mua một chút dầu cặn thắp lên ngọn đèn dầu nhỏ nhoi dâng cúng Thế Tôn với tâm nguyện: "Con nghèo khổ không có gì cúng Phật, xin đem ngọn đèn này dâng lên với tất cả lòng chí kính, cầu cho ánh sáng trí tuệ của Phật soi đường cho muôn loài thoát khổ". Đến nửa đêm gió lớn nổi lên, muôn ngàn ngọn đèn nguy nga, nhiều dầu của vua quan đều lần lượt tắt ngấm, duy chỉ có ngọn đèn dầu của bà lão ăn xin vẫn kiên cường bùng cháy sáng rực; ngay cả khi Tôn giả Mục Kiền Liên dùng thần thông quạt gió cũng không dập tắt nổi. Đức Phật dạy rằng: ngọn đèn ấy được thắp lên bằng trọn vẹn lòng chí thành chí kính tuyệt đối với ngôi Tam Bảo, nên công đức ấy bất diệt và thọ ký đời sau bà sẽ thành tựu Phật đạo.</p>
+                </div>
+
+                <div class="snippet-box">
+                    <div class="snippet-title">💬 Trích dẫn bài giảng</div>
+                    <p>"... Bà lão ăn mày nghèo khó ăn xin qua ngày... vì nghèo quá không đủ tài chánh để mua những cây đèn cao sang to lớn dâng cúng cho Đức Phật, nên bà đã đổi cả mái tóc của mình được hai xu lẻ mua một cây đèn rất nhỏ để dâng cúng cho Đức Thế Tôn... Đại chúng mới thưa hỏi Đức Phật: Bạch Đức Thế Tôn, tại sao cây đèn nhỏ kia còn sáng mãi trong khi những ngọn đèn to lớn đã chìm vào tắt lịm trong bóng đêm? Đức Phật bảo rằng: Bà lão kia với lòng chí thành, chí kính với ngôi Tam Bảo, cho nên dù ngọn đèn nhỏ vẫn sáng mãi mãi với thời gian... Thắp sáng đèn tâm dâng cúng lên Đức Phật bằng lòng tôn kính vô hạn thì ngọn đèn đó đi theo ta từ kiếp này sang kiếp khác..."</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Universe Starry Script -->
+    <script>
+        const canvas = document.getElementById('space-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let width, height;
+        let stars = [];
+
+        function initSize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        class Star {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = Math.random() * 1.5;
+                this.baseAlpha = Math.random() * 0.7 + 0.3;
+                this.alpha = this.baseAlpha;
+                this.twinkleSpeed = Math.random() * 0.02 + 0.005;
+                this.vx = (Math.random() - 0.5) * 0.1;
+                this.vy = (Math.random() - 0.5) * 0.1;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x < 0) this.x = width;
+                if (this.x > width) this.x = 0;
+                if (this.y < 0) this.y = height;
+                if (this.y > height) this.y = 0;
+
+                this.alpha += Math.sin(Date.now() * this.twinkleSpeed) * 0.01;
+                if (this.alpha < 0.1) this.alpha = 0.1;
+                if (this.alpha > 1) this.alpha = 1;
+            }
+
+            draw() {
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initStars() {
+            stars = [];
+            const count = Math.floor((width * height) / 6000);
+            for (let i = 0; i < count; i++) {
+                stars.push(new Star());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            stars.forEach(star => {
+                star.update();
+                star.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', () => {
+            initSize();
+            initStars();
+        });
+
+        initSize();
+        initStars();
+        animate();
+    </script>
+</body>
+</html>

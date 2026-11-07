@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hỏi Đáp Phật Pháp - Lòng Tôn Kính Phật Tuyệt Đối & Phước Báu Vô Lượng</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #05050f;
+            color: #e2e8f0;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Universe Background Effects */
+        #space-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+        }
+
+        .nebula {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(76, 29, 149, 0.18) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(30, 58, 138, 0.18) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(88, 28, 135, 0.12) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        /* Container */
+        .container {
+            max-width: 920px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        header h1 {
+            font-size: 2.4rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 50%, #818cf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 12px;
+            letter-spacing: 0.8px;
+            text-shadow: 0 0 30px rgba(129, 140, 248, 0.35);
+        }
+
+        header p {
+            color: #94a3b8;
+            font-size: 1.05rem;
+            font-weight: 300;
+        }
+
+        /* Question Cards */
+        .qa-card {
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 32px;
+            margin-bottom: 35px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            animation: slideUp 0.8s ease-out backwards;
+        }
+
+        .qa-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(129, 140, 248, 0.35);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7),
+                        0 0 25px rgba(129, 140, 248, 0.2);
+        }
+
+        .qa-card:nth-child(1) { animation-delay: 0.2s; }
+        .qa-card:nth-child(2) { animation-delay: 0.4s; }
+        .qa-card:nth-child(3) { animation-delay: 0.6s; }
+
+        .question-header {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 22px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 18px;
+            gap: 15px;
+        }
+
+        .q-badge {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            box-shadow: 0 0 15px rgba(124, 58, 237, 0.4);
+            flex-shrink: 0;
+            margin-top: 3px;
+        }
+
+        .question-header h3 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #f8fafc;
+            line-height: 1.55;
+        }
+
+        .answer-section {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .meta-info {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            background: rgba(30, 41, 59, 0.4);
+            padding: 12px 18px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.9rem;
+        }
+
+        .lecture-name {
+            color: #c7d2fe;
+            font-weight: 500;
+        }
+
+        .youtube-link {
+            color: #fb7185;
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: opacity 0.2s, transform 0.2s;
+            background: rgba(244, 63, 94, 0.1);
+            padding: 6px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(244, 63, 94, 0.2);
+        }
+
+        .youtube-link:hover {
+            opacity: 0.9;
+            transform: scale(1.02);
+            background: rgba(244, 63, 94, 0.2);
+        }
+
+        .story-box {
+            background: rgba(30, 41, 59, 0.35);
+            border-left: 3px solid #38bdf8;
+            border-radius: 0 12px 12px 0;
+            padding: 16px 20px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #e2e8f0;
+        }
+
+        .story-title {
+            color: #38bdf8;
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .snippet-box {
+            background: rgba(15, 23, 42, 0.5);
+            border-left: 3px solid #818cf8;
+            border-radius: 0 12px 12px 0;
+            padding: 16px 20px;
+            font-size: 0.95rem;
+            line-height: 1.65;
+            color: #cbd5e1;
+            font-style: italic;
+        }
+
+        .snippet-title {
+            color: #818cf8;
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-style: normal;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 { font-size: 1.8rem; }
+            .question-header { flex-direction: column; gap: 10px; }
+            .qa-card { padding: 22px; }
+            .meta-info { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="space-canvas"></canvas>
+    <div class="nebula"></div>
+
+    <div class="container">
+        <header>
+            <h1>Hỏi Đáp Phật Pháp</h1>
+            <p>Lòng Tôn Kính Đức Phật Tuyệt Đối & Quả Báo Phước Báu Vô Lượng</p>
+        </header>
+
+        <!-- CÂU HỎI 1 -->
+        <div class="qa-card">
+            <div class="question-header">
+                <span class="q-badge">CÂU HỎI 1</span>
+                <h3>Kính bạch Thầy, trong tích truyện chàng thanh niên Matthakundali (Ma-tha-kun-đa-li) mắc bệnh nan y bị người cha keo kiệt bỏ mặc ngoài hiên chờ chết, vì sao một người cả đời chưa từng biết làm phước mà chỉ trong khoảnh khắc lâm chung khởi tâm tôn kính Đức Phật tuyệt đối lại được phước sinh ngay lên cõi trời Đao Lợi ạ?</h3>
+            </div>
+            <div class="answer-section">
+                <div class="meta-info">
+                    <span class="lecture-name">📖 01 Tâm Làm Chủ - Pháp Cú 01 (media: 4009)</span>
+                    <a href="https://youtu.be/ZY2UvlNeDo0&t=1288" target="_blank" class="youtube-link">▶ Xem video [21:28 - 22:35]</a>
+                </div>
+
+                <div class="story-box">
+                    <div class="story-title">📜 Mẫu chuyện</div>
+                    <p>Chàng thanh niên Matthakundali là con của một phú hộ bủn xỉn, mắc bệnh thập tử nhất sinh nhưng người cha tiếc tiền không mời thầy thuốc mà khiêng con bỏ nằm ngoài hiên chờ chết. Suốt cuộc đời, chàng thanh niên chưa từng có cơ hội làm một việc phước thiện nào. Giữa giờ phút cận kề cái chết, Đức Phật cùng Tăng đoàn đi qua và phóng luồng hào quang ấm áp soi rọi. Chàng thanh niên mở mắt nhìn thấy tướng mạo trang nghiêm giải thoát của Đức Thế Tôn, liền dồn hết chút tàn lực khởi tâm tôn kính Phật tuyệt đối rồi trút hơi thở cuối cùng. Đúng nhờ một niệm chí thành tôn kính Đức Phật ấy, quả báo lập tức chuyển biến mầu nhiệm, đưa thần thức chàng vãng sinh thẳng lên cõi trời Đao Lợi hưởng phước báu vô lượng.</p>
+                </div>
+
+                <div class="snippet-box">
+                    <div class="snippet-title">💬 Trích dẫn bài giảng</div>
+                    <p>"... Thì anh tắt thở qua đời luôn... Anh lập tức sinh lên cõi trời liền. Chỉ bởi vì gì? Chỉ bởi lòng tôn kính Đức Phật tuyệt đối, đủ phước thôi! Chứ trong suốt cuộc đời vừa qua anh không làm được nhiều việc phước... Tại ba anh không bao giờ cho anh làm điều gì tốn tiền, mà không tốn tiền là lấy đâu ra phước... Nhưng mà chỉ đúng giờ phút cuối cùng thấy được Đức Phật, anh khởi tâm tôn kính tuyệt đối và anh được sinh thiên liền. Ngày hôm nay chúng ta nếu tôn kính Đức Phật tuyệt đối ta cũng thu hoạch được rất nhiều công đức..."</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CÂU HỎI 2 -->
+        <div class="qa-card">
+            <div class="question-header">
+                <span class="q-badge">CÂU HỎI 2</span>
+                <h3>Kính bạch Thầy, câu chuyện tiền thân Quốc sư Ngọc Lâm thuở xưa mang thân hình xấu xí, tật nguyền bị mọi người khinh chê, nhờ bền bỉ lễ bái chiêm ngưỡng dung nhan tượng Phật Dược Sư với lòng tôn kính vô biên mà đời sau gặt hái được quả báo dung mạo phi phàm và đạo hạnh cao quý ra sao ạ?</h3>
+            </div>
+            <div class="answer-section">
+                <div class="meta-info">
+                    <span class="lecture-name">📖 Lòng Tôn Kính Phật Vô Biên (media: 4195, 4611 & 5888)</span>
+                    <a href="https://youtu.be/poFZ1uI3aSA&t=1416" target="_blank" class="youtube-link">▶ Xem video [23:36 - 24:55]</a>
+                </div>
+
+                <div class="story-box">
+                    <div class="story-title">📜 Mẫu chuyện</div>
+                    <p>Trong câu chuyện "Thoát Vòng Tục Lụy", tiền thân ngài Ngọc Lâm là một vị sư làm thư ký trong chùa nhưng diện mạo lại vô cùng xấu xí, dị dạng khiến ai nhìn thấy cũng chê cười, xa lánh. Thấu hiểu nỗi khổ tâm ấy, vị Sư phụ đã hướng dẫn ông sám hối nghiệp cũ bằng cách ngày ngày quỳ lạy trước tượng Phật Dược Sư. Trong suốt nhiều năm tháng, ông đem hết tấm lòng tôn kính chiêm ngưỡng từng nét đẹp dung nhan, 32 tướng tốt và 80 vẻ đẹp thanh tịnh của Đức Phật. Nhờ hạt giống tôn kính vẻ đẹp thánh thiện của Phật được khắc sâu vào tâm khảm, sang đời sau tái sinh, ông trở thành Quốc sư Ngọc Lâm với diện mạo khôi ngô tuấn tú phi phàm, đạo hạnh trang nghiêm và trí tuệ sáng ngời khiến triều đình và muôn dân đều quy kính.</p>
+                </div>
+
+                <div class="snippet-box">
+                    <div class="snippet-title">💬 Trích dẫn bài giảng</div>
+                    <p>"... Trong cái chuyện Thoát Vòng Tục Lụy, kiếp xưa có một ông thư ký ở trong chùa, ông có gương mặt rất là xấu. Sau đó vị sư phụ mới kêu ông sám hối bằng cách lạy Phật Dược Sư. Và ông cứ lạy mãi, ông cứ chiêm ngưỡng cái dung nhan 80 vẻ đẹp của Phật. Và đời sau ông trở thành một nhà sư Ngọc Lâm rất là đẹp... Chắc chắn cái nhân quả nó sẽ đưa đến là cái nhân cách, dung mạo của mình cũng sẽ thay đổi từng ngày... Khi mình thiếu điều gì, mình phải biết kính trọng người khác cái điều đó..."</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CÂU HỎI 3 -->
+        <div class="qa-card">
+            <div class="question-header">
+                <span class="q-badge">CÂU HỎI 3</span>
+                <h3>Kính bạch Thầy, câu chuyện đứa bé đang chơi trò nấu ăn bên đường, khi thấy Đức Phật ôm bình bát đi qua liền khởi tâm cung kính bốc một nắm đất sét quỳ dâng cúng dường xem như cơm, đã đem lại quả báo chuyển sinh thành vị Đại vương hộ trì Phật pháp vĩ đại như thế nào ạ?</h3>
+            </div>
+            <div class="answer-section">
+                <div class="meta-info">
+                    <span class="lecture-name">📖 08 Chùa Là Điểm Tâm Linh (media: 5439) & 03 Tam Giả Quảng Tu Cúng Dường (media: 4109)</span>
+                    <a href="https://youtu.be/rGQQbjdid0o&t=3783" target="_blank" class="youtube-link">▶ Xem video [1:03:03 - 1:04:08]</a>
+                </div>
+
+                <div class="story-box">
+                    <div class="story-title">📜 Mẫu chuyện</div>
+                    <p>Một hôm, Đức Phật cùng Tôn giả A Nan đi khất thực ngang qua một đám trẻ con đang chơi trò nhà chòi nấu ăn bên đường. Thấy Đức Phật trang nghiêm từ tốn bước tới, một đứa bé bỗng khởi tâm tôn kính tột độ; vì không có cơm thật, em liền hốt một vốc đất sét trong chiếc nồi đất đồ chơi, thành kính quỳ mọp xuống hai tay dâng lên bình bát của Phật với tâm niệm trong trẻo xem đó là bát cơm cúng dường. Đức Phật từ bi dạy ngài A Nan đưa bát đón nhận lấy nắm đất rồi đem về trét lên vách liêu phòng của Thế Tôn. Đức Phật thọ ký rằng: nhờ phước báu vô lượng từ tâm hồn tôn kính cúng dường thuần khiết ấy, mấy trăm năm sau đứa bé sẽ chuyển sinh làm vị Chuyển luân Thánh vương (vua A Dục - Ashoka) cai quản cõi Nam Diêm Phù Đề, xây dựng 84.000 ngôi bảo tháp tôn thờ xá lợi Phật và hộ trì Chánh pháp lan tỏa khắp năm châu.</p>
+                </div>
+
+                <div class="snippet-box">
+                    <div class="snippet-title">💬 Trích dẫn bài giảng</div>
+                    <p>"... Nó thấy Đức Phật ôm bát, nó quỳ xuống nó cung kính, nó móc một cục đất sét dâng Đức Phật... Đức Phật nói: A Nan tiếp lấy cái cục đất sét này... Đức Phật mới nói đứa bé lúc đó cúng cho Như Lai, trong đầu nó nghĩ đây là cơm. Mấy trăm năm sau, đứa bé này trở lại thành một vị đại vương cai trị cõi Diêm Phù Đề này và truyền bá Phật Pháp... Trét lên cái vách của Phật coi như Phật thọ dụng, thì đứa bé đó cực kỳ có phước..."</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Universe Starry Script -->
+    <script>
+        const canvas = document.getElementById('space-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let width, height;
+        let stars = [];
+
+        function initSize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        class Star {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = Math.random() * 1.5;
+                this.baseAlpha = Math.random() * 0.7 + 0.3;
+                this.alpha = this.baseAlpha;
+                this.twinkleSpeed = Math.random() * 0.02 + 0.005;
+                this.vx = (Math.random() - 0.5) * 0.1;
+                this.vy = (Math.random() - 0.5) * 0.1;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x < 0) this.x = width;
+                if (this.x > width) this.x = 0;
+                if (this.y < 0) this.y = height;
+                if (this.y > height) this.y = 0;
+
+                this.alpha += Math.sin(Date.now() * this.twinkleSpeed) * 0.01;
+                if (this.alpha < 0.1) this.alpha = 0.1;
+                if (this.alpha > 1) this.alpha = 1;
+            }
+
+            draw() {
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initStars() {
+            stars = [];
+            const count = Math.floor((width * height) / 6000);
+            for (let i = 0; i < count; i++) {
+                stars.push(new Star());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            stars.forEach(star => {
+                star.update();
+                star.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', () => {
+            initSize();
+            initStars();
+        });
+
+        initSize();
+        initStars();
+        animate();
+    </script>
+</body>
+</html>

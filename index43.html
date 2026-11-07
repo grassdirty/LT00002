@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hỏi Đáp Phật Pháp - Nhân Quả Của Lòng Tôn Kính Phật</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #05050f;
+            color: #e2e8f0;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Universe Background Effects */
+        #space-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+        }
+
+        .nebula {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(76, 29, 149, 0.18) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(30, 58, 138, 0.18) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(88, 28, 135, 0.12) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        /* Container */
+        .container {
+            max-width: 920px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        header h1 {
+            font-size: 2.4rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 50%, #818cf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 12px;
+            letter-spacing: 0.8px;
+            text-shadow: 0 0 30px rgba(129, 140, 248, 0.35);
+        }
+
+        header p {
+            color: #94a3b8;
+            font-size: 1.05rem;
+            font-weight: 300;
+        }
+
+        /* Question Cards */
+        .qa-card {
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 32px;
+            margin-bottom: 35px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            animation: slideUp 0.8s ease-out backwards;
+        }
+
+        .qa-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(129, 140, 248, 0.35);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7),
+                        0 0 25px rgba(129, 140, 248, 0.2);
+        }
+
+        .qa-card:nth-child(1) { animation-delay: 0.2s; }
+
+        .question-header {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 22px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 18px;
+            gap: 15px;
+        }
+
+        .q-badge {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            box-shadow: 0 0 15px rgba(124, 58, 237, 0.4);
+            flex-shrink: 0;
+            margin-top: 3px;
+        }
+
+        .question-header h3 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #f8fafc;
+            line-height: 1.55;
+        }
+
+        .answer-section {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .meta-info {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            background: rgba(30, 41, 59, 0.4);
+            padding: 12px 18px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.9rem;
+        }
+
+        .lecture-name {
+            color: #c7d2fe;
+            font-weight: 500;
+        }
+
+        .youtube-link {
+            color: #fb7185;
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: opacity 0.2s, transform 0.2s;
+            background: rgba(244, 63, 94, 0.1);
+            padding: 6px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(244, 63, 94, 0.2);
+        }
+
+        .youtube-link:hover {
+            opacity: 0.9;
+            transform: scale(1.02);
+            background: rgba(244, 63, 94, 0.2);
+        }
+
+        .story-box {
+            background: rgba(30, 41, 59, 0.35);
+            border-left: 3px solid #38bdf8;
+            border-radius: 0 12px 12px 0;
+            padding: 16px 20px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #e2e8f0;
+        }
+
+        .story-title {
+            color: #38bdf8;
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 { font-size: 1.8rem; }
+            .question-header { flex-direction: column; gap: 10px; }
+            .qa-card { padding: 22px; }
+            .meta-info { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="space-canvas"></canvas>
+    <div class="nebula"></div>
+
+    <div class="container">
+        <header>
+            <h1>Hỏi Đáp Phật Pháp</h1>
+            <p>Nhân Quả Của Lòng Tôn Kính Phật Vô Biên & Tâm Đạo Bất Hoại</p>
+        </header>
+
+        <!-- CÂU HỎI 1 -->
+        <div class="qa-card">
+            <div class="question-header">
+                <span class="q-badge">CÂU HỎI 1</span>
+                <h3>Kính bạch Thầy, trong tích truyện Kinh Pháp Cú, khi gia tài của Trưởng giả Cấp Cô Độc bị khánh kiệt vì làm phước và nữ thần giữ cổng hiện ra xúi giục ông bỏ Phật để giữ lấy tài sản, vì sao lòng tôn kính kiên định tuyệt đối nơi Đức Thế Tôn chẳng những bảo vệ được đạo tâm của ông mà còn khuất phục cả thần linh phải quỳ lạy sám hối và hoàn trả lại toàn bộ của cải ạ?</h3>
+            </div>
+            <div class="answer-section">
+                <div class="meta-info">
+                    <span class="lecture-name">📖 41 Khi Nữ Thần Hối Hận - Pháp Cú 41 (media: 1517 & 4668) & Lòng Tôn Kính Phật Vô Biên (media: 4195 & 4611)</span>
+                    <a href="https://youtu.be/0gwpu_l1inM&t=1219" target="_blank" class="youtube-link">▶ Xem video [20:19 - 21:29]</a>
+                </div>
+
+                <div class="story-box">
+                    <div class="story-title">📜 Mẫu chuyện</div>
+                    <p>Trưởng giả Cấp Cô Độc dốc lòng làm vô lượng việc phước cúng dường Phật và Tăng đoàn. Do duyên nghiệp cũ trổ ra, ông gặp hai đại nạn liên tiếp: khách hàng nợ nần quỵt tiền không trả và một cơn lũ quét trôi mất kho vàng chôn ven sông, khiến gia đạo sa sút. Một vị nữ thần ngụ ở cổng nhà thấy vậy hiện ra nửa đêm khuyên ông: "Vì ông theo Phật và cúng dường chúng Tăng nên mới gặp tai họa khánh kiệt, hãy từ bỏ Phật đi để giữ lấy số tài sản còn lại!". Đã đắc quả Tu-đà-hoàn với lòng tôn kính Đức Phật tuyệt đối bất hoại, ông quắc mắt quở mắng nghiêm khắc và đuổi nữ thần ra khỏi cổng nhà. Mất chỗ nương náu và kinh sợ oai đức của bậc Thánh, nữ thần phải vận dụng hết thần lực đi đòi lại từng món nợ và trục vớt toàn bộ số vàng dưới lòng sông về hoàn trả cho ông, rồi được ông dẫn đến quỳ mọp trước Đức Thế Tôn chí thành sám hối.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Universe Starry Script -->
+    <script>
+        const canvas = document.getElementById('space-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let width, height;
+        let stars = [];
+
+        function initSize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        class Star {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = Math.random() * 1.5;
+                this.baseAlpha = Math.random() * 0.7 + 0.3;
+                this.alpha = this.baseAlpha;
+                this.twinkleSpeed = Math.random() * 0.02 + 0.005;
+                this.vx = (Math.random() - 0.5) * 0.1;
+                this.vy = (Math.random() - 0.5) * 0.1;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x < 0) this.x = width;
+                if (this.x > width) this.x = 0;
+                if (this.y < 0) this.y = height;
+                if (this.y > height) this.y = 0;
+
+                this.alpha += Math.sin(Date.now() * this.twinkleSpeed) * 0.01;
+                if (this.alpha < 0.1) this.alpha = 0.1;
+                if (this.alpha > 1) this.alpha = 1;
+            }
+
+            draw() {
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initStars() {
+            stars = [];
+            const count = Math.floor((width * height) / 6000);
+            for (let i = 0; i < count; i++) {
+                stars.push(new Star());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            stars.forEach(star => {
+                star.update();
+                star.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', () => {
+            initSize();
+            initStars();
+        });
+
+        initSize();
+        initStars();
+        animate();
+    </script>
+</body>
+</html>
