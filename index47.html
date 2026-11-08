@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hỏi Đáp Pháp Cú - Trí Tuệ & Phước Báo Của Lòng Tôn Kính (Phần 3)</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Cinzel:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-deep-space: #070913;
+            --primary-gold: #fbbf24;
+            --accent-glow: #38bdf8;
+            --purple-glow: #8b5cf6;
+            --card-bg: rgba(15, 23, 42, 0.65);
+            --card-border: rgba(255, 255, 255, 0.12);
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background-color: var(--bg-deep-space);
+            color: var(--text-main);
+            min-height: 100vh;
+            line-height: 1.7;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Canvas nền hiệu ứng vũ trụ */
+        #space-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Hiệu ứng mây tinh vân (Nebula) */
+        .nebula {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            filter: blur(140px);
+            opacity: 0.25;
+            z-index: -1;
+            pointer-events: none;
+        }
+        .nebula-1 {
+            top: -100px;
+            left: -100px;
+            background: radial-gradient(circle, var(--purple-glow), transparent 70%);
+        }
+        .nebula-2 {
+            bottom: -150px;
+            right: -100px;
+            background: radial-gradient(circle, #0284c7, transparent 70%);
+        }
+        .nebula-3 {
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(circle, #d97706, transparent 70%);
+            opacity: 0.15;
+        }
+
+        /* Layout Container */
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 40px 20px 80px;
+        }
+
+        /* Header Title */
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        header .symbol {
+            font-size: 2.5rem;
+            color: var(--primary-gold);
+            text-shadow: 0 0 20px rgba(251, 191, 36, 0.6);
+            margin-bottom: 10px;
+        }
+
+        header h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, #fff 30%, var(--primary-gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+            margin-bottom: 12px;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1rem;
+            font-weight: 300;
+        }
+
+        /* Q&A Cards */
+        .qa-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 32px;
+            margin-bottom: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .qa-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(251, 191, 36, 0.4);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), 0 0 20px rgba(251, 191, 36, 0.15);
+        }
+
+        /* Card Header / Badge */
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .question-badge {
+            background: linear-gradient(135deg, #d97706, #fbbf24);
+            color: #0f172a;
+            font-weight: 700;
+            font-size: 0.9rem;
+            padding: 4px 14px;
+            border-radius: 20px;
+            letter-spacing: 0.5px;
+            box-shadow: 0 0 12px rgba(251, 191, 36, 0.4);
+        }
+
+        /* Question Section */
+        .question-box {
+            background: rgba(139, 92, 246, 0.1);
+            border-left: 4px solid var(--purple-glow);
+            padding: 18px 20px;
+            border-radius: 0 12px 12px 0;
+            margin-bottom: 28px;
+        }
+
+        .question-box h3 {
+            color: #c084fc;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+
+        .question-box p {
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: #f3e8ff;
+        }
+
+        /* Answer Meta Info */
+        .meta-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 18px 20px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+        }
+
+        .meta-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .meta-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+        }
+
+        .meta-value {
+            font-size: 0.95rem;
+            color: var(--primary-gold);
+            font-weight: 600;
+        }
+
+        .lecture-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--accent-glow);
+            text-decoration: none;
+            font-weight: 500;
+            word-break: break-all;
+            transition: color 0.2s;
+        }
+
+        .lecture-link:hover {
+            color: #7dd3fc;
+            text-decoration: underline;
+        }
+
+        /* Story Section */
+        .section-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--primary-gold);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .story-text {
+            font-size: 0.98rem;
+            color: #cbd5e1;
+            margin-bottom: 24px;
+            text-align: justify;
+        }
+
+        /* Snippet / Quote */
+        .snippet-box {
+            background: rgba(2, 132, 199, 0.08);
+            border-left: 3px solid var(--accent-glow);
+            padding: 16px 20px;
+            border-radius: 0 12px 12px 0;
+            font-style: italic;
+            color: #e0f2fe;
+            font-size: 0.94rem;
+        }
+
+        .snippet-box::before {
+            content: "“";
+            font-size: 2rem;
+            line-height: 1;
+            color: var(--accent-glow);
+            display: block;
+            margin-bottom: -10px;
+            opacity: 0.6;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-top: 60px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding-top: 30px;
+        }
+
+        @media (max-width: 640px) {
+            header h1 {
+                font-size: 1.6rem;
+            }
+            .qa-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Nebula background layers -->
+    <div class="nebula nebula-1"></div>
+    <div class="nebula nebula-2"></div>
+    <div class="nebula nebula-3"></div>
+
+    <!-- Canvas cho hiệu ứng sao vũ trụ -->
+    <canvas id="space-canvas"></canvas>
+
+    <div class="container">
+        <header>
+            <div class="symbol">☸</div>
+            <h1>TRÍ TUỆ & PHƯỚC BÁO CỦA LÒNG TÔN KÍNH</h1>
+            <p>Trích Yếu Tích Truyện & Giáo Lý Kinh Pháp Cú (Phần 3)</p>
+        </header>
+
+        <!-- CÂU HỎI 1 -->
+        <article class="qa-card">
+            <div class="card-header">
+                <span class="question-badge">📌 CÂU HỎI 1</span>
+            </div>
+
+            <div class="question-box">
+                <h3>Hỏi:</h3>
+                <p>Kính bạch Thầy, câu chuyện Vua Maha Kappina khi nghe tin Đức Phật xuất hiện ở trần gian liền lập tức từ bỏ ngai vàng phi ngựa đi tìm, đứng trước dòng sông lớn nhờ lòng tôn kính Phật tuyệt đối mà đàn ngựa chạy băng qua mặt nước như đất bằng và vừa gặp Phật đắc đạo liền đã thể hiện quả báo thần diệu nào ạ?</p>
+            </div>
+
+            <div class="meta-grid">
+                <div class="meta-item">
+                    <span class="meta-label">Tên bài giảng</span>
+                    <span class="meta-value">Hạnh Phổ Hiền 01 - Nhất Giả Lễ Kính Chư Phật (media: 4608 & 361)</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Link bài giảng & Thời lượng</span>
+                    <a href="https://youtu.be/cFAzQ3PA3uw&t=2478" target="_blank" class="lecture-link">
+                        ▶ https://youtu.be/cFAzQ3PA3uw&t=2478 [41:18 - 42:26]
+                    </a>
+                </div>
+            </div>
+
+            <div class="story-section">
+                <div class="section-title">📖 Mẫu chuyện:</div>
+                <p class="story-text">
+                    Vua Maha Kappina khi nhận được bức thông điệp về Tam Bảo liền dứt khoát từ bỏ ngôi báu, cùng đoàn tùy tùng phi ngựa thần tốc lên đường tìm Phật mà không một giây chần chừ tính toán. Đứng trước dòng sông lớn cuồn cuộn chảy chắn lối, với lòng tôn kính Đức Thế Tôn tột độ, vua phát nguyện trong tâm: "Nếu Đức Phật là bậc Toàn Giác có thật và lòng con trọn lòng hướng về Ngài, xin cho đàn ngựa vượt qua sông chân không chạm nước". Kỳ diệu thay, cả đoàn ngựa phi băng băng trên mặt nước sang bờ bên kia như trên đất bằng. Đức Phật biết tâm ông nên thị hiện đứng đón sẵn bên bờ sông; vừa gặp Phật, vua sụp lạy và chỉ nghe Thế Tôn khai thị một câu liền đắc quả A-la-hán, xuất gia giải thoát cùng toàn bộ tướng sĩ.
+                </p>
+
+                <div class="snippet-box">
+                    "... Trong đầu ông nghĩ thế này: Lòng con trọn lòng đối với Đức Phật thì ngựa con phải chạy qua được dòng sông này. Và đúng là dòng ngựa ông chạy băng qua mặt nước đi qua luôn! Và khi tới gặp Phật rồi ngày thứ nhất, ngày thứ hai đắc đạo luôn bởi vì cái lòng tôn kính của ông đâu từ đời nào... ngồi đó nó chờ, nó cao tột mà nghe nói tới có Phật rồi bỏ tất cả đi liền... Không có một suy nghĩ chần chừ tính toán gì nữa, bất chấp hết tất cả... Một loạt các quan tướng đi theo vua đó đắc đạo luôn..."
+                </div>
+            </div>
+        </article>
+
+        <!-- CÂU HỎI 2 -->
+        <article class="qa-card">
+            <div class="card-header">
+                <span class="question-badge">📌 CÂU HỎI 2</span>
+            </div>
+
+            <div class="question-box">
+                <h3>Hỏi:</h3>
+                <p>Kính bạch Thầy, trong tích truyện Kinh Pháp Cú, phú thương Mahadana khi được báo tin còn 7 ngày nữa sẽ bị quái ngư nuốt chửng, vì sao hành vi đem toàn bộ tài sản mang theo cúng dường Phật và chúng Tăng suốt 7 ngày với trọn lòng tôn kính đã giúp ông chuyển hóa nghiệp chết dữ và vãng sinh thẳng lên cõi trời Đẩu Suất ạ?</p>
+            </div>
+
+            <div class="meta-grid">
+                <div class="meta-item">
+                    <span class="meta-label">Tên bài giảng</span>
+                    <span class="meta-value">67 Nghịch Hạnh Trong Tu Hành (media: 4695)</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Link bài giảng & Thời lượng</span>
+                    <a href="https://youtu.be/cQKJzfXCil0&t=4779" target="_blank" class="lecture-link">
+                        ▶ https://youtu.be/cQKJzfXCil0&t=4779 [1:19:39 - 1:20:53]
+                    </a>
+                </div>
+            </div>
+
+            <div class="story-section">
+                <div class="section-title">📖 Mẫu chuyện:</div>
+                <p class="story-text">
+                    Phú thương Mahadana đi buôn xa, bất ngờ được Tôn giả A Nan báo tin Đức Phật cho biết 7 ngày nữa ông sẽ tận số và bị cá lớn nuốt chửng ngoài biển sâu. Biết đường về quê quá xa không kịp nữa, thay vì than khóc sợ hãi, ông đem toàn bộ tiền của mang theo để mua sắm thượng vị, ngày ngày đảnh lễ, hầu hạ và cúng dường Phật cùng Tăng đoàn suốt trọn 7 ngày với lòng tôn kính chí thành. Đúng ngày thứ 7 sau khi cúng dường xong, ông lên cơn bệnh và thanh thản trút hơi thở cuối cùng trong tinh xá. Đức Phật cho biết: nhờ năng lực công đức cúng dường và lòng tôn kính Phật cùng chúng Tăng tuyệt đối trong những ngày cuối đời, nghiệp chết dữ làm mồi cho cá đã bị triệt tiêu, và ông được vãng sinh ngay lên cõi trời Đẩu Suất để tiếp tục tu hành.
+                </p>
+
+                <div class="snippet-box">
+                    "... Bây giờ về nhà cũng hết kịp rồi tại hồi xưa đường xa lắm... Thế là ông dốc hết tiền bạc mà ông có đem theo, ông mua sắm ông cúng dường Đức Phật và Chư Tăng trong suốt 7 ngày luôn. Thế ngày nào ông cũng dâng cúng, ông hầu hạ Đức Phật, đảnh lễ Đức Phật, cúng dường những món ngon thượng vị... Tới cái ngày thứ 7 khi Đức Phật ăn xong rời khỏi, ông ở đây ông lên cơn bệnh ông chết tại chỗ, không bị cá nuốt... Đức Phật cho biết là ông đã sinh lên cõi trời Đẩu Suất, ông lên ông tu vì nhờ công đức cúng dường và thành kính Phật và chư Tăng suốt 7 ngày..."
+                </div>
+            </div>
+        </article>
+
+        <!-- CÂU HỎI 3 -->
+        <article class="qa-card">
+            <div class="card-header">
+                <span class="question-badge">📌 CÂU HỎI 3</span>
+            </div>
+
+            <div class="question-box">
+                <h3>Hỏi:</h3>
+                <p>Kính bạch Thầy, sau khi Đức Phật thành đạo dưới cội bồ-đề, câu chuyện Mãng xà chúa Mucalinda (Thái tử Long Cung) cuộn tròn nhiều vòng và phùng mang che mưa bão suốt nhiều ngày đêm cho Phật đã thể hiện lòng tôn kính của loài vật và kết quả quy y Tam Bảo mầu nhiệm ra sao ạ?</p>
+            </div>
+
+            <div class="meta-grid">
+                <div class="meta-item">
+                    <span class="meta-label">Tên bài giảng</span>
+                    <span class="meta-value">05 Giúp Trẻ Tin Phật (media: 5189)</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Link bài giảng & Thời lượng</span>
+                    <a href="https://youtu.be/iLL2hx5gakM&t=2811" target="_blank" class="lecture-link">
+                        ▶ https://youtu.be/iLL2hx5gakM&t=2811 [46:51 - 47:33]
+                    </a>
+                </div>
+            </div>
+
+            <div class="story-section">
+                <div class="section-title">📖 Mẫu chuyện:</div>
+                <p class="story-text">
+                    Sau khi Đức Phật vừa thành đạo, trời bỗng đổ mưa dầm gió lạnh suốt nhiều ngày đêm. Nhìn thấy bậc Đại Giác ngộ ngồi thiền định giữa phong ba gió rét, một con mãng xà chúa khổng lồ (rồng Mucalinda) vì khởi tâm tôn kính Thế Tôn sâu xa, đã bò đến cuộn thân thành nhiều vòng nâng đỡ và xòe rộng chiếc mang lớn che kín bên trên để mưa gió không phạm vào thân Phật. Đến khi mưa dứt trời quang, mãng xà thu mình lại, biến hóa thành một chàng thanh niên tuấn tú đến quỳ mọp đảnh lễ dưới chân Đức Phật, tự xưng là Thái tử Long Cung phát nguyện trọn đời quy y Tam Bảo, gieo duyên lành giải thoát bất hoại cho muôn kiếp sau.
+                </p>
+
+                <div class="snippet-box">
+                    "... Lúc mà Phật ngồi thiền, thì có một cái lúc trời đổ mưa ầm ầm xuống thì có một con mãng xà tới hiện thân thật to lại để che Phật, cuốn quanh người Phật bao nhiêu vòng vậy rồi lấy cái đầu phùng ra, phùng cái mang ra che Phật. Phật ngồi gọn trống luôn cho mưa đừng có ướt, vì con mãng xà đó là quá tôn kính Phật. Cho đến khi hết mưa rồi, con mãng xà đó mới thu người trở ra, biến lại thành một người thanh niên đứng đảnh lễ Phật và xưng là Long cung thái tử, tức là một vị rồng ở dưới biển nhưng mà cũng biết quy hướng về Phật Pháp và để biểu lộ lòng tôn kính Phật thì lúc Phật gặp mưa đã hiện ra để che mưa cho Phật..."
+                </div>
+            </div>
+        </article>
+
+        <footer>
+            Nội dung tích truyện Pháp Cú & Trích dẫn bài giảng
+        </footer>
+    </div>
+
+    <!-- Script tạo sao lấp lánh trên background -->
+    <script>
+        const canvas = document.getElementById('space-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let width, height;
+        let stars = [];
+
+        function initCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            stars = [];
+            
+            const starCount = Math.floor((width * height) / 3000);
+            for (let i = 0; i < starCount; i++) {
+                stars.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    radius: Math.random() * 1.5,
+                    alpha: Math.random(),
+                    speed: Math.random() * 0.01 + 0.003
+                });
+            }
+        }
+
+        function drawStars() {
+            ctx.clearRect(0, 0, width, height);
+
+            for (let star of stars) {
+                star.alpha += star.speed;
+                if (star.alpha > 1 || star.alpha < 0) {
+                    star.speed = -star.speed;
+                }
+
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 255, 255, ${Math.abs(star.alpha)})`;
+                ctx.shadowBlur = star.radius * 4;
+                ctx.shadowColor = '#ffffff';
+                ctx.fill();
+            }
+
+            requestAnimationFrame(drawStars);
+        }
+
+        window.addEventListener('resize', initCanvas);
+        initCanvas();
+        drawStars();
+    </script>
+</body>
+</html>

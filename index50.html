@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hỏi Đáp Pháp Cú - Trí Tuệ & Phước Báo Của Lòng Tôn Kính (Phần 6)</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Cinzel:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-deep-space: #070913;
+            --primary-gold: #fbbf24;
+            --accent-glow: #38bdf8;
+            --purple-glow: #8b5cf6;
+            --card-bg: rgba(15, 23, 42, 0.65);
+            --card-border: rgba(255, 255, 255, 0.12);
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background-color: var(--bg-deep-space);
+            color: var(--text-main);
+            min-height: 100vh;
+            line-height: 1.7;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Canvas nền hiệu ứng vũ trụ */
+        #space-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Hiệu ứng mây tinh vân (Nebula) */
+        .nebula {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            filter: blur(140px);
+            opacity: 0.25;
+            z-index: -1;
+            pointer-events: none;
+        }
+        .nebula-1 {
+            top: -100px;
+            left: -100px;
+            background: radial-gradient(circle, var(--purple-glow), transparent 70%);
+        }
+        .nebula-2 {
+            bottom: -150px;
+            right: -100px;
+            background: radial-gradient(circle, #0284c7, transparent 70%);
+        }
+        .nebula-3 {
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(circle, #d97706, transparent 70%);
+            opacity: 0.15;
+        }
+
+        /* Layout Container */
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 40px 20px 80px;
+        }
+
+        /* Header Title */
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        header .symbol {
+            font-size: 2.5rem;
+            color: var(--primary-gold);
+            text-shadow: 0 0 20px rgba(251, 191, 36, 0.6);
+            margin-bottom: 10px;
+        }
+
+        header h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, #fff 30%, var(--primary-gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+            margin-bottom: 12px;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1rem;
+            font-weight: 300;
+        }
+
+        /* Q&A Cards */
+        .qa-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 32px;
+            margin-bottom: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .qa-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(251, 191, 36, 0.4);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), 0 0 20px rgba(251, 191, 36, 0.15);
+        }
+
+        /* Card Header / Badge */
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .question-badge {
+            background: linear-gradient(135deg, #d97706, #fbbf24);
+            color: #0f172a;
+            font-weight: 700;
+            font-size: 0.9rem;
+            padding: 4px 14px;
+            border-radius: 20px;
+            letter-spacing: 0.5px;
+            box-shadow: 0 0 12px rgba(251, 191, 36, 0.4);
+        }
+
+        /* Question Section */
+        .question-box {
+            background: rgba(139, 92, 246, 0.1);
+            border-left: 4px solid var(--purple-glow);
+            padding: 18px 20px;
+            border-radius: 0 12px 12px 0;
+            margin-bottom: 28px;
+        }
+
+        .question-box h3 {
+            color: #c084fc;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+
+        .question-box p {
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: #f3e8ff;
+        }
+
+        /* Answer Meta Info */
+        .meta-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 18px 20px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+        }
+
+        .meta-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .meta-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+        }
+
+        .meta-value {
+            font-size: 0.95rem;
+            color: var(--primary-gold);
+            font-weight: 600;
+        }
+
+        .lecture-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--accent-glow);
+            text-decoration: none;
+            font-weight: 500;
+            word-break: break-all;
+            transition: color 0.2s;
+        }
+
+        .lecture-link:hover {
+            color: #7dd3fc;
+            text-decoration: underline;
+        }
+
+        /* Story Section */
+        .section-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--primary-gold);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .story-text {
+            font-size: 0.98rem;
+            color: #cbd5e1;
+            margin-bottom: 12px;
+            text-align: justify;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-top: 60px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding-top: 30px;
+        }
+
+        @media (max-width: 640px) {
+            header h1 {
+                font-size: 1.6rem;
+            }
+            .qa-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Nebula background layers -->
+    <div class="nebula nebula-1"></div>
+    <div class="nebula nebula-2"></div>
+    <div class="nebula nebula-3"></div>
+
+    <!-- Canvas cho hiệu ứng sao vũ trụ -->
+    <canvas id="space-canvas"></canvas>
+
+    <div class="container">
+        <header>
+            <div class="symbol">☸</div>
+            <h1>TRÍ TUỆ & PHƯỚC BÁO CỦA LÒNG TÔN KÍNH</h1>
+            <p>Trích Yếu Tích Truyện & Giáo Lý Kinh Pháp Cú (Phần 6)</p>
+        </header>
+
+        <!-- CÂU HỎI 1 -->
+        <article class="qa-card">
+            <div class="card-header">
+                <span class="question-badge">📌 CÂU HỎI 1</span>
+            </div>
+
+            <div class="question-box">
+                <h3>Hỏi:</h3>
+                <p>Kính bạch Thầy, trong thời gian Đức Phật an cư một mình tại khu rừng Parileyyaka, câu chuyện con khỉ chúa và voi chúa hết lòng hầu hạ Đức Thế Tôn, đặc biệt là việc con khỉ vì tâm cung kính Phật tột độ mà khi gặp nạn trút hơi thở cuối cùng đã lập tức sinh lên cõi trời đã minh chứng cho phước báu mầu nhiệm của loài súc sinh biết kính Phật ra sao ạ?</p>
+            </div>
+
+            <div class="meta-grid">
+                <div class="meta-item">
+                    <span class="meta-label">Tên bài giảng</span>
+                    <span class="meta-value">Tranh Cãi - Pháp Cú 03 (media: 1378 & 3851) & Nhìn Lên Nhìn Xuống (media: 2366 & 4767)</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Link bài giảng & Thời lượng</span>
+                    <a href="https://youtu.be/3hntEK8zCe0&t=1166" target="_blank" class="lecture-link">
+                        ▶ https://youtu.be/3hntEK8zCe0&t=1166 [19:26 - 20:27] (tham chiếu media 1378: [19:30 - 20:30])
+                    </a>
+                </div>
+            </div>
+
+            <div class="story-section">
+                <div class="section-title">📖 Mẫu chuyện:</div>
+                <p class="story-text">
+                    Khi chúng Tăng xứ Kosambi tranh cãi làm rạn nứt hòa hợp, Đức Phật một mình vào rừng sâu Parileyyaka an cư suốt ba tháng. Cảm nhận được uy đức thanh tịnh của bậc Toàn Giác, một con voi chúa tình nguyện làm thị giả gùi nước, quét dọn và một con khỉ chúa thông minh cũng bắt chước đi hái hoa trái, mật ong dâng cúng dường Phật với tâm hết sức cung kính. Nhìn thấy Đức Phật hoan hỷ thọ dụng món quà của mình, con khỉ mừng rỡ nhảy nhót chuyền cành, sơ ý đạp trúng nhánh cây mục rơi xuống bị cọc nhọn đâm xuyên qua tim. Nhờ tâm niệm cung kính Đức Phật quá đỗi mạnh mẽ và thuần khiết trong giây phút lâm chung, con khỉ thoát kiếp súc sinh và lập tức sinh thẳng lên cõi trời hưởng vô lượng an lạc.
+                </p>
+            </div>
+        </article>
+
+        <footer>
+            Nội dung tích truyện Pháp Cú & Trích dẫn bài giảng
+        </footer>
+    </div>
+
+    <!-- Script tạo sao lấp lánh trên background -->
+    <script>
+        const canvas = document.getElementById('space-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let width, height;
+        let stars = [];
+
+        function initCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            stars = [];
+            
+            const starCount = Math.floor((width * height) / 3000);
+            for (let i = 0; i < starCount; i++) {
+                stars.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    radius: Math.random() * 1.5,
+                    alpha: Math.random(),
+                    speed: Math.random() * 0.01 + 0.003
+                });
+            }
+        }
+
+        function drawStars() {
+            ctx.clearRect(0, 0, width, height);
+
+            for (let star of stars) {
+                star.alpha += star.speed;
+                if (star.alpha > 1 || star.alpha < 0) {
+                    star.speed = -star.speed;
+                }
+
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 255, 255, ${Math.abs(star.alpha)})`;
+                ctx.shadowBlur = star.radius * 4;
+                ctx.shadowColor = '#ffffff';
+                ctx.fill();
+            }
+
+            requestAnimationFrame(drawStars);
+        }
+
+        window.addEventListener('resize', initCanvas);
+        initCanvas();
+        drawStars();
+    </script>
+</body>
+</html>

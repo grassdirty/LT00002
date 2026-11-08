@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hỏi Đáp Pháp Cú - Trí Tuệ & Phước Báo Của Lòng Tôn Kính (Phần 5)</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Cinzel:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-deep-space: #070913;
+            --primary-gold: #fbbf24;
+            --accent-glow: #38bdf8;
+            --purple-glow: #8b5cf6;
+            --card-bg: rgba(15, 23, 42, 0.65);
+            --card-border: rgba(255, 255, 255, 0.12);
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background-color: var(--bg-deep-space);
+            color: var(--text-main);
+            min-height: 100vh;
+            line-height: 1.7;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Canvas nền hiệu ứng vũ trụ */
+        #space-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Hiệu ứng mây tinh vân (Nebula) */
+        .nebula {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            filter: blur(140px);
+            opacity: 0.25;
+            z-index: -1;
+            pointer-events: none;
+        }
+        .nebula-1 {
+            top: -100px;
+            left: -100px;
+            background: radial-gradient(circle, var(--purple-glow), transparent 70%);
+        }
+        .nebula-2 {
+            bottom: -150px;
+            right: -100px;
+            background: radial-gradient(circle, #0284c7, transparent 70%);
+        }
+        .nebula-3 {
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(circle, #d97706, transparent 70%);
+            opacity: 0.15;
+        }
+
+        /* Layout Container */
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 40px 20px 80px;
+        }
+
+        /* Header Title */
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        header .symbol {
+            font-size: 2.5rem;
+            color: var(--primary-gold);
+            text-shadow: 0 0 20px rgba(251, 191, 36, 0.6);
+            margin-bottom: 10px;
+        }
+
+        header h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, #fff 30%, var(--primary-gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+            margin-bottom: 12px;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1rem;
+            font-weight: 300;
+        }
+
+        /* Q&A Cards */
+        .qa-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 32px;
+            margin-bottom: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .qa-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(251, 191, 36, 0.4);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), 0 0 20px rgba(251, 191, 36, 0.15);
+        }
+
+        /* Card Header / Badge */
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .question-badge {
+            background: linear-gradient(135deg, #d97706, #fbbf24);
+            color: #0f172a;
+            font-weight: 700;
+            font-size: 0.9rem;
+            padding: 4px 14px;
+            border-radius: 20px;
+            letter-spacing: 0.5px;
+            box-shadow: 0 0 12px rgba(251, 191, 36, 0.4);
+        }
+
+        /* Question Section */
+        .question-box {
+            background: rgba(139, 92, 246, 0.1);
+            border-left: 4px solid var(--purple-glow);
+            padding: 18px 20px;
+            border-radius: 0 12px 12px 0;
+            margin-bottom: 28px;
+        }
+
+        .question-box h3 {
+            color: #c084fc;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+
+        .question-box p {
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: #f3e8ff;
+        }
+
+        /* Answer Meta Info */
+        .meta-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 18px 20px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+        }
+
+        .meta-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .meta-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+        }
+
+        .meta-value {
+            font-size: 0.95rem;
+            color: var(--primary-gold);
+            font-weight: 600;
+        }
+
+        .lecture-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--accent-glow);
+            text-decoration: none;
+            font-weight: 500;
+            word-break: break-all;
+            transition: color 0.2s;
+        }
+
+        .lecture-link:hover {
+            color: #7dd3fc;
+            text-decoration: underline;
+        }
+
+        /* Story Section */
+        .section-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--primary-gold);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .story-text {
+            font-size: 0.98rem;
+            color: #cbd5e1;
+            margin-bottom: 24px;
+            text-align: justify;
+        }
+
+        /* Snippet / Quote */
+        .snippet-box {
+            background: rgba(2, 132, 199, 0.08);
+            border-left: 3px solid var(--accent-glow);
+            padding: 16px 20px;
+            border-radius: 0 12px 12px 0;
+            font-style: italic;
+            color: #e0f2fe;
+            font-size: 0.94rem;
+        }
+
+        .snippet-box::before {
+            content: "“";
+            font-size: 2rem;
+            line-height: 1;
+            color: var(--accent-glow);
+            display: block;
+            margin-bottom: -10px;
+            opacity: 0.6;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-top: 60px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding-top: 30px;
+        }
+
+        @media (max-width: 640px) {
+            header h1 {
+                font-size: 1.6rem;
+            }
+            .qa-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Nebula background layers -->
+    <div class="nebula nebula-1"></div>
+    <div class="nebula nebula-2"></div>
+    <div class="nebula nebula-3"></div>
+
+    <!-- Canvas cho hiệu ứng sao vũ trụ -->
+    <canvas id="space-canvas"></canvas>
+
+    <div class="container">
+        <header>
+            <div class="symbol">☸</div>
+            <h1>TRÍ TUỆ & PHƯỚC BÁO CỦA LÒNG TÔN KÍNH</h1>
+            <p>Trích Yếu Tích Truyện & Giáo Lý Kinh Pháp Cú (Phần 5)</p>
+        </header>
+
+        <!-- CÂU HỎI 1 -->
+        <article class="qa-card">
+            <div class="card-header">
+                <span class="question-badge">📌 CÂU HỎI 1</span>
+            </div>
+
+            <div class="question-box">
+                <h3>Hỏi:</h3>
+                <p>Kính bạch Thầy, trong tích truyện Kinh Pháp Cú, câu chuyện cư sĩ Chattapani khi gặp Vua Ba Tư Nặc trước mặt Đức Phật đã không quỳ lạy tung hô vua như lệ thường, lời trần tình: "Trước đấng Tối Tôn Tối Thắng vượt ngoài ba cõi, thần không thể chia sẻ sự cung kính cho ai khác" đã mang lại sự kính phục của nhà vua và bài học nhân quả về lòng tôn kính Phật độc tôn ra sao ạ?</p>
+            </div>
+
+            <div class="meta-grid">
+                <div class="meta-item">
+                    <span class="meta-label">Tên bài giảng</span>
+                    <span class="meta-value">Hương Và Sắc - Pháp Cú 20 (media: 1367 & 4635)</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Link bài giảng & Thời lượng</span>
+                    <a href="https://youtu.be/MgGJSsx3EF0&t=914" target="_blank" class="lecture-link">
+                        ▶ https://youtu.be/MgGJSsx3EF0&t=914 [15:14 - 16:37]
+                    </a>
+                </div>
+            </div>
+
+            <div class="story-section">
+                <div class="section-title">📖 Mẫu chuyện:</div>
+                <p class="story-text">
+                    Cư sĩ Chattapani đang ngồi nghe Đức Thế Tôn thuyết pháp thì Vua Ba Tư Nặc ngự giá bước vào. Khác với mọi thần dân thường phải quỳ lạy tung hô đại vương, ông chỉ khẽ nghiêng đầu chào vua rồi tiếp tục hướng trọn tâm ý về phía Phật. Vua Ba Tư Nặc trong lòng lấy làm khó chịu. Sau này có dịp gặp riêng, vua gặng hỏi lý do bất kính. Cư sĩ Chattapani cung kính thưa: "Trước đấng Tối Tôn Tối Thắng vượt ngoài ba cõi, con không thể chia sẻ sự cung kính này cho bất kỳ ai khác; còn hôm nay chỉ có đại vương, với bổn phận người dân con xin đảnh lễ đại vương hết lòng". Lời nói khẳng khái xuất phát từ lòng tôn kính Phật tuyệt đối ấy chẳng những khiến vua Ba Tư Nặc không hề trừng phạt mà còn vô cùng kính nể, đàm đạo giáo lý nhân quả và hết lòng khen ngợi trí tuệ của ông.
+                </p>
+
+                <div class="snippet-box">
+                    "... Thưa Đại Vương, bởi vì khi chúng ta gặp nhau ở trước Đức Phật mà đối với tôi, Phật là tối tôn tối thắng. Tuy Phật không phải là vua nhưng mà là cái đấng trí tôn vượt ngoài ba cõi này là một đấng mà không ai có thể so sánh được. Vì vậy, trước một đấng tối tôn tối thắng đó, tôi không còn có thể bày sự cung kính, chia sẻ sự cung kính với một người khác nữa... Còn hôm nay ở đây chỉ có Đại Vương, vì vậy với bổn phận của người thần dân, tôi phải chào Đại Vương với tất cả sự kính trọng... Ông nói rất là hay nên vua Ba Tư Nặc rất là vui lòng... Trước Đức Phật là tôi không còn có thể chia sẻ sự cung kính đối với một người khác nữa..."
+                </div>
+            </div>
+        </article>
+
+        <!-- CÂU HỎI 2 -->
+        <article class="qa-card">
+            <div class="card-header">
+                <span class="question-badge">📌 CÂU HỎI 2</span>
+            </div>
+
+            <div class="question-box">
+                <h3>Hỏi:</h3>
+                <p>Kính bạch Thầy, câu chuyện tại xứ Alavi khi thức ăn đã dọn sẵn nhưng Đức Phật ngồi yên chờ một bác nông dân nghèo bị đói lả, toàn thể chư Tăng và cư sĩ dù bụng đói vẫn ngồi im phăng phắc suốt từ trưa đến chiều tà không dám nhúc nhích đã thể hiện lòng tôn kính Phật tột cùng và nhân quả chứng đạo nhanh chóng của các bậc Thánh như thế nào ạ?</p>
+            </div>
+
+            <div class="meta-grid">
+                <div class="meta-item">
+                    <span class="meta-label">Tên bài giảng</span>
+                    <span class="meta-value">Trí Tuệ Và Cảm Xúc (media: 2376 & 6074) & Pháp Số 10 - Ngẫu Nhiên Và Tất Nhiên (media: 2384 & 6030)</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Link bài giảng & Thời lượng</span>
+                    <a href="https://youtu.be/8MlsCQkkn8U&t=1520" target="_blank" class="lecture-link">
+                        ▶ https://youtu.be/8MlsCQkkn8U&t=1520 [25:20 - 26:36] (tham chiếu media 6030: [1:02:45 - 1:04:03])
+                    </a>
+                </div>
+            </div>
+
+            <div class="story-section">
+                <div class="section-title">📖 Mẫu chuyện:</div>
+                <p class="story-text">
+                    Tại xứ Alavi, tín thí sửa soạn trai phạn thịnh soạn cúng dường Phật và Tăng đoàn. Thức ăn đã sớt vào bình bát nhưng Đức Phật ngồi im không thọ thực vì ngài dùng Phật nhãn thấy một bác nông dân nghèo đi tìm bò lạc trong rừng sắp kiệt sức chạy tới. Thấy Phật ngồi yên, toàn thể chư Tăng và hàng trăm cư sĩ dù bụng đói cồn cào vẫn ngồi im phăng phắc suốt từ trưa đến xế bóng mặt trời, tuyệt đối không ai dám nhúc nhích hay buông lời thắc mắc. Khi bác nông dân chạy vào, Phật bảo chia cơm cho bác ăn no rồi mới thuyết pháp giúp bác đắc Sơ quả. Lòng tôn kính tuyệt đối ấy được Đức Phật tán thán: "Dù Như Lai ngồi yên suốt một kiếp, các ông cũng không dám nhúc nhích suốt một kiếp vì lòng tôn kính Phật"; và chính phước báu vô lượng của tâm hạnh kính Phật tột bậc ấy là cội nguồn giúp chư Tăng thời Phật đắc Thánh quả rất nhanh chóng.
+                </p>
+
+                <div class="snippet-box">
+                    "... Thức ăn bày dọn hết rồi, sớt vào bát Phật rồi, Phật ngồi Phật không ăn. Và Phật không ăn thì đâu ai dám nhúc nhích. Toàn bộ các tỳ kheo và các cư sĩ... Chư Tăng thì đợi Phật ăn mà Phật ngồi yên không nhúc nhích, Chư Tăng cũng ngồi yên luôn vì Chư Tăng tôn kính Đức Phật tuyệt đối... không dám nhúc nhích, Phật cứ ngồi hoài, xế bóng luôn... Đức Phật mới nói câu thế này: Này các tỳ kheo, Ta biết tâm của các ông rất tôn kính đối với Như Lai, nếu Như Lai ngồi yên như vậy suốt một kiếp, các ông cũng sẽ không nhúc nhích suốt một kiếp... Vì lòng tôn kính đối với Phật là tuyệt đối nên các ngài đắc đạo rất nhanh..."
+                </div>
+            </div>
+        </article>
+
+        <!-- CÂU HỎI 3 -->
+        <article class="qa-card">
+            <div class="card-header">
+                <span class="question-badge">📌 CÂU HỎI 3</span>
+            </div>
+
+            <div class="question-box">
+                <h3>Hỏi:</h3>
+                <p>Kính bạch Thầy, câu chuyện vị hành giả tu tập công phu sắp chứng Thánh quả nhưng chỉ vì vô ý dựng cây gậy tựa vào khuôn mặt Phật tạc trên bức tường phù điêu mà đạo quả lập tức biến mất đã cảnh tỉnh bài học nhân quả gì về sự cẩn trọng và lòng tôn kính Phật tuyệt đối trong từng ý niệm ạ?</p>
+            </div>
+
+            <div class="meta-grid">
+                <div class="meta-item">
+                    <span class="meta-label">Tên bài giảng</span>
+                    <span class="meta-value">Việc Của Tương Lai (media: 6116 & 2625)</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Link bài giảng & Thời lượng</span>
+                    <a href="https://youtu.be/QlDfSUYEZH0&t=2696" target="_blank" class="lecture-link">
+                        ▶ https://youtu.be/QlDfSUYEZH0&t=2696 [44:56 - 46:24]
+                    </a>
+                </div>
+            </div>
+
+            <div class="story-section">
+                <div class="section-title">📖 Mẫu chuyện:</div>
+                <p class="story-text">
+                    Một vị hành giả đã tích lũy công đức tu hành sâu dày và sắp bước vào ngưỡng cửa chứng đắc Thánh quả. Thế nhưng quả vị tương lai bỗng chốc tan biến hoàn toàn. Căn nguyên chỉ vì trong một lần đến thăm thầy, vị ấy cầm cây gậy đi đường và sơ ý dựng tựa cây gậy lên khuôn mặt của Đức Phật được tạc trên bức tường phù điêu. Chỉ một thoáng bất cẩn thiếu tôn kính nơi thánh tượng, công đức liền bị tổn giảm nặng nề khiến Thánh quả biến mất. Qua đó Thầy răn dạy: Bất kính với Phật thì công đức sụp đổ, ngược lại nếu một người luôn trọn lòng gìn giữ niềm tôn kính Phật tuyệt đối từ cử chỉ cho đến tận đáy lòng thì chắc chắn sẽ thành tựu Thánh quả, tu hành đi đúng Chánh pháp và mọi ước mơ thánh thiện đều được viên mãn.
+                </p>
+
+                <div class="snippet-box">
+                    "... Mà sắp chứng, biến mất, không chứng nữa... Hỏi ra mới biết là khi đến thăm thầy mình cầm cái gậy đi, thì lúc đó có cái bức hình Phật tạc cái phù điêu bên bức tường, thì ông cầm cái gậy đó ông dựa vô mặt Phật... tựa cái gậy vô mặt Phật, quả chứng lập tức biến mất liền! Bởi vì bất kính với Phật thì công đức sụp đổ hết luôn, sợ chưa... Bây giờ ngược lại, chúng ta hiểu cái điều này rồi, vì chúng ta trọn lòng tôn kính Phật tuyệt đối thì điều gì xảy ra? Ta phải chứng Thánh quả, việc tu hành của mình phải đi đúng hướng, mọi ước mơ trong cuộc đời này phải thành tựu, bởi vì ta dâng lên Phật lòng tôn kính tuyệt đối..."
+                </div>
+            </div>
+        </article>
+
+        <footer>
+            Nội dung tích truyện Pháp Cú & Trích dẫn bài giảng
+        </footer>
+    </div>
+
+    <!-- Script tạo sao lấp lánh trên background -->
+    <script>
+        const canvas = document.getElementById('space-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let width, height;
+        let stars = [];
+
+        function initCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            stars = [];
+            
+            const starCount = Math.floor((width * height) / 3000);
+            for (let i = 0; i < starCount; i++) {
+                stars.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    radius: Math.random() * 1.5,
+                    alpha: Math.random(),
+                    speed: Math.random() * 0.01 + 0.003
+                });
+            }
+        }
+
+        function drawStars() {
+            ctx.clearRect(0, 0, width, height);
+
+            for (let star of stars) {
+                star.alpha += star.speed;
+                if (star.alpha > 1 || star.alpha < 0) {
+                    star.speed = -star.speed;
+                }
+
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 255, 255, ${Math.abs(star.alpha)})`;
+                ctx.shadowBlur = star.radius * 4;
+                ctx.shadowColor = '#ffffff';
+                ctx.fill();
+            }
+
+            requestAnimationFrame(drawStars);
+        }
+
+        window.addEventListener('resize', initCanvas);
+        initCanvas();
+        drawStars();
+    </script>
+</body>
+</html>

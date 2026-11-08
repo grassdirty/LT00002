@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hỏi Đáp Pháp Cú - Trí Tuệ & Phước Báo Của Lòng Tôn Kính (Phần 4)</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Cinzel:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-deep-space: #070913;
+            --primary-gold: #fbbf24;
+            --accent-glow: #38bdf8;
+            --purple-glow: #8b5cf6;
+            --card-bg: rgba(15, 23, 42, 0.65);
+            --card-border: rgba(255, 255, 255, 0.12);
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background-color: var(--bg-deep-space);
+            color: var(--text-main);
+            min-height: 100vh;
+            line-height: 1.7;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Canvas nền hiệu ứng vũ trụ */
+        #space-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Hiệu ứng mây tinh vân (Nebula) */
+        .nebula {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            filter: blur(140px);
+            opacity: 0.25;
+            z-index: -1;
+            pointer-events: none;
+        }
+        .nebula-1 {
+            top: -100px;
+            left: -100px;
+            background: radial-gradient(circle, var(--purple-glow), transparent 70%);
+        }
+        .nebula-2 {
+            bottom: -150px;
+            right: -100px;
+            background: radial-gradient(circle, #0284c7, transparent 70%);
+        }
+        .nebula-3 {
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(circle, #d97706, transparent 70%);
+            opacity: 0.15;
+        }
+
+        /* Layout Container */
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 40px 20px 80px;
+        }
+
+        /* Header Title */
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        header .symbol {
+            font-size: 2.5rem;
+            color: var(--primary-gold);
+            text-shadow: 0 0 20px rgba(251, 191, 36, 0.6);
+            margin-bottom: 10px;
+        }
+
+        header h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, #fff 30%, var(--primary-gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+            margin-bottom: 12px;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1rem;
+            font-weight: 300;
+        }
+
+        /* Q&A Cards */
+        .qa-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 32px;
+            margin-bottom: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .qa-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(251, 191, 36, 0.4);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), 0 0 20px rgba(251, 191, 36, 0.15);
+        }
+
+        /* Card Header / Badge */
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .question-badge {
+            background: linear-gradient(135deg, #d97706, #fbbf24);
+            color: #0f172a;
+            font-weight: 700;
+            font-size: 0.9rem;
+            padding: 4px 14px;
+            border-radius: 20px;
+            letter-spacing: 0.5px;
+            box-shadow: 0 0 12px rgba(251, 191, 36, 0.4);
+        }
+
+        /* Question Section */
+        .question-box {
+            background: rgba(139, 92, 246, 0.1);
+            border-left: 4px solid var(--purple-glow);
+            padding: 18px 20px;
+            border-radius: 0 12px 12px 0;
+            margin-bottom: 28px;
+        }
+
+        .question-box h3 {
+            color: #c084fc;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+
+        .question-box p {
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: #f3e8ff;
+        }
+
+        /* Answer Meta Info */
+        .meta-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 18px 20px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+        }
+
+        .meta-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .meta-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+        }
+
+        .meta-value {
+            font-size: 0.95rem;
+            color: var(--primary-gold);
+            font-weight: 600;
+        }
+
+        .lecture-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--accent-glow);
+            text-decoration: none;
+            font-weight: 500;
+            word-break: break-all;
+            transition: color 0.2s;
+        }
+
+        .lecture-link:hover {
+            color: #7dd3fc;
+            text-decoration: underline;
+        }
+
+        /* Story Section */
+        .section-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--primary-gold);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .story-text {
+            font-size: 0.98rem;
+            color: #cbd5e1;
+            margin-bottom: 24px;
+            text-align: justify;
+        }
+
+        /* Snippet / Quote */
+        .snippet-box {
+            background: rgba(2, 132, 199, 0.08);
+            border-left: 3px solid var(--accent-glow);
+            padding: 16px 20px;
+            border-radius: 0 12px 12px 0;
+            font-style: italic;
+            color: #e0f2fe;
+            font-size: 0.94rem;
+        }
+
+        .snippet-box::before {
+            content: "“";
+            font-size: 2rem;
+            line-height: 1;
+            color: var(--accent-glow);
+            display: block;
+            margin-bottom: -10px;
+            opacity: 0.6;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-top: 60px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding-top: 30px;
+        }
+
+        @media (max-width: 640px) {
+            header h1 {
+                font-size: 1.6rem;
+            }
+            .qa-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Nebula background layers -->
+    <div class="nebula nebula-1"></div>
+    <div class="nebula nebula-2"></div>
+    <div class="nebula nebula-3"></div>
+
+    <!-- Canvas cho hiệu ứng sao vũ trụ -->
+    <canvas id="space-canvas"></canvas>
+
+    <div class="container">
+        <header>
+            <div class="symbol">☸</div>
+            <h1>TRÍ TUỆ & PHƯỚC BÁO CỦA LÒNG TÔN KÍNH</h1>
+            <p>Trích Yếu Tích Truyện & Giáo Lý Kinh Pháp Cú (Phần 4)</p>
+        </header>
+
+        <!-- CÂU HỎI 1 -->
+        <article class="qa-card">
+            <div class="card-header">
+                <span class="question-badge">📌 CÂU HỎI 1</span>
+            </div>
+
+            <div class="question-box">
+                <h3>Hỏi:</h3>
+                <p>Kính bạch Thầy, trong tích truyện Kinh Pháp Cú, chàng Garahadina nghe lời ngoại đạo Ni Kiền Tử đào hầm than đỏ rực giăng bẫy hãm hại Đức Phật, vì sao phép lạ hoa sen mọc lên từ lửa đỡ chân Thế Tôn đã đánh thức sự hối hận và lòng tôn kính tột độ giúp ông đắc ngay Sơ quả Tu-đà-hoàn ạ?</p>
+            </div>
+
+            <div class="meta-grid">
+                <div class="meta-item">
+                    <span class="meta-label">Tên bài giảng</span>
+                    <span class="meta-value">22 Hoa Sen Mọc Lên Từ Lửa (media: 4638 & 4579)</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Link bài giảng & Thời lượng</span>
+                    <a href="https://youtu.be/NmJxJh7pE8Q&t=667" target="_blank" class="lecture-link">
+                        ▶ https://youtu.be/NmJxJh7pE8Q&t=667 [11:07 - 12:15] (tham chiếu media 4638: [11:30 - 12:35])
+                    </a>
+                </div>
+            </div>
+
+            <div class="story-section">
+                <div class="section-title">📖 Mẫu chuyện:</div>
+                <p class="story-text">
+                    Garahadina theo đạo Ni Kiền Tử, giả vờ làm hòa để thỉnh Đức Phật và Tăng đoàn đến nhà thọ trai nhưng ngầm đào một hầm lửa than hồng rực rỡ phía trước và che lại bằng tấm chiếu mỏng để hại Phật. Khi Đức Phật ung dung cất bước đi vào, tấm mạng che rơi xuống làm lộ hầm than rực lửa, nhưng mỗi bước chân của Phật đặt tới đâu thì một đóa sen ngát hương từ lửa mọc lên nâng đỡ tới đó, và các món thức ăn trên bàn bỗng chốc tự động hóa hiện đầy ắp. Quá kinh hoàng và xúc động, Garahadina sụp lạy dưới chân Phật tha thiết sám hối tội lỗi; chính nhờ lòng tôn kính Phật dâng trào tột độ sau cơn chấn động ấy, ông nghe Phật thuyết pháp và đắc ngay Thánh quả Tu-đà-hoàn.
+                </p>
+
+                <div class="snippet-box">
+                    "... Nhưng mà Đức Phật bước lên... đặt chân tiếp tới nữa thì hoa sen nó mọc lên đỡ chân Đức Phật, Đức Phật đi luôn vào trong nhà ngồi lên cái ghế, lúc đó là chư Tăng mới lần lượt vào và lửa tự động tắt. Cái ông kia quỳ xuống sám hối mới nói là con không hề chuẩn bị thức ăn, đây chỉ là sự trả thù... Đức Phật nói không, thức ăn đã có đầy đủ, kia là cơm kia là cháo... thức ăn hiện đầy trong thau trong mâm hết. Vì vậy anh này rất là hối hận... rồi Đức Phật mới đọc bài kệ Pháp Cú... Riêng Garahadina là cũng chứng Tu-đà-hoàn liền, bởi vì quá xúc động và quá hối hận... khi mà tình cảm cao thượng người ta dồn đến cực độ thì người ta cũng dễ có sự giác ngộ..."
+                </div>
+            </div>
+        </article>
+
+        <!-- CÂU HỎI 2 -->
+        <article class="qa-card">
+            <div class="card-header">
+                <span class="question-badge">📌 CÂU HỎI 2</span>
+            </div>
+
+            <div class="question-box">
+                <h3>Hỏi:</h3>
+                <p>Kính bạch Thầy, vào thời Đức Phật Ca Diếp, người thợ gốm Ghatikara dỡ tung cả mái nhà tranh của mẹ con mình đem đi che mưa cho hương thất của Phật và chư Tăng, tấm lòng tôn kính hy sinh ấy đã chiêu cảm quả báo và thần thông bất diệt đến ngày tận thế ra sao ạ?</p>
+            </div>
+
+            <div class="meta-grid">
+                <div class="meta-item">
+                    <span class="meta-label">Tên bài giảng</span>
+                    <span class="meta-value">18 Bồ Tát Hạnh (media: 5111) & KINH PHÁP HOA 26 - Phẩm Đà La Ni (media: 1570)</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Link bài giảng & Thời lượng</span>
+                    <a href="https://youtu.be/29fpIsp74kY&t=653" target="_blank" class="lecture-link">
+                        ▶ https://youtu.be/29fpIsp74kY&t=653 [10:53 - 11:58] (tham chiếu media 1570: [1:04:03 - 1:05:05])
+                    </a>
+                </div>
+            </div>
+
+            <div class="story-section">
+                <div class="section-title">📖 Mẫu chuyện:</div>
+                <p class="story-text">
+                    Cư sĩ thợ gốm Ghatikara sống với mẹ già trong một căn nhà tranh đơn sơ, chuyên nghề nặn đất làm gốm. Một hôm trời đổ mưa bão lớn, thấy hương thất của Đức Phật Ca Diếp và cốc liêu của chư Tăng bị dột ướt, ông không ngần ngại tháo sạch toàn bộ mái cỏ tranh che mưa nắng của nhà mình đem đến tinh xá lợp kín lại cho Phật và chúng Tăng, thà chấp nhận cảnh mẹ con chịu ướt át chứ không để Phật bị ướt lạnh. Cảm động trước tấm lòng tôn kính Tam Bảo tuyệt đối và sự xả thân phi thường ấy, chư Phật đã ấn chứng: cho đến ngày địa cầu tận thế, ngay tại vị trí ngôi nhà của người thợ gốm, mưa vĩnh viễn không bao giờ rơi vào làm ướt được nữa.
+                </p>
+
+                <div class="snippet-box">
+                    "... Tháo sạch hết những cái cỏ rơm mà lợp nhà, cỏ tranh lợp nhà ông bó lại, lật đật chạy vô trong tinh xá leo lên lợp cho Đức Phật và lợp cho chư Tăng đi, còn nhà ông chấp nhận mưa ướt sạch. Nên là với tấm lòng tha thiết vì Phật và chư Tăng như vậy, thì sau đó Phật mới nói: Cảm động vì cái tâm hy sinh, tâm tôn kính của ông chủ lò gốm đó đối với Phật và chúng Tăng, thì vĩnh viễn cho tới ngày trái đất này tận thế nơi cái ngôi nhà của ông mưa không bao giờ ướt được nữa... cái thần thông đó do cái tâm nguyện của một người động đến trời đất là tồn tại vĩnh viễn..."
+                </div>
+            </div>
+        </article>
+
+        <!-- CÂU HỎI 3 -->
+        <article class="qa-card">
+            <div class="card-header">
+                <span class="question-badge">📌 CÂU HỎI 3</span>
+            </div>
+
+            <div class="question-box">
+                <h3>Hỏi:</h3>
+                <p>Kính bạch Thầy, trong Kinh Người Cày Ruộng (Kasi Bharadvaja Sutta), vì sao bát cháo sữa được ông Bà-la-môn đem cúng dường Phật khi đổ xuống nước lại sôi sùng sục bốc khói ngùn ngụt như sắt nung đỏ, và điềm lạ ấy đã khiến ông kính phục quy y rồi đắc quả A-la-hán như thế nào ạ?</p>
+            </div>
+
+            <div class="meta-grid">
+                <div class="meta-item">
+                    <span class="meta-label">Tên bài giảng</span>
+                    <span class="meta-value">20 Kinh Người Cày Ruộng - Kinh Từ Bi (media: 5274 & 1575)</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Link bài giảng & Thời lượng</span>
+                    <a href="https://youtu.be/9WBQkHcG_rQ&t=347" target="_blank" class="lecture-link">
+                        ▶ https://youtu.be/9WBQkHcG_rQ&t=347 [05:47 - 06:53] (tham chiếu media 5274: [05:49 - 06:56])
+                    </a>
+                </div>
+            </div>
+
+            <div class="story-section">
+                <div class="section-title">📖 Mẫu chuyện:</div>
+                <p class="story-text">
+                    Ông Bà-la-môn Kasi Bharadvaja đang cày ruộng thấy Phật đến khất thực liền chê bai người tu không cày cấy mà muốn hưởng thức ăn. Sau khi được Đức Thế Tôn phân tích bài kệ về "cày ruộng tâm linh" thâm sâu tuyệt đỉnh, ông tâm phục khẩu phục, dâng bát cháo sữa hảo hạng lên cúng dường. Đức Phật dạy không nhận thức ăn do tụng kệ mà có, và bảo ông đem cháo sữa đổ vào nơi không có cỏ xanh và nước không có sinh vật. Vừa đổ xuống nước, bát cháo sữa sôi lên sùng sục, bốc khói ngùn ngụt như một lưỡi cày nung đỏ nhúng vào nước lạnh. Rợn tóc gáy trước uy đức siêu phàm của bậc Giác ngộ, ông chạy đến sụp lạy dưới chân Phật, dâng trọn lòng tôn kính quy y Tam Bảo, xin xuất gia tu học và chẳng bao lâu sau đắc quả Đại A-la-hán.
+                </p>
+
+                <div class="snippet-box">
+                    "... Này Bà-la-môn, người hãy đổ cháo sữa này trên chỗ không có cỏ xanh, hãy nhận chìm trong nước không có sinh vật. Rồi Bà-la-môn đem cháo sữa ấy nhận chìm trong nước không có sinh vật, cháo sữa ấy khi bị đổ xuống nó sôi lên, sôi lên sùng sục, nó phun khói, nó bốc khói... ví như một lưỡi cày phơi cả ngày dưới ánh nắng được đem quăng xuống nước, lưỡi cày ấy sôi sùng sục, phun khói lên... Bà-la-môn hoảng hốt rợn tóc gáy, đi đến Thế Tôn cúi đầu đảnh lễ Thế Tôn và bạch Thế Tôn... Ông ca ngợi và xin quy y..."
+                </div>
+            </div>
+        </article>
+
+        <footer>
+            Nội dung tích truyện Pháp Cú & Trích dẫn bài giảng
+        </footer>
+    </div>
+
+    <!-- Script tạo sao lấp lánh trên background -->
+    <script>
+        const canvas = document.getElementById('space-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let width, height;
+        let stars = [];
+
+        function initCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            stars = [];
+            
+            const starCount = Math.floor((width * height) / 3000);
+            for (let i = 0; i < starCount; i++) {
+                stars.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    radius: Math.random() * 1.5,
+                    alpha: Math.random(),
+                    speed: Math.random() * 0.01 + 0.003
+                });
+            }
+        }
+
+        function drawStars() {
+            ctx.clearRect(0, 0, width, height);
+
+            for (let star of stars) {
+                star.alpha += star.speed;
+                if (star.alpha > 1 || star.alpha < 0) {
+                    star.speed = -star.speed;
+                }
+
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 255, 255, ${Math.abs(star.alpha)})`;
+                ctx.shadowBlur = star.radius * 4;
+                ctx.shadowColor = '#ffffff';
+                ctx.fill();
+            }
+
+            requestAnimationFrame(drawStars);
+        }
+
+        window.addEventListener('resize', initCanvas);
+        initCanvas();
+        drawStars();
+    </script>
+</body>
+</html>
