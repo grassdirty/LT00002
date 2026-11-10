@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hỏi Đáp Phật Pháp - Sự Vận Hành Của Nhân Quả & Luân Hồi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #050714;
+            --card-bg: rgba(15, 23, 42, 0.65);
+            --card-border: rgba(255, 255, 255, 0.12);
+            --primary-gold: #f6d365;
+            --accent-gold: #fda085;
+            --cyan-glow: #38bdf8;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --snippet-bg: rgba(14, 165, 233, 0.08);
+            --snippet-border: #38bdf8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            line-height: 1.7;
+            padding: 40px 20px;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(124, 58, 237, 0.25) 0%, transparent 45%),
+                radial-gradient(circle at 85% 40%, rgba(14, 165, 233, 0.2) 0%, transparent 40%),
+                radial-gradient(circle at 50% 85%, rgba(244, 63, 94, 0.15) 0%, transparent 50%);
+            background-attachment: fixed;
+        }
+
+        /* Hiệu ứng sao lấp lánh vũ trụ */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: 
+                radial-gradient(1.5px 1.5px at 10px 20px, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 40px 70px, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 90px 40px, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 160px 120px, #e0f2fe, rgba(0,0,0,0)),
+                radial-gradient(1.5px 1.5px at 230px 190px, #fef08a, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 310px 80px, #ffffff, rgba(0,0,0,0));
+            background-repeat: repeat;
+            background-size: 350px 250px;
+            opacity: 0.6;
+            z-index: -1;
+            animation: starsAnimation 100s linear infinite;
+        }
+
+        @keyframes starsAnimation {
+            from { background-position: 0 0; }
+            to { background-position: 1000px 1000px; }
+        }
+
+        .container {
+            max-width: 920px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        header h1 {
+            font-family: 'Merriweather', serif;
+            font-size: 2.3rem;
+            background: linear-gradient(135deg, #fff 30%, var(--primary-gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 32px;
+            margin-bottom: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(246, 211, 101, 0.4);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary-gold);
+            letter-spacing: 0.5px;
+        }
+
+        .section-box {
+            margin-bottom: 24px;
+        }
+
+        .section-label {
+            display: inline-block;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 4px 12px;
+            border-radius: 6px;
+            margin-bottom: 12px;
+        }
+
+        .label-hoi {
+            background: rgba(246, 211, 101, 0.15);
+            color: var(--primary-gold);
+            border: 1px solid rgba(246, 211, 101, 0.3);
+        }
+
+        .label-dap {
+            background: rgba(56, 189, 248, 0.15);
+            color: var(--cyan-glow);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+        }
+
+        .question-text {
+            font-size: 1.08rem;
+            font-weight: 500;
+            color: #f8fafc;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 18px 20px;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary-gold);
+        }
+
+        .meta-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 20px;
+            background: rgba(0, 0, 0, 0.25);
+            padding: 16px 20px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+        }
+
+        .meta-item {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: baseline;
+        }
+
+        .meta-key {
+            color: var(--text-muted);
+            font-weight: 600;
+            min-width: 120px;
+        }
+
+        .meta-value {
+            color: #e2e8f0;
+        }
+
+        .meta-value a {
+            color: var(--cyan-glow);
+            text-decoration: none;
+            word-break: break-all;
+            transition: color 0.2s;
+        }
+
+        .meta-value a:hover {
+            text-decoration: underline;
+            color: #7dd3fc;
+        }
+
+        .story-title {
+            font-weight: 700;
+            color: #e2e8f0;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        .story-content {
+            color: #cbd5e1;
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        .snippet-box {
+            background: var(--snippet-bg);
+            border-left: 4px solid var(--snippet-border);
+            padding: 18px 20px;
+            border-radius: 0 12px 12px 0;
+            font-style: italic;
+            color: #e0f2fe;
+            font-size: 0.98rem;
+        }
+
+        .snippet-title {
+            font-style: normal;
+            font-weight: 700;
+            color: var(--cyan-glow);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 8px;
+        }
+
+        footer {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 60px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        @media (max-width: 640px) {
+            body { padding: 20px 12px; }
+            .card { padding: 20px; }
+            header h1 { font-size: 1.7rem; }
+            .meta-key { min-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>SỰ VẬN HÀNH CỦA NHÂN QUẢ & LUÂN HỒI</h1>
+            <p>Tuyển tập bài giảng giải thích các nhân duyên nghiệp báo nhiều đời kiếp</p>
+        </header>
+
+        <!-- CÂU HỎI 1 -->
+        <article class="card">
+            <div class="card-header">
+                <span class="card-title">📌 CÂU HỎI 1</span>
+            </div>
+
+            <div class="section-box">
+                <span class="section-label label-hoi">1. Hỏi</span>
+                <div class="question-text">
+                    Kính bạch Thầy, trong tích truyện Kinh Pháp Cú, câu chuyện cư sĩ Mahakala dù đã giữ giới thanh tịnh và tu chứng Sơ quả Dự lưu nhưng vẫn bị quân lính bắt oan đánh chết thảm khốc đã soi sáng quy luật nhân quả xuyên suốt nhiều kiếp như thế nào, và vì sao không thể chỉ nhìn vào một đời hiện tại để phán xét sự công bằng của luật trời ạ?
+                </div>
+            </div>
+
+            <div class="section-box">
+                <span class="section-label label-dap">2. Đáp</span>
+
+                <div class="meta-group">
+                    <div class="meta-item">
+                        <span class="meta-key">Tên bài giảng:</span>
+                        <span class="meta-value">50 Phản Bội (media: 5885 & 4678)</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-key">Link bài giảng:</span>
+                        <span class="meta-value">
+                            <a href="https://youtu.be/EsER9zO_VxM&t=191" target="_blank" rel="noopener noreferrer">https://youtu.be/EsER9zO_VxM&t=191</a> [03:11 - 05:52] (tham chiếu media 4678: [03:40 - 05:50])
+                        </span>
+                    </div>
+                </div>
+
+                <div class="story-title">Mẫu chuyện:</div>
+                <div class="story-content">
+                    Cư sĩ Mahakala thường xuyên đến tinh xá nghe pháp, thọ Bát quan trai và đã chứng Thánh quả Dự lưu. Một đêm nọ, khi ông đang ngồi sưởi ấm bên đống lửa thì một tên trộm bị quân lính truy đuổi chạy ngang qua, hoảng quá liền quăng giỏ đồ ăn trộm vào chỗ ông rồi bỏ trốn; quân lính ập tới thấy túi tang vật bên cạnh nên bắt ông đem về tra khảo và đánh chết oan uổng. Trước sự ngỡ ngàng của chư Tăng, Đức Phật kể lại nhân duyên tiền kiếp: thuở xưa Mahakala làm lính gác tại một tiền đồn bảo vệ tuyến đường buôn. Thấy người vợ xinh đẹp của một lái buôn đi qua, ông khởi tâm tà ý nên giữ đoàn lại nghỉ đêm, lén bỏ viên ngọc vào túi người chồng rồi vu oan ăn cắp để ra lệnh giết chết người lái buôn hòng chiếm đoạt người vợ. Sau ác nghiệp ấy, ông bị đọa địa ngục vô cùng lâu dài, trải qua bao nhiêu đời kiếp mới gặp được Phật tu hành chứng Sơ quả, nhưng cái quả báo chết oan từ tiền kiếp vẫn phải trả trọn vẹn. Qua đó Thầy chỉ rõ: nhân quả kéo dài qua nhiều kiếp không thể lường hết; thấy một người ăn hiền ở lành mà gặp tai ương khốn khổ hay kẻ hung ác mà vẫn giàu sang, tất cả đều do nhân duyên sâu xa từ quá khứ chứ không phải chỉ nằm gọn trong một kiếp hiện tại.
+                </div>
+
+                <div class="snippet-box">
+                    <div class="snippet-title">Snippet trích dẫn:</div>
+                    "... Trong cái kiếp xưa cái anh này là một người lính... Thấy cái người vợ đẹp quá cái động tâm... Cái anh mới lén lấy một cái viên ngọc của ai đó, anh lén bỏ vào trong cái túi đồ của cái người lái buôn đó... Thế là anh bắt, rồi ra lệnh là giết chết người ta luôn để chiếm đoạt người vợ. Cho nên sau cái lần đó thì anh chết, anh đọa địa ngục rất là lâu, nhưng mà khi trải qua bao nhiêu đời đến khi gặp Phật, tu hành chứng được Sơ quả nhưng mà quả thì vẫn phải trả... Nhân quả nhiều kiếp không có lường, ta không bao giờ hiểu nổi hết nếu ta chỉ nhìn một đời... Con người cứ thắc mắc là tại sao thấy cái người đó ăn hiền ở lành mà nghèo khổ khốn đốn cơ cực, còn thấy những người kia là bạc ác hung dữ hách dịch mà họ cứ giàu sang... Đừng nhìn vào trong một kiếp hiện tại..."
+                </div>
+            </div>
+        </article>
+
+        <!-- CÂU HỎI 2 -->
+        <article class="card">
+            <div class="card-header">
+                <span class="card-title">📌 CÂU HỎI 2</span>
+            </div>
+
+            <div class="section-box">
+                <span class="section-label label-hoi">1. Hỏi</span>
+                <div class="question-text">
+                    Kính bạch Thầy, vì sao Đức Phật dạy người đã quy y Tam Bảo không nên quỳ lạy cầu xin các vị quỷ thần hay miếu thiêng Atula, và câu chuyện nhân quả kéo dài ba kiếp khi một vị thần Atula tái sinh làm đứa con ngỗ nghịch để "đòi nợ" gia đình mình đã cảnh tỉnh bài học gì về mối duyên nghiệp trong luân hồi ạ?
+                </div>
+            </div>
+
+            <div class="section-box">
+                <span class="section-label label-dap">2. Đáp</span>
+
+                <div class="meta-group">
+                    <div class="meta-item">
+                        <span class="meta-key">Tên bài giảng:</span>
+                        <span class="meta-value">Chuyện Luân Hồi (media: 3963)</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-key">Link bài giảng:</span>
+                        <span class="meta-value">
+                            <a href="https://youtu.be/wB6LrxQ1XSg&t=3836" target="_blank" rel="noopener noreferrer">https://youtu.be/wB6LrxQ1XSg&t=3836</a> [1:03:56 - 1:05:35]
+                        </span>
+                    </div>
+                </div>
+
+                <div class="story-title">Mẫu chuyện:</div>
+                <div class="story-content">
+                    Sư Phụ phân tích cảnh giới và sự luân hồi của những người lúc sống tính tình nóng nảy, ngang tàn nhưng lại rất hào hiệp, sẵn sàng giúp đỡ người nghèo khó hay hiến nhà làm trạm xá: sau khi chết, họ sinh làm vị thần Atula có chút phước báu và thần lực nơi các đền miếu. Khi người phàm gặp khó khăn tìm đến quỳ lạy van xin và được vị thần ấy dùng thần lực giúp đỡ cho linh ứng, thì thực chất người xin đã mắc một món nợ với vị thần đó. Sau vài chục năm hoặc vài trăm năm hưởng cúng tế hết phước, vị thần Atula ấy sẽ đi đầu thai lại; và để đòi món nợ cũ, đến ba kiếp sau vị ấy tái sinh làm đứa con ruột ngay trong gia đình người từng cầu xin. Đứa con mang trọn bản tính ngang tàn, bướng bỉnh của thần Atula xưa: cha mẹ nói một tiếng nó cãi lại ba tiếng, đi quậy phá khắp nơi khiến cha mẹ phải cắn răng đem tiền đi chuộc tội hết năm này qua tháng nọ. Trái lại, nếu chỉ quy y và cầu xin Phật, Bồ Tát gia hộ, thì khi mình mắc nợ các Ngài, các Ngài sẽ khéo léo dìu dắt đưa mình về chùa tu tập và làm công quả để trả nợ trong an vui, hạnh phúc.
+                </div>
+
+                <div class="snippet-box">
+                    <div class="snippet-title">Snippet trích dẫn:</div>
+                    "... Vậy thì những người mà nóng tánh, ngang tàn nhưng mà hào hiệp thì chết sinh về thần... Nhưng tại sao Phật dạy mình đã quy y rồi thì không được thờ lạy quỷ thần? Bởi vì sao? Vì phước ta không có nhiều, rồi mình cầu xin người ta cái mình mắc nợ... Ba kiếp sau mình lấy vợ đẻ ra một con ngang tàn, hào hiệp, mình nói một tiếng nó chửi lại mình ba tiếng, nói nó không nghe lời, mà nó đi nó quậy đã đời về phải đem tiền mình chuộc. Vì sao vậy? Vì ba kiếp trước nó làm ông thần ở chỗ đó... lúc đó mình gặp chuyện khó xử khó khăn khổ sở mình tới mình quỳ nó lạy, và nó dùng cái thần lực của một Atula tới nó giúp mình. Thế mình mắc nợ nó, kiếp này đầu thai vô làm con mình đòi nợ chơi..."
+                </div>
+            </div>
+        </article>
+
+        <!-- CÂU HỎI 3 -->
+        <article class="card">
+            <div class="card-header">
+                <span class="card-title">📌 CÂU HỎI 3</span>
+            </div>
+
+            <div class="section-box">
+                <span class="section-label label-hoi">1. Hỏi</span>
+                <div class="question-text">
+                    Kính bạch Thầy, vì sao có người kiếp trước đi chùa, cúng dường, bố thí làm phước rất nhiều nhưng qua kiếp sau chỉ sinh ra làm một ông giáo làng bình thường, phải tích tụ thêm nhân duyên qua tận 10 kiếp hay 20 kiếp sau mới thành tựu quả báo làm vua hoặc làm bậc giảng sư có hội chúng đông đảo ạ?
+                </div>
+            </div>
+
+            <div class="section-box">
+                <span class="section-label label-dap">2. Đáp</span>
+
+                <div class="meta-group">
+                    <div class="meta-item">
+                        <span class="meta-key">Tên bài giảng:</span>
+                        <span class="meta-value">Đoạn Kiến - Thường Kiến (media: 5985)</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-key">Link bài giảng:</span>
+                        <span class="meta-value">
+                            <a href="https://youtu.be/Rc5GEFy_bu8&t=543" target="_blank" rel="noopener noreferrer">https://youtu.be/Rc5GEFy_bu8&t=543</a> [09:03 - 10:59]
+                        </span>
+                    </div>
+                </div>
+
+                <div class="story-title">Mẫu chuyện:</div>
+                <div class="story-content">
+                    Sư Phụ giảng giải về sự vận hành phức tạp và dài lâu của luật nhân quả qua nhiều kiếp sống luân hồi. Có một người trong kiếp gần đây rất siêng năng đi chùa, cúng dường, bố thí và giúp đỡ mọi người, ai cũng ngỡ kiếp sau người ấy sẽ hưởng phước vinh hoa tột đỉnh ngay lập tức; thế nhưng tái sinh qua đời kế tiếp, ông chỉ làm một thầy giáo làng bình dị. Nguyên nhân là vì thân phận làm giáo làng ở đời này vốn đã được kết tinh và ấn định từ chuỗi nhân quả của năm kiếp trước đó nữa, nên phước mới tạo ở kiếp vừa rồi chưa đủ sức thay đổi tức thì cục diện ấy. Ông vẫn phải đầu thai làm thầy giáo làng, rồi chính trong đời làm giáo làng đó lại tiếp tục gieo trồng thêm công đức dạy dỗ đạo đức cho học trò, gom góp kết hợp cùng các thiện nghiệp xưa để đến mười kiếp sau mới hội đủ nhân duyên trổ quả làm một vị vua uy đức lớn lao. Tương tự, việc mình rủ huynh đệ đi nghe pháp hay phát tâm cúng dường hỗ trợ hội chúng nghe pháp hôm nay, có khi phải đợi đến hai mươi kiếp sau mới chín muồi thành quả báo làm một vị giảng sư thuyết pháp hay và có đông đảo thính chúng quy tụ.
+                </div>
+
+                <div class="snippet-box">
+                    <div class="snippet-title">Snippet trích dẫn:</div>
+                    "... Mình nói là ủa sao lúc kiếp trước ông này sống làm phước nhiều quá, đi chùa, cúng dường, bố thí, giúp đỡ mọi người, nhưng mà qua đời này ông chỉ làm giáo làng. Vì sao vậy? Bởi vì cái kiếp làm ông giáo làng của ông nó được quy định hồi năm kiếp trước nữa rồi... Cho nên phải tái sinh làm giáo làng cái đã, rồi đợi rất nhiều nhân duyên khác kết hợp tới mười kiếp sau ông mới lên làm vua luôn... Chứ không phải kiếp trước ta làm điều thiện, kiếp sau được phước liền, không có đâu. Có nhiều khi đến rất là lâu, có những cái duyên ta làm mà tới 10 kiếp sau, 20 kiếp sau cái quả báo nó mới đến..."
+                </div>
+            </div>
+        </article>
+
+        <footer>
+            Nội dung bài học & Hỏi Đáp Phật Pháp
+        </footer>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hỏi Đáp Phật Pháp & Quy Luật Tâm Lý Nhân Quả</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #050714;
+            --card-bg: rgba(15, 23, 42, 0.65);
+            --card-border: rgba(255, 255, 255, 0.12);
+            --primary-gold: #f6d365;
+            --accent-gold: #fda085;
+            --cyan-glow: #38bdf8;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --snippet-bg: rgba(14, 165, 233, 0.08);
+            --snippet-border: #38bdf8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            line-height: 1.7;
+            padding: 40px 20px;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(124, 58, 237, 0.25) 0%, transparent 45%),
+                radial-gradient(circle at 85% 40%, rgba(14, 165, 233, 0.2) 0%, transparent 40%),
+                radial-gradient(circle at 50% 85%, rgba(244, 63, 94, 0.15) 0%, transparent 50%);
+            background-attachment: fixed;
+        }
+
+        /* Hiệu ứng các vì sao trong vũ trụ */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: 
+                radial-gradient(1.5px 1.5px at 10px 20px, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 40px 70px, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 90px 40px, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 160px 120px, #e0f2fe, rgba(0,0,0,0)),
+                radial-gradient(1.5px 1.5px at 230px 190px, #fef08a, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 310px 80px, #ffffff, rgba(0,0,0,0));
+            background-repeat: repeat;
+            background-size: 350px 250px;
+            opacity: 0.6;
+            z-index: -1;
+            animation: starsAnimation 100s linear infinite;
+        }
+
+        @keyframes starsAnimation {
+            from { background-position: 0 0; }
+            to { background-position: 1000px 1000px; }
+        }
+
+        .container {
+            max-width: 920px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        header h1 {
+            font-family: 'Merriweather', serif;
+            font-size: 2.3rem;
+            background: linear-gradient(135deg, #fff 30%, var(--primary-gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 32px;
+            margin-bottom: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(246, 211, 101, 0.4);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary-gold);
+            letter-spacing: 0.5px;
+        }
+
+        .section-box {
+            margin-bottom: 24px;
+        }
+
+        .section-label {
+            display: inline-block;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 4px 12px;
+            border-radius: 6px;
+            margin-bottom: 12px;
+        }
+
+        .label-hoi {
+            background: rgba(246, 211, 101, 0.15);
+            color: var(--primary-gold);
+            border: 1px solid rgba(246, 211, 101, 0.3);
+        }
+
+        .label-dap {
+            background: rgba(56, 189, 248, 0.15);
+            color: var(--cyan-glow);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+        }
+
+        .question-text {
+            font-size: 1.08rem;
+            font-weight: 500;
+            color: #f8fafc;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 18px 20px;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary-gold);
+        }
+
+        .meta-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 20px;
+            background: rgba(0, 0, 0, 0.25);
+            padding: 16px 20px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+        }
+
+        .meta-item {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: baseline;
+        }
+
+        .meta-key {
+            color: var(--text-muted);
+            font-weight: 600;
+            min-width: 120px;
+        }
+
+        .meta-value {
+            color: #e2e8f0;
+        }
+
+        .meta-value a {
+            color: var(--cyan-glow);
+            text-decoration: none;
+            word-break: break-all;
+            transition: color 0.2s;
+        }
+
+        .meta-value a:hover {
+            text-decoration: underline;
+            color: #7dd3fc;
+        }
+
+        .story-title {
+            font-weight: 700;
+            color: #e2e8f0;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        .story-content {
+            color: #cbd5e1;
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        .snippet-box {
+            background: var(--snippet-bg);
+            border-left: 4px solid var(--snippet-border);
+            padding: 18px 20px;
+            border-radius: 0 12px 12px 0;
+            font-style: italic;
+            color: #e0f2fe;
+            font-size: 0.98rem;
+            position: relative;
+        }
+
+        .snippet-title {
+            font-style: normal;
+            font-weight: 700;
+            color: var(--cyan-glow);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 8px;
+        }
+
+        footer {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 60px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        @media (max-width: 640px) {
+            body { padding: 20px 12px; }
+            .card { padding: 20px; }
+            header h1 { font-size: 1.7rem; }
+            .meta-key { min-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>HỎI ĐÁP PHẬT PHÁP & TÂM LÝ NHÂN QUẢ</h1>
+            <p>Tuyển tập các câu hỏi bài giảng về quy luật tâm lý và sự vận hành của nghiệp</p>
+        </header>
+
+        <!-- CÂU HỎI 1 -->
+        <article class="card">
+            <div class="card-header">
+                <span class="card-title">📌 CÂU HỎI 1</span>
+            </div>
+
+            <div class="section-box">
+                <span class="section-label label-hoi">1. Hỏi</span>
+                <div class="question-text">
+                    Kính bạch Thầy, qua câu chuyện Trưởng lão Tỳ-kheo Sappadasa mang nỗi u uất buồn chán suốt mấy chục ngàn năm từ thời Phật Ca Diếp cho đến thời Phật Thích Ca, quy luật tâm lý lặp lại qua nhiều kiếp sống vận hành theo luật nhân quả ra sao, và vì sao tâm lý ích kỷ nếu không được Phật pháp chuyển hóa sẽ đẩy con người đọa dần thành loài kiến ạ?
+                </div>
+            </div>
+
+            <div class="section-box">
+                <span class="section-label label-dap">2. Đáp</span>
+
+                <div class="meta-group">
+                    <div class="meta-item">
+                        <span class="meta-key">Tên bài giảng:</span>
+                        <span class="meta-value">Nỗi Đau Tột Cùng - Pháp Cú 39 (media: 1514 & 4664)</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-key">Link bài giảng:</span>
+                        <span class="meta-value">
+                            <a href="https://youtu.be/esQOCkSmYrU&t=378" target="_blank" rel="noopener noreferrer">https://youtu.be/esQOCkSmYrU&t=378</a> [06:18 - 09:30] (tham chiếu media 4664: [06:14 - 09:15])
+                        </span>
+                    </div>
+                </div>
+
+                <div class="story-title">Mẫu chuyện:</div>
+                <div class="story-content">
+                    Trưởng lão Tỳ-kheo Sappadasa sống giữ giới rất nghiêm mật nhưng trong lòng luôn mang chứng tâm lý u uất buồn chán không rõ nguyên nhân, đến mức định cầm dao cạo tự sát trong rừng (vào giây phút nhìn lại đời tu thanh tịnh trước khi hạ dao, Ngài bừng sáng nhập định và chứng Thánh quả). Đức Phật giải thích căn nguyên: vào thời Phật Ca Diếp, Ngài từng bị một người huynh đệ lợi dụng xúi hoàn tục để lấy đồ tu, từ đó sinh tâm buồn phiền, mất niềm tin vào con người và mang tâm lý ấy lặp đi lặp lại suốt mấy chục ngàn năm. Từ đây, Sư Phụ chỉ ra quy luật tâm lý: tâm lý con người có khuynh hướng lặp lại qua nhiều kiếp sống. Nếu là tâm lý tốt (hào hiệp, can đảm, dấn thân lo cho người) thì công đức cứ dồn lên mãi qua các kiếp để thành tựu phước lớn như làm bậc lãnh tụ; ngược lại, nếu mang tâm lý ti tiện ích kỷ mà không gặp thiện tri thức hay Phật pháp hóa giải, khuynh hướng ấy lặp lại hết kiếp này sang kiếp khác, đẩy dần từ người giàu xuống kẻ nghèo hèn khốn khổ, rồi hàng ngàn kiếp sau đọa thành con kiến lết trên sàn nhà lôi mẩu bánh mì về tổ.
+                </div>
+
+                <div class="snippet-box">
+                    <div class="snippet-title">Snippet trích dẫn:</div>
+                    "... Tâm lý mà u uất buồn chán của Ngài nó có cái nguyên nhân ở kiếp trước. Cho nên ta hiểu thêm một điều nữa là tâm lý con người lặp lại qua những kiếp sống mặc dù là ngoại hình ta thay đổi. Đây là cái nguyên tắc thứ nhất trong cái việc tạo thành cái tâm lý của mỗi một con người... Nên ta dễ thấy là ví dụ như một cái người họ hào hiệp can đảm, họ dấn thân thì đời sau họ dễ trở lại làm con người giống như vậy. Một người ti tiện hẹp hòi ích kỷ kiếp sau cũng dễ lặp lại cái khuynh hướng như thế... Một ngày nào đó mà ta nhìn thấy có một con kiến nó bò trên cái vách tường, nó đi cắn một mẩu bánh mì mà nó lôi sần sật trên cái sàn nhà để mà đi về cái tổ của nó, thì ta phải hiểu rằng đây là một người ích kỷ của một ngàn kiếp trước... Nếu mà ta xét trong tâm mình mà thấy mình có tồn tại một cái khuynh hướng ích kỷ như vậy thì ta phải nhanh chóng trừ diệt liền, đừng có để tâm lý nó lặp lại nữa..."
+                </div>
+            </div>
+        </article>
+
+        <!-- CÂU HỎI 2 -->
+        <article class="card">
+            <div class="card-header">
+                <span class="card-title">📌 CÂU HỎI 2</span>
+            </div>
+
+            <div class="section-box">
+                <span class="section-label label-hoi">1. Hỏi</span>
+                <div class="question-text">
+                    Kính bạch Thầy, vì sao theo quy luật tâm lý tự nhiên, khi gặp tai họa hay bất hạnh (như câu chuyện cha mẹ có con gái bị xe tông gãy chân), con người luôn tìm đối tượng để đổ lỗi rồi gửi vào đó lòng thù hận; và người tin sâu luật nhân quả đã cắt đứt chuỗi nghiệp oán thù ấy như thế nào ạ?
+                </div>
+            </div>
+
+            <div class="section-box">
+                <span class="section-label label-dap">2. Đáp</span>
+
+                <div class="meta-group">
+                    <div class="meta-item">
+                        <span class="meta-key">Tên bài giảng:</span>
+                        <span class="meta-value">Làm Thế Nào Để Dừng Một Cơn Bão? (media: 1737)</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-key">Link bài giảng:</span>
+                        <span class="meta-value">
+                            <a href="https://youtu.be/AleAL9gS3Jo&t=1057" target="_blank" rel="noopener noreferrer">https://youtu.be/AleAL9gS3Jo&t=1057</a> [17:37 - 19:36]
+                        </span>
+                    </div>
+                </div>
+
+                <div class="story-title">Mẫu chuyện:</div>
+                <div class="story-content">
+                    Sư Phụ kể ví dụ về một gia đình có đứa con gái đi học bị xe tông gãy chân. Người chứng kiến thuật lại rõ ràng là em bé đang đi trên đường bỗng làm rớt đồ trong cặp nên nhảy xuống lượm khiến xe chạy tới cán lên chân — tức là phần lỗi xuất phát từ phía em bé. Thế nhưng theo phản ứng tâm lý tự nhiên, cha mẹ bé đau khổ tột độ và nhất quyết không chịu nhận lỗi về con mình, chỉ chăm chăm tìm cho ra người lái xe để đổ hết tội lỗi và trút trọn lòng căm hờn lên người đó. Ngược lại, người hiểu và tin sâu luật nhân quả khi gặp bất kỳ tai họa nào đều nhận lỗi về mình trước (do nhân xấu mình từng gieo từ xưa). Nhờ vậy, họ lập tức chặt đứt được quy luật tâm lý đổ lỗi, không khởi tâm thù hận ai, giữ được nội tâm yên bình và thành tựu liền ba bốn tầng đạo đức (gan dạ, trí tuệ, không hận thù), không tiếp tục gieo thêm nhân ác cho tương lai.
+                </div>
+
+                <div class="snippet-box">
+                    <div class="snippet-title">Snippet trích dẫn:</div>
+                    "... Vì khi ta có một cái tai họa, ta có một tai nạn, ta có cái nỗi đau khổ thì tâm lý là gì? Ta luôn tìm một người để đổ lỗi... Và khi tìm được cái người đó đổ lỗi rồi thì ta gửi vào đó lòng thù hận. Đây là tâm lý chung của tất cả mọi người, đó là quy luật tự nhiên. Ví dụ thế này, ở nhà đó có đứa con gái đi học bị xe tông gãy chân, cha mẹ đau khổ không ạ?... Thực sự thì có người chứng kiến nói đứa bé nó đang đi trên đường bỗng nhiên nó làm rớt cái gì trong cái cặp táp của nó, nó nhảy xuống nó lượm thì xe chạy tới cán lên chân nó... nhưng mà cha mẹ không chịu đổ lỗi con mình, tìm cái tay của thằng nào cán con tao... Tìm được đổ lỗi rồi là trút hết căm hờn. Cái tâm lý là như vậy. Nhưng mà những người mà tin vào luật nhân quả thì ta giết được cái tâm nó liền... Tai họa khởi lên cứ nghĩ lỗi tại mình, mình không đổ lỗi ai hết, rồi không hận thù với ai, cho nên ta đạt được cái yên bình của nội tâm, không có khởi thêm phiền não, ác độc, thù hận tiếp nữa..."
+                </div>
+            </div>
+        </article>
+
+        <!-- CÂU HỎI 3 -->
+        <article class="card">
+            <div class="card-header">
+                <span class="card-title">📌 CÂU HỎI 3</span>
+            </div>
+
+            <div class="section-box">
+                <span class="section-label label-hoi">1. Hỏi</span>
+                <div class="question-text">
+                    Kính bạch Thầy, câu chuyện người bị trầm cảm, mất ngủ, tâm trí loạn động tìm đến bác sĩ tâm lý Tây phương khai thác ám ảnh quá khứ nhưng chữa mãi không khỏi đã phơi bày quy luật tâm lý và nhân quả nội tâm nào giữa "điều ác – loạn động" và "điều thiện – an tĩnh" ạ?
+                </div>
+            </div>
+
+            <div class="section-box">
+                <span class="section-label label-dap">2. Đáp</span>
+
+                <div class="meta-group">
+                    <div class="meta-item">
+                        <span class="meta-key">Tên bài giảng:</span>
+                        <span class="meta-value">Tinh Tấn Hành Thiền (media: 5123)</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-key">Link bài giảng:</span>
+                        <span class="meta-value">
+                            <a href="https://youtu.be/NRXak6l3VIg&t=2833" target="_blank" rel="noopener noreferrer">https://youtu.be/NRXak6l3VIg&t=2833</a> [47:13 - 49:30]
+                        </span>
+                    </div>
+                </div>
+
+                <div class="story-title">Mẫu chuyện:</div>
+                <div class="story-content">
+                    Sư Phụ dẫn chứng trường hợp những người bị trầm cảm, ưu uất, ngủ không yên, tâm trí thường xuyên loạn động tìm đến bác sĩ tâm lý Tây phương để chữa trị. Bác sĩ hỏi han quá khứ, tìm hiểu xem bệnh nhân từng gặp ai hay bị ám ảnh điều gì để giải tỏa, nhưng cách làm ấy chỉ là chữa vá víu trên ngọn nên bệnh tình vẫn không dứt hẳn. Thầy chỉ rõ công thức tâm lý và nhân quả nội tâm rốt ráo của đạo Phật: điều ác luôn đồng hành với tâm loạn động, điều thiện luôn đồng hành với tâm an tĩnh. Người nào bị trầm cảm, bức xúc, rây rứt bất an thì chắc chắn trong tâm đang tồn tại một mầm bất thiện (như tâm ích kỷ, hơn thua, hiếu thắng, tham vọng tiềm ẩn). Chỉ khi gỡ bỏ tận gốc điều bất thiện đó, chuyển sang sống hy sinh, xả kỷ, vui mừng khi thấy người khác hơn mình và làm những việc cụ thể giúp đỡ con người, thì nhân thiện ấy lập tức kéo tâm hồn trở về trạng thái an tĩnh, hết bất an và tiến gần đến thiền định.
+                </div>
+
+                <div class="snippet-box">
+                    <div class="snippet-title">Snippet trích dẫn:</div>
+                    "... Bởi vì cái tâm ác nó tương quan với cái tâm loạn động, mà cái tâm thiện nó tương quan với cái tâm an tĩnh... Đó là quy luật, đó là nguyên tắc, đó là công thức không chạy đường nào hết. Nên là có nhiều cái trường hợp những nhà tâm lý học Tây Phương họ không biết những nguyên tắc này nên khi họ chữa bệnh tâm lý cho nhiều người họ chữa vá víu, chữa trên ngọn. Vì có người bị trầm cảm, ưu uất đến nói chuyện với ông bác sĩ tâm lý nói là trong giấc ngủ tôi không yên, bình thường tâm tôi cứ loạn... Rồi ổng bắt mạch cái đó ổng giải tỏa, sự thật vẫn không hết. Phải hiểu một điều thế này, nguyên tắc cái tâm lý rốt ráo ra này: Cái điều ác nó đồng hành với cái tâm loạn động, cái điều thiện nó đồng hành với tâm an tĩnh. Cái người bị trầm cảm bức xúc rây rứt, chắc hẳn chắn ra trong tâm họ có một điều bất thiện nó tồn tại, phải gỡ cho ra, triệt cho hết cái ác, cái bất thiện, làm sao hướng họ về điều thiện, yêu thương con người, làm việc gì cụ thể để giúp con người. Khi cái điều thiện nó xuất hiện trong tâm rồi, nó kéo cái tâm về phía an tĩnh đi..."
+                </div>
+            </div>
+        </article>
+
+        <footer>
+            Nội dung bài học & Hỏi Đáp Phật Pháp
+        </footer>
+    </div>
+
+</body>
+</html>

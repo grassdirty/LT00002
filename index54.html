@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hỏi Đáp Phật Pháp - Thuộc Tính Bậc Thánh & Nhân Quả</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #050714;
+            --card-bg: rgba(15, 23, 42, 0.65);
+            --card-border: rgba(255, 255, 255, 0.12);
+            --primary-gold: #f6d365;
+            --accent-gold: #fda085;
+            --cyan-glow: #38bdf8;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --snippet-bg: rgba(14, 165, 233, 0.08);
+            --snippet-border: #38bdf8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            line-height: 1.7;
+            padding: 40px 20px;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(124, 58, 237, 0.25) 0%, transparent 45%),
+                radial-gradient(circle at 85% 40%, rgba(14, 165, 233, 0.2) 0%, transparent 40%),
+                radial-gradient(circle at 50% 85%, rgba(244, 63, 94, 0.15) 0%, transparent 50%);
+            background-attachment: fixed;
+        }
+
+        /* Hiệu ứng sao lấp lánh vũ trụ */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: 
+                radial-gradient(1.5px 1.5px at 10px 20px, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 40px 70px, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 90px 40px, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 160px 120px, #e0f2fe, rgba(0,0,0,0)),
+                radial-gradient(1.5px 1.5px at 230px 190px, #fef08a, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 310px 80px, #ffffff, rgba(0,0,0,0));
+            background-repeat: repeat;
+            background-size: 350px 250px;
+            opacity: 0.6;
+            z-index: -1;
+            animation: starsAnimation 100s linear infinite;
+        }
+
+        @keyframes starsAnimation {
+            from { background-position: 0 0; }
+            to { background-position: 1000px 1000px; }
+        }
+
+        .container {
+            max-width: 920px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        header h1 {
+            font-family: 'Merriweather', serif;
+            font-size: 2.3rem;
+            background: linear-gradient(135deg, #fff 30%, var(--primary-gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 32px;
+            margin-bottom: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(246, 211, 101, 0.4);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary-gold);
+            letter-spacing: 0.5px;
+        }
+
+        .section-box {
+            margin-bottom: 24px;
+        }
+
+        .section-label {
+            display: inline-block;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 4px 12px;
+            border-radius: 6px;
+            margin-bottom: 12px;
+        }
+
+        .label-hoi {
+            background: rgba(246, 211, 101, 0.15);
+            color: var(--primary-gold);
+            border: 1px solid rgba(246, 211, 101, 0.3);
+        }
+
+        .label-dap {
+            background: rgba(56, 189, 248, 0.15);
+            color: var(--cyan-glow);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+        }
+
+        .question-text {
+            font-size: 1.08rem;
+            font-weight: 500;
+            color: #f8fafc;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 18px 20px;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary-gold);
+        }
+
+        .meta-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 20px;
+            background: rgba(0, 0, 0, 0.25);
+            padding: 16px 20px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+        }
+
+        .meta-item {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: baseline;
+        }
+
+        .meta-key {
+            color: var(--text-muted);
+            font-weight: 600;
+            min-width: 120px;
+        }
+
+        .meta-value {
+            color: #e2e8f0;
+        }
+
+        .meta-value a {
+            color: var(--cyan-glow);
+            text-decoration: none;
+            word-break: break-all;
+            transition: color 0.2s;
+        }
+
+        .meta-value a:hover {
+            text-decoration: underline;
+            color: #7dd3fc;
+        }
+
+        .story-title {
+            font-weight: 700;
+            color: #e2e8f0;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        .story-content {
+            color: #cbd5e1;
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        .snippet-box {
+            background: var(--snippet-bg);
+            border-left: 4px solid var(--snippet-border);
+            padding: 18px 20px;
+            border-radius: 0 12px 12px 0;
+            font-style: italic;
+            color: #e0f2fe;
+            font-size: 0.98rem;
+        }
+
+        .snippet-title {
+            font-style: normal;
+            font-weight: 700;
+            color: var(--cyan-glow);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 8px;
+        }
+
+        footer {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 60px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        @media (max-width: 640px) {
+            body { padding: 20px 12px; }
+            .card { padding: 20px; }
+            header h1 { font-size: 1.7rem; }
+            .meta-key { min-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>THUỘC TÍNH BẬC THÁNH & CHÂN LÝ NHÂN QUẢ</h1>
+            <p>Tuyển tập bài giảng giải thích các phẩm chất của Bậc Thánh và nhân quả trong đời sống</p>
+        </header>
+
+        <!-- CÂU HỎI 1 -->
+        <article class="card">
+            <div class="card-header">
+                <span class="card-title">📌 CÂU HỎI 1</span>
+            </div>
+
+            <div class="section-box">
+                <span class="section-label label-hoi">1. Hỏi</span>
+                <div class="question-text">
+                    Kính bạch Thầy, trong sự phán xét đúng sai hằng ngày, vì sao người phàm hễ cùng phe hay người thân quen là bênh vực bất chấp lẽ phải thì nhân quả nhiều đời sẽ bị ngu muội; còn bậc Thánh vượt qua cảm tính thân sơ để tôn trọng sự thật công minh (như câu chuyện Tổng thống Abraham Lincoln thời làm luật sư) thì gặt hái quả báo trí tuệ và sự ra đi an lành ra sao ạ?
+                </div>
+            </div>
+
+            <div class="section-box">
+                <span class="section-label label-dap">2. Đáp</span>
+
+                <div class="meta-group">
+                    <div class="meta-item">
+                        <span class="meta-key">Tên bài giảng:</span>
+                        <span class="meta-value">Cái Nhìn Của Thánh (media: 6211)</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-key">Link bài giảng:</span>
+                        <span class="meta-value">
+                            <a href="https://youtu.be/LYQlZ_VULPc&t=3680" target="_blank" rel="noopener noreferrer">https://youtu.be/LYQlZ_VULPc&t=3680</a> [1:01:20 - 1:04:08]
+                        </span>
+                    </div>
+                </div>
+
+                <div class="story-title">Mẫu chuyện:</div>
+                <div class="story-content">
+                    Sư Phụ phân tích sự khác biệt căn bản về thuộc tính giữa bậc Thánh và phàm phu qua câu chuyện Tổng thống Mỹ Abraham Lincoln thuở còn làm luật sư. Có lần ông nhận bào chữa cho một bị cáo vì ban đầu nghe trình bày tưởng người này không có tội đáng kể. Nhưng khi ra tranh tụng trước tòa, phía công tố đưa ra đầy đủ chứng cứ xác thực rằng thân chủ của ông hoàn toàn có tội. Không vì đồng tiền thù lao hay tâm lý "bênh người phe mình", ông lập tức đứng dậy tuyên bố rút lui, ra ngoài rửa tay sạch sẽ vì không muốn nhúng tay vào vụ việc sai trái và chấp nhận mất trắng thù lao để giữ trọn công lý, chân lý. Sư Phụ chỉ rõ nhân quả: phàm phu hễ người thân hay phe mình thì bênh vực bất chấp đúng sai nên nhiều đời bị quả báo ngu muội, không bao giờ thấy được lẽ phải; còn người giữ được thuộc tính công minh của bậc Thánh, sẵn sàng nhận sai và khen ngợi điều đúng dù nằm bên nhà hàng xóm, thì về sau được trí tuệ sáng suốt, lúc lâm chung tâm an lành và có khi biết trước ngày ra đi.
+                </div>
+
+                <div class="snippet-box">
+                    <div class="snippet-title">Snippet trích dẫn:</div>
+                    "... Cái phàm phu thì vậy, để mà cùng phe mình phát biểu thì mình cứ ủng hộ lên, chả cần biết đúng sai, mà chỉ cần biết là cùng phe hay khác phe để mà ủng hộ, thì cái người này nhiều đời nhiều kiếp mắc cái quả báo gì? Ngu, không bao giờ thấy được lẽ phải, không bao giờ thấy được sự thật... Còn một bậc thánh họ vượt qua được cái cảm tính đó, không cần biết thân hay sơ, mà chỉ cần phân biệt đúng sai cho kỹ. Giống như là bên Mỹ có ông Tổng thống mà Mỹ xưng là danh nhân là Abraham Lincoln... Khi làm luật sư thì có lần ông nhận bảo vệ cho một bị cáo... Nhưng mà khi ra cãi trước tòa, cái bên nguyên đơn họ có cái bên công tố họ chứng minh đầy đủ rằng là cái thân chủ của ông là hoàn toàn có tội... Thế là ông đứng lên ông bỏ... ông nói tôi đã nhúng vào một cái vụ dơ bẩn sai lầm... bỏ liền chấp nhận không có tiền thù lao, nhưng mà đó là công lý, đó là chân lý... Có khi cái đúng nó nằm bên nhà hàng xóm thì mình phải khen người hàng xóm, phải xin lỗi người hàng xóm, về mà dạy lại con mình, dạy lại vợ mình. Đó là cái người mà có cái chất của một bậc thánh... mà sống được như vậy, sau này ta chết an lành, ta ra đi có khi ta biết trước ngày chết..."
+                </div>
+            </div>
+        </article>
+
+        <!-- CÂU HỎI 2 -->
+        <article class="card">
+            <div class="card-header">
+                <span class="card-title">📌 CÂU HỎI 2</span>
+            </div>
+
+            <div class="section-box">
+                <span class="section-label label-hoi">1. Hỏi</span>
+                <div class="question-text">
+                    Kính bạch Thầy, câu chuyện người nhà giáo bị án oan 10 năm tù nhưng vẫn tận tụy dạy chữ cho phạm nhân và sau khi được trả tự do lại tình nguyện quay về trại giam để tiếp tục dạy học đã thể hiện thuộc tính gì của bậc Thánh trước nghịch cảnh, và nhân quả tu tập từ nhiều kiếp trước đã hun đúc nên "chất Thánh" ấy như thế nào ạ?
+                </div>
+            </div>
+
+            <div class="section-box">
+                <span class="section-label label-dap">2. Đáp</span>
+
+                <div class="meta-group">
+                    <div class="meta-item">
+                        <span class="meta-key">Tên bài giảng:</span>
+                        <span class="meta-value">Bậc Thánh Nghĩ Gì (media: 6111)</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-key">Link bài giảng:</span>
+                        <span class="meta-value">
+                            <a href="https://youtu.be/U41H1HZEBsM&t=2123" target="_blank" rel="noopener noreferrer">https://youtu.be/U41H1HZEBsM&t=2123</a> [35:23 - 37:20]
+                        </span>
+                    </div>
+                </div>
+
+                <div class="story-title">Mẫu chuyện:</div>
+                <div class="story-content">
+                    Sư Phụ kể lại câu chuyện có thật về một người nhà giáo bị kết án oan tội nặng và phải ngồi tù suốt 10 năm trời. Thay vì oán hận cuộc đời, trong thời gian ở tù ông tận dụng sở học của mình để dạy chữ, giáo dục cho các bạn tù. Đến khi được minh oan ra tù, ông lo nuôi dạy người con của mình ăn học đến khi tốt nghiệp đại học thành tài, rồi tự nguyện quay trở lại chính trại giam năm xưa xin ở lại để tiếp tục dạy học cho những phạm nhân bị xã hội xa lánh, lãng quên. Sư Phụ chỉ ra: tâm thế không oán thù mà xem chính nghịch cảnh oan nghiệt là cơ hội quý giá để tu dưỡng và phụng sự ấy trùng khớp với thuộc tính suy nghĩ của bậc Thánh; và theo luật nhân quả, làm được như vậy là vì người ấy đã gieo nhân tu hành qua nhiều kiếp trước nên trong tâm đã kết tụ sẵn một phần "chất Thánh".
+                </div>
+
+                <div class="snippet-box">
+                    <div class="snippet-title">Snippet trích dẫn:</div>
+                    "... Thầy có được đọc hai câu chuyện... và chuyện của một ông nhà giáo bị vô án cũng giết người, cưỡng hiếp gì đó rồi ở tù mất 10 năm. Ở trong tù ông là nhà giáo nên ông dạy cho phạm nhân. Đến khi ông ra tù rồi thì ông dạy cho đứa con ông. Sau khi đứa con ông tốt nghiệp đại học thành rồi ông quay trở lại cái tù đó, ông xin vô tù ở lại... để dạy cho tiếp tục những phạm nhân khác. Tức lòng ông không hề oán thù cuộc đời và ông xem như cái ở tù của ông là một cơ hội để ông được tiếp xúc với những người mà họ không có cơ hội để được giáo dục đàng hoàng... Cái suy nghĩ của ông này, cái suy nghĩ của Thánh... Ngay trong nghịch cảnh ta vẫn thấy đó là một cơ hội để ta tu dưỡng, cơ hội để ta phụng sự, ta cống hiến... Vì sao vậy? Coi vậy chứ ta tu không phải mới một kiếp này, cũng nhiều kiếp ta tu rồi, trong tâm ta đã có một phần nào cái chất thánh rồi..."
+                </div>
+            </div>
+        </article>
+
+        <!-- CÂU HỎI 3 -->
+        <article class="card">
+            <div class="card-header">
+                <span class="card-title">📌 CÂU HỎI 3</span>
+            </div>
+
+            <div class="section-box">
+                <span class="section-label label-hoi">1. Hỏi</span>
+                <div class="question-text">
+                    Kính bạch Thầy, câu chuyện một vị Phật tử trong khóa thiền bạch hỏi Thầy khi tự nhận thấy mình có đủ ba thuộc tính của bậc Thánh Sơ quả Tu-đà-hoàn nhưng lại lo sợ mắc tâm kiêu mạn đã được Thầy lý giải theo nhân quả tiền kiếp và hiện đời ra sao, và vì sao chính nỗi sợ kiêu mạn ấy mới thật sự là dấu hiệu của bậc Thánh ạ?
+                </div>
+            </div>
+
+            <div class="section-box">
+                <span class="section-label label-dap">2. Đáp</span>
+
+                <div class="meta-group">
+                    <div class="meta-item">
+                        <span class="meta-key">Tên bài giảng:</span>
+                        <span class="meta-value">Sự khác nhau giữa Thánh và Phàm - Pháp Cú 63 (media: 1360 & 4691)</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-key">Link bài giảng:</span>
+                        <span class="meta-value">
+                            <a href="https://youtu.be/0Voci8KvMRY&t=1770" target="_blank" rel="noopener noreferrer">https://youtu.be/0Voci8KvMRY&t=1770</a> [29:30 - 31:55]
+                        </span>
+                    </div>
+                </div>
+
+                <div class="story-title">Mẫu chuyện:</div>
+                <div class="story-content">
+                    Trong một khóa thiền, có vị Phật tử đến bạch hỏi Thầy với tâm trạng lúng túng: khi nghe Thầy giảng về ba thuộc tính căn bản của bậc Thánh chứng Sơ quả Tu-đà-hoàn (lòng tôn kính Phật đầy đủ, tâm vị tha luôn thương người giúp người, và không cố chấp nguyên tắc), vị ấy soi lại thấy mình đều có sẵn đủ cả ba điều một cách tự nhiên, nhưng nếu tự nhận mình là Thánh thì lại sợ rơi vào tội kiêu mạn. Sư Phụ liền giảng rõ hai trường hợp nhân quả của bậc Thánh Sơ quả: trường hợp thứ nhất là người đã chứng Tu-đà-hoàn từ kiếp trước nên kiếp này tái sinh mang sẵn trọn vẹn phẩm chất Thánh trong tâm dù chưa tu nhiều trong hiện tại (nếu tinh tấn tu tiếp sẽ tiến thẳng lên Nhị quả); trường hợp thứ hai là người tu hành đời này bất ngờ chứng ngộ khiến tâm bỗng rỗng rang, chuyển hóa sâu sắc cả ba thuộc tính trên. Đặc biệt, Thầy khẳng định chính thái độ thấy điều lạ nơi mình mà biết khiêm cung, sợ mình kiêu mạn ấy mới là dấu hiệu chân thật của bậc Thánh.
+                </div>
+
+                <div class="snippet-box">
+                    <div class="snippet-title">Snippet trích dẫn:</div>
+                    "... Nhưng hôm qua trong khóa thiền có một người mới hỏi thầy một câu hỏi, nói thưa thầy, khi thầy nói về ba cái tính chất của một bậc thánh chứng sơ quả thì con thấy con có đủ... Thì nếu con thấy đủ như vậy thì con tự cho mình là thánh thì con lại sợ như vậy là con kiêu mạn... Ba điều của bậc Thánh là gì? Thứ nhất là lòng tôn kính Phật đầy đủ, thứ hai là lòng con rất vị tha, con lúc nào cũng muốn thương người giúp người, và yếu tố thứ ba là con không có chấp nguyên tắc... Thầy nói bậc thánh Tu Đà Hoàng là có hai trường hợp: một cái trường hợp là người này đã chứng Tu Đà Hoàng từ kiếp trước cho nên kiếp này trở lại, đầu thai trở lại mang theo những phẩm chất của thánh trong tâm hồn mình đầy đủ... Trường hợp thứ hai là người đời này mới chứng Tu Đà Hoàng... Nhưng mà cái đặc tính của Thánh là thế me: là sau khi thấy những điều lạ đặc biệt nơi mình như vậy thì lại sợ mình kiêu mạn. Cái sợ kiêu mạn đó mới chính là dấu hiệu của Thánh."
+                </div>
+            </div>
+        </article>
+
+        <footer>
+            Nội dung bài học & Hỏi Đáp Phật Pháp
+        </footer>
+    </div>
+
+</body>
+</html>

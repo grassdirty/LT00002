@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Góc Nhìn Thời Đại, Tôn Giáo & Sự Vận Hành Thế Giới</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #050714;
+            --card-bg: rgba(15, 23, 42, 0.65);
+            --card-border: rgba(255, 255, 255, 0.12);
+            --primary-gold: #f6d365;
+            --accent-gold: #fda085;
+            --cyan-glow: #38bdf8;
+            --emerald-glow: #34d399;
+            --rose-glow: #fb7185;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --snippet-bg: rgba(14, 165, 233, 0.08);
+            --snippet-border: #38bdf8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            line-height: 1.8;
+            padding: 40px 20px;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(124, 58, 237, 0.25) 0%, transparent 45%),
+                radial-gradient(circle at 85% 40%, rgba(14, 165, 233, 0.2) 0%, transparent 40%),
+                radial-gradient(circle at 50% 85%, rgba(244, 63, 94, 0.15) 0%, transparent 50%);
+            background-attachment: fixed;
+        }
+
+        /* Hiệu ứng bầu trời sao lấp lánh */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: 
+                radial-gradient(1.5px 1.5px at 10px 20px, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 40px 70px, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 90px 40px, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 160px 120px, #e0f2fe, rgba(0,0,0,0)),
+                radial-gradient(1.5px 1.5px at 230px 190px, #fef08a, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 310px 80px, #ffffff, rgba(0,0,0,0));
+            background-repeat: repeat;
+            background-size: 350px 250px;
+            opacity: 0.6;
+            z-index: -1;
+            animation: starsAnimation 100s linear infinite;
+        }
+
+        @keyframes starsAnimation {
+            from { background-position: 0 0; }
+            to { background-position: 1000px 1000px; }
+        }
+
+        .container {
+            max-width: 920px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        header h1 {
+            font-family: 'Merriweather', serif;
+            font-size: 2.2rem;
+            background: linear-gradient(135deg, #fff 30%, var(--primary-gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 32px;
+            margin-bottom: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(246, 211, 101, 0.4);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .card-title {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--primary-gold);
+            letter-spacing: 0.5px;
+        }
+
+        .content-block {
+            color: #e2e8f0;
+            font-size: 1.02rem;
+            text-align: justify;
+        }
+
+        .content-block p {
+            margin-bottom: 16px;
+        }
+
+        .highlight-box {
+            background: rgba(255, 255, 255, 0.03);
+            border-left: 4px solid var(--primary-gold);
+            padding: 16px 20px;
+            border-radius: 0 12px 12px 0;
+            margin: 16px 0;
+        }
+
+        .bullet-list {
+            list-style: none;
+            padding-left: 0;
+            margin: 16px 0;
+        }
+
+        .bullet-list li {
+            position: relative;
+            padding-left: 28px;
+            margin-bottom: 12px;
+            color: #cbd5e1;
+        }
+
+        .bullet-list li::before {
+            content: "❖";
+            position: absolute;
+            left: 0;
+            color: var(--cyan-glow);
+            font-size: 0.9rem;
+        }
+
+        .num-list {
+            list-style: none;
+            counter-reset: item-counter;
+            padding-left: 0;
+            margin: 20px 0;
+        }
+
+        .num-list li {
+            counter-increment: item-counter;
+            position: relative;
+            padding-left: 38px;
+            margin-bottom: 16px;
+            color: #e2e8f0;
+        }
+
+        .num-list li::before {
+            content: counter(item-counter);
+            position: absolute;
+            left: 0;
+            top: 2px;
+            width: 24px;
+            height: 24px;
+            background: rgba(56, 189, 248, 0.15);
+            border: 1px solid var(--cyan-glow);
+            color: var(--cyan-glow);
+            font-size: 0.85rem;
+            font-weight: 700;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .qa-card {
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 14px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .qa-q {
+            font-weight: 700;
+            color: var(--primary-gold);
+            font-size: 1.05rem;
+            margin-bottom: 10px;
+        }
+
+        .qa-a {
+            color: #cbd5e1;
+        }
+
+        footer {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 60px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        @media (max-width: 640px) {
+            body { padding: 20px 12px; }
+            .card { padding: 20px; }
+            header h1 { font-size: 1.7rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>GÓC NHÌN THỜI ĐẠI & ĐẠO LÝ CHÂN CHÍNH</h1>
+            <p>Tổng hợp các nhận định về Chính trị, Tôn giáo, Khoa học Công nghệ & Pháp luật</p>
+        </header>
+
+        <!-- CHỦ ĐỀ 1 -->
+        <article class="card">
+            <div class="card-header">
+                <span class="card-title">🌐 1. Lựa Chọn Giữa Hai Con Đường</span>
+            </div>
+            <div class="content-block">
+                <p>HTH nên chọn lựa giữa hai con đường:</p>
+                <div class="highlight-box">
+                    <p><strong>1. Tiếp tục con đường tàn ác:</strong> Với mục tiêu biến cả thế giới thành nô lệ của mình, để mình là bạo chúa mà trời đất đều nguyền rủa.</p>
+                    <p><strong>2. Dùng đạo lý chân chính nhà Phật:</strong> (nguồn chánh kiến nhất hiện nay) để xây dựng thế giới thành một nơi bình yên, hạnh phúc, đạo đức mỹ mãn, và trời đất sẽ ca ngợi họ vô cùng.</p>
+                </div>
+            </div>
+        </article>
+
+        <!-- CHỦ ĐỀ 2 -->
+        <article class="card">
+            <div class="card-header">
+                <span class="card-title">🏛️ 2. Bản Chất Bầu Cử & Tổ Chức Ngầm Phương Tây</span>
+            </div>
+            <div class="content-block">
+                <p>Bầu cử ở Châu Âu (và cả của Mỹ) chỉ là thủ tục biểu diễn. Người được đắc cử do tổ chức ngầm đưa lên; lên rồi thì không phục vụ nhân dân, chỉ lo phục vụ tổ chức ngầm, lấy tiền của quốc gia đưa về cho tổ chức ngầm. Từ từ đời sống người dân tụt dốc đói khổ thiếu thốn thê thảm. Ta nghe nói mấy nước đó giàu, chỉ giàu cho các đại gia mà thôi, còn dân vẫn rất nghèo.</p>
+                <p>Cả thế giới ai cũng phải hiểu rất rõ ràng về các tổ chức ngầm này để hiểu mình phải sống ra sao. Dân Châu Âu không ghét Nga, chỉ có các lãnh đạo Châu Âu thì ghét Nga. Họ ghét Nga vì tổ chức của họ ra lệnh phải chống Nga.</p>
+                <p>Chống Nga bởi vì tổ chức ngầm (Châu Âu và HK) không chen vào can thiệp điều khiển nhà nước Nga được. Châu Âu thì họ nuốt gọn trong một nốt nhạc, còn Nga thì như bức tường đá đụng không được, tức nên chống. Ai cũng nên hiểu là mình đang bị cai trị bởi tổ chức ngầm mà mình không hề biết?</p>
+            </div>
+        </article>
+
+        <!-- CHỦ ĐỀ 3 -->
+        <article class="card">
+            <div class="card-header">
+                <span class="card-title">🚀 3. Tôn Giáo & Tín Ngưỡng Trong Thời Đại Công Nghệ</span>
+            </div>
+            <div class="content-block">
+                <p>Thời đại công nghệ tiến bộ khủng khiếp thế này, với robot có khả năng vượt hơn con người, những lý luận tôn giáo tín ngưỡng truyền thống hoàn toàn đuối sức không còn khả năng thuyết phục con người nữa. Đó là lý do ta thấy các cơ sở tôn giáo hầu như vắng vẻ, trừ các cơ sở có tổ chức ngầm điều hành theo kiểu riêng thì nhìn còn có người tới lui một chút.</p>
+                <p><strong>Nếu hôm nay ta không có một nền đạo giáo với đủ các yếu tố sau đây thì tôn giáo tín ngưỡng sẽ phải lùi bước trước công nghệ:</strong></p>
+                <ul class="bullet-list">
+                    <li>Đạo lý đó là <strong>chân lý khách quan</strong>, không phải là tín điều áp đặt.</li>
+                    <li>Đạo lý đó <strong>lý giải được khoa học</strong>, bao trùm khoa học, dẫn trước khoa học.</li>
+                    <li>Đạo lý đó <strong>cao siêu hơn cả khoa học</strong>, nhưng gần gũi thực tế trong đời sống mà ai cũng áp dụng thực hành được.</li>
+                    <li>Đạo lý đó <strong>dẫn đường cho con người vượt lên khỏi thân phận phàm phu</strong>, không lệ thuộc máy móc, tự mỗi người có thể là một sinh thể cao siêu hơn loài người thông thường. (Loài người thông thường hiện nay chế tạo ra máy móc và lệ thuộc máy móc).</li>
+                    <li>Đạo lý đó phải được <strong>truyền tải bằng ngôn ngữ của thời đại</strong> khiến cho ai cũng có thể tiếp cận được, ai cũng hiểu được.</li>
+                    <li>Đạo lý đó phải được thể hiện với <strong>nghi thức mới hoàn toàn</strong> bằng làn điệu của âm nhạc hiện đại mà cả thế giới ưa thích.</li>
+                    <li>Đạo lý đó phải <strong>xây dựng được đạo đức cá nhân cụ thể</strong>, khiến cho ai cũng tốt lên, ai cũng thương yêu nhau, ai cũng siêng năng giúp đỡ nhau.</li>
+                </ul>
+                <p><em>Nếu không có một đạo lý như thế, tất cả đạo giáo tín ngưỡng sẽ suy thoái vì không trụ nổi trước cơn sóng thần khoa học công nghệ hiện đại.</em></p>
+            </div>
+        </article>
+
+        <!-- CHỦ ĐỀ 4 -->
+        <article class="card">
+            <div class="card-header">
+                <span class="card-title">⚖️ 4. Quan Điểm Biên Soạn Pháp Luật & Thượng Tôn Pháp Luật</span>
+            </div>
+            <div class="content-block">
+                <p>Nếu pháp luật soạn sai lầm, việc tuân thủ của người dân chỉ đẩy nhanh đất nước chệch hướng. Nếu pháp luật soạn chính xác, hợp lý, việc tuân thủ của người dân sẽ đẩy mạnh đất nước tiến bộ đúng hướng. Việc soạn thảo pháp luật sao cho cực kỳ hợp lý, đúng đắn, là một thách thức lớn của trí tuệ và đạo đức.</p>
+                <p><strong>4 Nguyên tắc cốt lõi khi soạn thảo pháp luật:</strong></p>
+                <ol class="num-list">
+                    <li><strong>Quan điểm Xã hội chủ nghĩa:</strong> Điều đúng đắn đầu tiên mà ta phải dựa vào.</li>
+                    <li><strong>Quan điểm Vì lợi ích của nhân dân:</strong> Đặt lợi ích tối cao của nhân dân làm gốc.</li>
+                    <li><strong>Triệt để bảo vệ chủ quyền quốc gia:</strong> Trên mọi phương diện (lãnh thổ, ngoại giao, chính trị, an ninh, kinh tế, giáo dục, văn hóa, y tế, khoa học, kỹ thuật, năng lượng) và nhất là miễn nhiễm trước các tổ chức tội phạm bí mật hiện nay đang tìm cách cài người luồn vào nắm quyền lực.</li>
+                    <li><strong>Tạo mọi điều kiện thuận lợi cho người dân:</strong> Được thụ hưởng quyền lợi mưu sinh, nhà ở, học tập, chăm sóc sức khỏe, tín ngưỡng chân chính... Đồng thời hướng dẫn người dân hăng hái thực thi nghĩa vụ công dân (đóng thuế hợp lý, nghĩa vụ quân sự, bảo vệ nền tảng tư tưởng XHCN, tố giác tội phạm, chỉ điểm người có công, giáo dục truyền thống văn hóa dân tộc cho thế hệ kế tiếp...).</li>
+                </ol>
+                <div class="highlight-box">
+                    <p>Các nước Âu Mỹ đang có khuynh hướng soạn càng ngày càng nhiều Luật khiến dân ngộp thở mất sức sống, mất sức sáng tạo, và mất tự do. Việt Nam ta đang ở khoảng vừa đủ, cẩn thận khi soạn thêm luật, cân nhắc bỏ bớt luật. Đó là khôn ngoan.</p>
+                    <p><em>Nếu pháp luật cực kỳ hợp lý, được biên soạn bởi những bộ óc siêu đẳng và tâm hồn đạo đức, và người dân biết thượng tôn pháp luật, đó là bản hợp xướng đẹp cho quê hương.</em></p>
+                </div>
+            </div>
+        </article>
+
+        <!-- CHỦ ĐỀ 5 -->
+        <article class="card">
+            <div class="card-header">
+                <span class="card-title">🪷 5. Công Đức Cúng Dường & Sự Nhận Thức Chánh Pháp</span>
+            </div>
+            <div class="content-block">
+                <p>Công đức cúng dường rất cao quý, nhất là thời Phật còn tại thế, bởi vì cúng dường chư Tăng là đang nuôi dưỡng những vị trì giới thanh tịnh, đang đầu tư cho những vị sẽ chứng Thánh quả. Thời Đức Phật tu hành dễ chứng Thánh quả vì được chiêm ngưỡng dung nghi và đời sống phi thường của Đức Phật trực tiếp nên lòng tôn kính cuồn cuộn dâng trào.</p>
+                <p>Bây giờ sự cúng dường sẽ là cao quý nếu chư Tăng cũng hội đủ hai yếu tố:</p>
+                <ul class="bullet-list">
+                    <li>Trì giới thanh tịnh</li>
+                    <li>Thiền định đi đến Thánh quả giải thoát</li>
+                </ul>
+                <p>Tuy nhiên, cách Phật đã xa, lời Phật dạy không còn mấy ai hiểu thấu, sự tu hành có thể bị chệch hướng, khó đi đến Thánh quả, vì thế chư Tăng thọ nhận sự cúng dường là một gánh nặng rất lớn. Ngay cả việc trì giới thanh tịnh cũng phải do tu đúng Chánh pháp mới thành tựu. Nếu tu sai, khó ai giữ được giới.</p>
+                <p>Vấn đề là làm sao hiểu đúng lời Phật dạy để thực hành cho đúng. Mỗi người hiểu lời Phật dạy theo cách riêng của mình, chưa chắc đã đúng. Ta chỉ biết cầu nguyện cho chư Tăng Ni và Phật tử cư sĩ ai cũng hiểu đúng, hành đúng những gì Phật dạy, để cùng đưa nhau đi đến Thánh quả giải thoát.</p>
+            </div>
+        </article>
+
+        <!-- CHỦ ĐỀ 6 -->
+        <article class="card">
+            <div class="card-header">
+                <span class="card-title">❓ 6. Ba Câu Hỏi Trọng Yếu Về Phương Tây & Thế Giới</span>
+            </div>
+            <div class="content-block">
+                <div class="qa-card">
+                    <div class="qa-q">1. Phương Tây muốn gì?</div>
+                    <div class="qa-a">
+                        Câu trả lời là nên hỏi lại: Phương Tây không muốn gì? Phương Tây không muốn thế giới hòa bình, phương Tây không muốn phục vụ nhân dân. Họ chỉ muốn thâu tóm tiền bạc và quyền lực. Họ xem nhân dân chỉ là công cụ để bóc lột sức lao động, và lấy nội tạng đem bán.
+                    </div>
+                </div>
+
+                <div class="qa-card">
+                    <div class="qa-q">2. Phương Tây được ai lãnh đạo?</div>
+                    <div class="qa-a">
+                        Phương Tây không được lãnh đạo bởi những người do dân bầu lên. Kẻ lãnh đạo thật sự của họ nằm trong bóng tối, là tổ chức tội phạm bí mật điều khiển guồng máy chính trị các quốc gia. Họ quyết định cho ai lên chức hay xuống chức, người dân đi bầu cho vui mà thôi. Họ không có cam kết phải phục vụ nhân dân, và nhân dân không biết họ là ai.
+                    </div>
+                </div>
+
+                <div class="qa-card">
+                    <div class="qa-q">3. Bây giờ thế giới cần phải làm gì?</div>
+                    <div class="qa-a">
+                        Bây giờ thế giới phải hiểu đúng sự thật về vài tổ chức ngầm đang điều khiển bộ máy chính trị các quốc gia. Phải xác định các tổ chức ngầm đó là bất hợp pháp, là tội phạm, vì bí mật nắm quyền lực mà không do dân bầu ra. Đã đến lúc phải công khai các tổ chức tội phạm bí mật ra để thế giới này không bị dìm trong bóng tối.
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <footer>
+            Nội dung nhận định & Quan điểm thời đại
+        </footer>
+    </div>
+
+</body>
+</html>
