@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hỏi Đáp Đạo Lý - Sức Mạnh Cung Kính Bậc Thánh & Phước Điền Vô Lượng</title>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=Orbitron:wght@600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #030712;
+            --primary-glow: #8b5cf6;
+            --accent-cyan: #00f2fe;
+            --accent-gold: #fbbf24;
+            --accent-purple: #c084fc;
+            --accent-emerald: #10b981;
+            --accent-rose: #f43f5e;
+            --text-light: #f3f4f6;
+            --glass-bg: rgba(15, 23, 42, 0.82);
+            --glass-border: rgba(255, 255, 255, 0.12);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            line-height: 1.7;
+        }
+
+        #space-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            background: radial-gradient(circle at center, #2e1065 0%, #030712 100%);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 5rem 1.5rem;
+        }
+
+        header {
+            text-align: center;
+            padding: 3rem 1.5rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 28px;
+            box-shadow: 0 0 40px rgba(139, 92, 246, 0.3);
+            margin-bottom: 2.5rem;
+        }
+
+        .badge {
+            display: inline-block;
+            font-family: 'Orbitron', sans-serif;
+            padding: 0.45rem 1.5rem;
+            background: linear-gradient(90deg, #8b5cf6 0%, #00f2fe 50%, #fbbf24 100%);
+            color: #000;
+            font-weight: 800;
+            border-radius: 50px;
+            font-size: 0.88rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1.2rem;
+        }
+
+        h1 {
+            font-size: 2.1rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff 0%, #c084fc 50%, #fbbf24 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.6rem;
+        }
+
+        .subtitle {
+            color: #cbd5e1;
+            font-size: 1.05rem;
+        }
+
+        .section-title {
+            font-size: 1.55rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            margin: 2.5rem 0 1.3rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+        }
+
+        /* Highlight Flashcards */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.3rem;
+            margin-bottom: 3rem;
+        }
+
+        .card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 1.5rem;
+            backdrop-filter: blur(12px);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            border-color: var(--accent-cyan);
+            box-shadow: 0 12px 28px rgba(0, 242, 254, 0.2);
+        }
+
+        .card-icon {
+            font-size: 2.2rem;
+            margin-bottom: 0.6rem;
+        }
+
+        .card-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 0.5rem;
+        }
+
+        .card-desc {
+            font-size: 0.93rem;
+            color: #cbd5e1;
+        }
+
+        /* QA Content Item Box */
+        .qa-box {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 2rem;
+            backdrop-filter: blur(14px);
+            margin-bottom: 2.5rem;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+            transition: border-color 0.3s ease;
+        }
+
+        .qa-box:hover {
+            border-color: rgba(192, 132, 252, 0.4);
+        }
+
+        .qa-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.2rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.15);
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .qa-tag {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 800;
+            padding: 0.35rem 1rem;
+            border-radius: 50px;
+            background: linear-gradient(90deg, #7c3aed, #c084fc);
+            color: #fff;
+        }
+
+        .lecture-title {
+            font-size: 0.92rem;
+            color: var(--accent-gold);
+            font-weight: 600;
+        }
+
+        .question-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #38bdf8;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .answer-content {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            padding: 1.4rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            margin-bottom: 1.2rem;
+        }
+
+        .story-box {
+            color: #e2e8f0;
+            font-size: 0.98rem;
+            margin-bottom: 1rem;
+        }
+
+        .quote-snippet {
+            background: rgba(139, 92, 246, 0.12);
+            border-left: 4px solid var(--accent-purple);
+            padding: 1.1rem 1.3rem;
+            border-radius: 0 14px 14px 0;
+            color: #e9d5ff;
+            font-style: italic;
+            margin-top: 1rem;
+            font-size: 0.95rem;
+            display: none;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .action-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.55rem 1.2rem;
+            border-radius: 10px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s ease;
+        }
+
+        .btn-yt {
+            background: linear-gradient(90deg, #ef4444, #f43f5e);
+            color: #fff;
+        }
+
+        .btn-yt:hover {
+            opacity: 0.9;
+            transform: scale(1.03);
+        }
+
+        .btn-toggle {
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--accent-cyan);
+            border: 1px solid var(--glass-border);
+        }
+
+        .btn-toggle:hover {
+            background: rgba(0, 242, 254, 0.15);
+            border-color: var(--accent-cyan);
+        }
+
+        .highlight-text {
+            color: #fef08a;
+            font-weight: 600;
+        }
+
+        footer {
+            text-align: center;
+            color: #64748b;
+            font-size: 0.88rem;
+            margin-top: 4rem;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="space-canvas"></canvas>
+
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <span class="badge">VŨ TRỤ ÔN TẬP • ĐẠO LÝ PHÁP ÂM</span>
+            <h1>CUNG KÍNH BẬC THÁNH & PHƯỚC ĐIỀN ỨNG CỦNG VO LƯỢNG</h1>
+            <p class="subtitle">Trích đoạn bài giảng Sư Phụ Thích Chân Quang — Hệ thống hóa câu hỏi & Trích dẫn gốc</p>
+        </header>
+
+        <!-- Section 1: Thẻ Ghi Nhớ Từ Khóa -->
+        <h2 class="section-title">✨ 3 Ý Pháp Quan Trọng Cần Ghi Nhớ</h2>
+        <div class="cards-grid">
+            <div class="card">
+                <div class="card-icon">🌲</div>
+                <div class="card-title">Cung Kính Dập Tắt Ý Thần Bậy</div>
+                <div class="card-desc">Một lần cúng dường, cung kính vị ẩn sĩ trong rừng nuôi dưỡng tâm suốt 100 kiếp: hễ ý nghĩ xấu vừa khởi liền có ý nghĩ thiện dập tắt ngay.</div>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">💎</div>
+                <div class="card-title">Cúng Dường Bậc Ứng Cúng</div>
+                <div class="card-desc">Cúng dường Thánh Tăng A-la-hán không bị hạt bụi hưởng thụ nào. Phước cúng như "trúng số", dù lỡ phạm lỗi đi trả nghiệp phước vẫn chờ để bốc khởi tiếp.</div>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">⏳</div>
+                <div class="card-title">Phước "Nuốt Thời Gian" Tu Hành</div>
+                <div class="card-desc">Cơ duyên đảnh lễ, cúng dường, thừa sự Bậc Thánh tạo phước đặc biệt: nuốt gọn quãng thời gian 4.000 kiếp giằng co đúng sai để nhảy vọt lên tỉnh giác.</div>
+            </div>
+        </div>
+
+        <!-- Section 2: Nội Dung 3 Câu Hỏi Cụ Thể -->
+        <h2 class="section-title">📜 Chi Tiết Nội Dung Hỏi & Đáp Đạo Lý</h2>
+
+        <!-- CÂU HỎI 1 -->
+        <div class="qa-box">
+            <div class="qa-header">
+                <span class="qa-tag">📌 CÂU HỎI 1</span>
+                <span class="lecture-title">Bài giảng: Diệt Trừ Bản Năng Xấu (media: 6246)</span>
+            </div>
+
+            <div class="question-title">
+                1. Hỏi: Kính bạch Thầy, câu chuyện một người vô tình đi vào rừng gặp vị hiền nhân ẩn tu trong thất cỏ vắng giữa chim thú rồi đem gạo cúng dường, kính mộ nghe dạy đạo lý đã tạo nên sức mạnh nhân quả kỳ diệu ra sao để suốt cả trăm kiếp sau, hễ một ý nghĩ xấu vừa chớm khởi liền có ý nghĩ thiện dập tắt ngay và kiếp này tự nhiên biết hướng về Phật pháp ạ?
+            </div>
+
+            <div class="answer-content">
+                <div class="story-box">
+                    <strong>2. Đáp (Tóm tắt câu chuyện & Giáo lý):</strong><br>
+                    • Sư Phụ kể lại một nhân duyên âm thầm kéo dài qua hàng trăm kiếp luân hồi: Có lần mình vô tình đi chơi trong rừng, bắt gặp một vị hiền nhân hay một bậc Thánh ẩn tu trong chiếc thất cỏ vắng, sống thanh tịnh giữa thiên nhiên, ăn rau trái rừng và làm bạn với chim muông cầm thú.<br><br>
+                    • Nhìn thấy gương mặt vị ấy trang nghiêm sáng tỏ, mình chắp tay hỏi thăm rồi tự nhiên sinh lòng kính mộ sâu sắc, từ đó cứ lui tới đem gạo cúng dường và lắng nghe Ngài chỉ dạy đạo lý.<br><br>
+                    • Sự cung kính chân thành đó đã nuôi dưỡng tâm hồn mình xuyên suốt cả trăm kiếp về sau: đến mức trăm kiếp sau, <span class="highlight-text">hễ một tư tưởng bậy vừa khởi lên trong đầu là lập tức có một tư tưởng tốt xuất hiện dập tắt ngay</span>.<br><br>
+                    • Cũng nhờ trong 5 kiếp, 10 kiếp hay 30 kiếp trước từng gặp được một bậc chân tu đạo hạnh mà biết quỳ xuống đảnh lễ, cúi đầu, nên ngày hôm nay mình <span class="highlight-text">tự nhiên biết yêu thích điều đạo lý cao siêu</span>, chán ghét điều tội lỗi và tìm về chùa tu tập.
+                </div>
+
+                <div class="btn-group">
+                    <a href="https://youtu.be/_VjF2696_Rg&t=1192" target="_blank" class="action-btn btn-yt">
+                        ▶ Xem Video Youtube [19:52 - 21:55]
+                    </a>
+                    <button class="action-btn btn-toggle" onclick="toggleSnippet('snip1')">
+                        💬 Hiện / Ẩn Snippet Trích Đoạn
+                    </button>
+                </div>
+
+                <div class="quote-snippet" id="snip1">
+                    <strong>Trích đoạn Snippet:</strong><br>
+                    "... Vô tình mình gặp một bậc Thánh... ở trong rừng, mình gặp một vị hiền nhân ở trong cái thất cỏ vắng... Rồi tự nhiên mình cảm thấy kính mộ con người này, mình cứ tới lui hoài, rồi đem gạo, rồi cúng dường, rồi nghe cái vị đó dạy điều này dạy điều kia. Cái sự cung kính đó nó nuôi cái tâm hồn mình đi qua cả trăm kiếp sau. Một trăm kiếp sau đó, một tư tưởng bậy vừa khởi lên liền có một tư tưởng tốt dập nó liền, là nhờ cái phước mà mình cung kính một bậc Thánh mà vô tình mình đã gặp đâu trong một kiếp nào đó... Có thể một kiếp nào đó, năm kiếp trước, mười kiếp trước hay hai chục kiếp trước, ba chục kiếp trước, ta gặp một bậc chân tu đạo hạnh nào mà ta đã quỳ xuống, ta đã đảnh lễ, ta đã cúi đầu, nên ngày hôm nay tự nhiên mình yêu được cái điều đạo lý, tự nhiên mình không thích cái điều xấu xa tội lỗi..."
+                </div>
+            </div>
+        </div>
+
+        <!-- CÂU HỎI 2 -->
+        <div class="qa-box">
+            <div class="qa-header">
+                <span class="qa-tag">📌 CÂU HỎI 2</span>
+                <span class="lecture-title">Bài giảng: 01. Bậc Ứng Cúng (media: 1788)</span>
+            </div>
+
+            <div class="question-title">
+                1. Hỏi: Kính bạch Thầy, vì sao Sư Phụ ví rằng dẫu có người đem một tỷ đồng cúng dường cho phàm Tăng vẫn khiến tâm vị ấy còn sót chút vui mừng hữu lậu, còn bậc Thánh Tăng A-la-hán dù được cúng dường cả núi vàng cũng tuyệt nhiên không còn một hạt bụi hưởng thụ; và phước điền vô lượng khi cúng dường bậc Ứng Cúng qua vô lượng kiếp luân hồi bền bỉ ra sao ngay cả khi giữa chừng ta lỡ phạm lỗi đi trả nghiệp ạ?
+            </div>
+
+            <div class="answer-content">
+                <div class="story-box">
+                    <strong>2. Đáp (Tóm tắt câu chuyện & Giáo lý):</strong><br>
+                    • Sư Phụ tự lấy bản thân mình ra làm ví dụ đối chiếu để phân biệt giữa phàm Tăng và bậc Thánh A-la-hán (bậc Ứng Cúng). Nếu có Phật tử đem đến cúng dường Thầy một tỷ đồng để làm tượng Phật, dù Thầy cố gắng kìm lòng để đừng vui mừng (vì vui là tham), trong tâm bí mật vẫn còn phảng phất chút vui mừng hưởng thụ vi tế như một hạt bụi.<br><br>
+                    • Trái lại, một bậc Đại Giác hay bậc Thánh Tăng A-la-hán thì dẫu người đời đem cả núi vàng đến cúng dường, các Ngài biết rõ việc cúng đó sẽ đem lại phúc lạc cực lớn cho thí chủ về sau, còn riêng nội tâm các Ngài <span class="highlight-text">tuyệt đối không có một mảy may hưởng thụ nào</span>.<br><br>
+                    • Chính sự thanh tịnh tuyệt đối ấy biến các Ngài thành "phước điền vô lượng": nếu cúng chùa tu bình thường, đời sau ta được giàu no hữu hạn; còn trong vô lượng kiếp quá khứ, hễ một lần may mắn cúng dường nhằm bậc Thánh Tăng A-la-hán hay Đức Phật thì xem như "trúng số". Công đức ấy lớn dần đưa ta lên làm vua, mãn kiếp lên cõi trời rồi đắc đạo làm Thánh.<br><br>
+                    • Đặc biệt, dù trong quãng giữa của chuỗi luân hồi có lúc ta phạm lỗi lầm phải đi trả nghiệp, <span class="highlight-text">phước cúng dường bậc Ứng Cúng ấy vẫn không bao giờ tắt</span>, cứ nằm yên chờ sẵn để ngay khi trả nghiệp xong liền bốc khởi phát triển tiếp, đưa ta tiến thẳng đến ngày giác ngộ.
+                </div>
+
+                <div class="btn-group">
+                    <a href="https://youtu.be/vpBTDuBP9vY&t=766" target="_blank" class="action-btn btn-yt">
+                        ▶ Xem Video Youtube [12:46 - 16:18]
+                    </a>
+                    <button class="action-btn btn-toggle" onclick="toggleSnippet('snip2')">
+                        💬 Hiện / Ẩn Snippet Trích Đoạn
+                    </button>
+                </div>
+
+                <div class="quote-snippet" id="snip2">
+                    <strong>Trích đoạn Snippet:</strong><br>
+                    "... Còn một bậc Đại Giác hoặc bậc A-la-hán thì đừng hòng, ta đem cả núi vàng cúng thì các Ngài có thể biết rằng nhân quả mà ta cúng sẽ đem đến phúc lạc rất lớn cho ta về sau, nhưng mà với các Ngài không một mảy mây, không một hạt bụi của sự vui mừng, hưởng thụ... Còn nếu mà ta gặp được phải một bậc A-la-hán, một Đức Phật mà ta cúng dường một cái gì đó, thì cái phước nó lớn đến nỗi thế này: kiếp nào đó ta phải làm vua, rồi mãn kiếp làm vua lên những cõi trời, rồi một kiếp nào nữa đắc đạo luôn, làm Thánh luôn... Và trong khoảng thời gian ở giữa đó, có khi ta phạm lỗi lầm... rồi ta phải trả nghiệp. Nhưng mà phước cúng dường nhằm một bậc Ứng Cúng nó không tắt, cứ để đó, và qua lúc ta trả nghiệp rồi nó bốc khởi trở lại, nó phát triển tiếp để đưa ta đến mãi cho đến khi ta cũng phải đắc đạo làm Thánh luôn... Nên nếu trong vô lượng kiếp quá khứ ta có may mắn một lần nào đó ta cúng dường nhằm một bậc Ứng Cúng tức là một Đức Phật hay một vị A-la-hán rồi thì xem như đời mình trúng số rồi..."
+                </div>
+            </div>
+        </div>
+
+        <!-- CÂU HỎI 3 -->
+        <div class="qa-box">
+            <div class="qa-header">
+                <span class="qa-tag">📌 CÂU HỎI 3</span>
+                <span class="lecture-title">Bài giảng: Bốn Mức Độ Tu Hành Của Tâm (media: 5997)</span>
+            </div>
+
+            <div class="question-title">
+                1. Hỏi: Kính bạch Thầy, vì sao một người tự tu sửa các lỗi đúng sai thô sơ trong nội tâm có khi phải giằng co suốt 4.000 kiếp vẫn chưa xong, nhưng nhờ bất ngờ gặp cơ duyên đảnh lễ, cung kính cúng dường và thừa sự một bậc Thánh lại có thể "nuốt thời gian" để chỉ trong vòng 5 đến 6 năm đã thuần thục tâm và bước sang tầng tu tập chánh niệm tỉnh giác ạ?
+            </div>
+
+            <div class="answer-content">
+                <div class="story-box">
+                    <strong>2. Đáp (Tóm tắt câu chuyện & Giáo lý):</strong><br>
+                    • Sư Phụ phác họa hai tốc độ tu hành hoàn toàn khác biệt dựa trên nhân quả của lòng tôn kính bậc Thánh. Ở mức độ đầu tiên là tự đấu tranh giữa đúng và sai thô sơ trong tâm (chỉnh sửa từng chút thói xấu, tật hư), nếu một hành giả thiếu đi "cái phước đặc biệt" thì <span class="highlight-text">cứ giằng co qua lại suốt 4.000 năm, 4.000 kiếp vẫn chưa hoàn thiện nổi</span>.<br><br>
+                    • Thế nhưng khi có cơ duyên bất ngờ gặp được một bậc Thánh, người ấy quỳ xuống đảnh lễ, cung kính cúng dường và thừa sự Ngài, thì ngay lập tức phước báu tăng vọt, trí tuệ bừng sáng, <span class="highlight-text">chỉ trong vòng 5–6 năm tâm tính liền thuần thục, "nuốt" gọn quãng thời gian 4.000 kiếp</span> để bước thẳng vào mức độ thứ hai là chánh niệm tỉnh giác — đủ sức nhận diện và sửa trị từng niệm sai vi tế nhỏ như sợi tóc, hạt bụi.<br><br>
+                    • Thầy cũng nhắc nhở rằng ngay giữa đời thường hôm nay vẫn có rất nhiều vị chứng Sơ quả Tu-đà-hoàn từ kiếp trước tái sinh trở lại, bề ngoài sống bình dị giống như mọi người nên ta dễ vô tình bỏ qua; vì thế nếu chưa nhận ra bậc Thánh hiện tiền, ta hãy bù đắp bằng việc lễ Phật với tất cả tấm lòng thiết tha tôn kính.
+                </div>
+
+                <div class="btn-group">
+                    <a href="https://youtu.be/F40o-TGlKf8&t=933" target="_blank" class="action-btn btn-yt">
+                        ▶ Xem Video Youtube [15:33 - 19:09]
+                    </a>
+                    <button class="action-btn btn-toggle" onclick="toggleSnippet('snip3')">
+                        💬 Hiện / Ẩn Snippet Trích Đoạn
+                    </button>
+                </div>
+
+                <div class="quote-snippet" id="snip3">
+                    <strong>Trích đoạn Snippet:</strong><br>
+                    "... Cứ sửa từng chút điều tốt điều xấu ta bốn ngàn kiếp chưa tốt nếu ta không có một cái phước đặc biệt... Cái phước đặc biệt này là gì? Là có một cơ hội nào đó bất ngờ ta gặp một bậc Thánh, ta quỳ xuống ta đảnh lễ, ta cung kính cúng dường thừa sự, thì bỗng nhiên cái phước ta tăng vọt lên rồi cái trí ta sáng lên, thì ta giằng co giữa cái đúng sai nội tâm mình nhanh hơn, chỉ trong vòng 5-6 năm bắt đầu nó thuần, rồi ta tu tập thiền định ta bước sang cái giai đoạn thứ hai luôn là đấu tranh giữa cái tỉnh giác và bất giác... Còn ở giai đoạn thứ nhất mà đấu tranh giữa đúng và sai, chỉ là những cái đúng sai thô dễ thấy thôi vậy mà mất 4.000 năm, 4.000 kiếp nếu ta không có cái phước đặc biệt; còn nếu ta có cái phước đặc biệt, ta cung kính được bậc Thánh thì ta nuốt thời gian liền... Có rất nhiều vị chứng Tu-đà-hoàn kiếp trước họ trở lại cõi này thì ta nhìn không ra... Họ giống giống như mình, thấy họ tốt tốt hơn mình chút vậy thôi, nhưng họ là Tu-đà-hoàn, nhiều khi ta bỏ qua..."
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            Ôn Tập Đạo Lý Nhân Quả • Giao diện Cosmic Space Theme 🌟
+        </footer>
+    </div>
+
+    <!-- Script Hiệu Ứng Vũ Trụ Starfield -->
+    <script>
+        const canvas = document.getElementById('space-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let width, height;
+        let stars = [];
+        const numStars = 180;
+
+        function resizeCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            initStars();
+        }
+
+        function initStars() {
+            stars = [];
+            for (let i = 0; i < numStars; i++) {
+                stars.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    radius: Math.random() * 1.8 + 0.2,
+                    color: ['#ffffff', '#c084fc', '#93c5fd', '#fbbf24', '#00f2fe'][Math.floor(Math.random() * 5)],
+                    alpha: Math.random(),
+                    speed: Math.random() * 0.012 + 0.004
+                });
+            }
+        }
+
+        function drawStars() {
+            ctx.clearRect(0, 0, width, height);
+
+            let grad1 = ctx.createRadialGradient(width * 0.4, height * 0.3, 50, width * 0.4, height * 0.3, width * 0.55);
+            grad1.addColorStop(0, 'rgba(139, 92, 246, 0.18)');
+            grad1.addColorStop(1, 'transparent');
+            ctx.fillStyle = grad1;
+            ctx.fillRect(0, 0, width, height);
+
+            let grad2 = ctx.createRadialGradient(width * 0.75, height * 0.75, 50, width * 0.75, height * 0.75, width * 0.45);
+            grad2.addColorStop(0, 'rgba(0, 242, 254, 0.12)');
+            grad2.addColorStop(1, 'transparent');
+            ctx.fillStyle = grad2;
+            ctx.fillRect(0, 0, width, height);
+
+            stars.forEach(star => {
+                star.alpha += star.speed;
+                if (star.alpha > 1 || star.alpha < 0) {
+                    star.speed = -star.speed;
+                }
+
+                ctx.save();
+                ctx.globalAlpha = Math.abs(star.alpha);
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+                ctx.fillStyle = star.color;
+                ctx.shadowBlur = 8;
+                ctx.shadowColor = star.color;
+                ctx.fill();
+                ctx.restore();
+            });
+
+            requestAnimationFrame(drawStars);
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+        drawStars();
+
+        function toggleSnippet(id) {
+            const el = document.getElementById(id);
+            if (el.style.display === "block") {
+                el.style.display = "none";
+            } else {
+                el.style.display = "block";
+            }
+        }
+    </script>
+</body>
+</html>

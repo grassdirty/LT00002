@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hỏi Đáp Đạo Lý - Nhân Quả Tôn Kính Bậc Thánh & Hạt Giống Giải Thoát</title>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=Orbitron:wght@600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #030712;
+            --primary-glow: #10b981;
+            --accent-cyan: #00f2fe;
+            --accent-gold: #fbbf24;
+            --accent-purple: #c084fc;
+            --accent-emerald: #34d399;
+            --accent-rose: #f43f5e;
+            --text-light: #f3f4f6;
+            --glass-bg: rgba(15, 23, 42, 0.82);
+            --glass-border: rgba(255, 255, 255, 0.12);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            line-height: 1.7;
+        }
+
+        #space-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            background: radial-gradient(circle at center, #064e3b 0%, #030712 100%);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 5rem 1.5rem;
+        }
+
+        header {
+            text-align: center;
+            padding: 3rem 1.5rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 28px;
+            box-shadow: 0 0 40px rgba(16, 185, 129, 0.25);
+            margin-bottom: 2.5rem;
+        }
+
+        .badge {
+            display: inline-block;
+            font-family: 'Orbitron', sans-serif;
+            padding: 0.45rem 1.5rem;
+            background: linear-gradient(90deg, #10b981 0%, #00f2fe 50%, #fbbf24 100%);
+            color: #000;
+            font-weight: 800;
+            border-radius: 50px;
+            font-size: 0.88rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1.2rem;
+        }
+
+        h1 {
+            font-size: 2.1rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff 0%, #6ee7b7 50%, #38bdf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.6rem;
+        }
+
+        .subtitle {
+            color: #cbd5e1;
+            font-size: 1.05rem;
+        }
+
+        .section-title {
+            font-size: 1.55rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            margin: 2.5rem 0 1.3rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+        }
+
+        /* Highlight Flashcards */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.3rem;
+            margin-bottom: 3rem;
+        }
+
+        .card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 1.5rem;
+            backdrop-filter: blur(12px);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            border-color: var(--accent-cyan);
+            box-shadow: 0 12px 28px rgba(0, 242, 254, 0.2);
+        }
+
+        .card-icon {
+            font-size: 2.2rem;
+            margin-bottom: 0.6rem;
+        }
+
+        .card-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 0.5rem;
+        }
+
+        .card-desc {
+            font-size: 0.93rem;
+            color: #cbd5e1;
+        }
+
+        /* QA Content Item Box */
+        .qa-box {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 2rem;
+            backdrop-filter: blur(14px);
+            margin-bottom: 2.5rem;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+            transition: border-color 0.3s ease;
+        }
+
+        .qa-box:hover {
+            border-color: rgba(52, 211, 153, 0.4);
+        }
+
+        .qa-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.2rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.15);
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .qa-tag {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 800;
+            padding: 0.35rem 1rem;
+            border-radius: 50px;
+            background: linear-gradient(90deg, #10b981, #059669);
+            color: #fff;
+        }
+
+        .lecture-title {
+            font-size: 0.92rem;
+            color: var(--accent-gold);
+            font-weight: 600;
+        }
+
+        .question-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #38bdf8;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .answer-content {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            padding: 1.4rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            margin-bottom: 1.2rem;
+        }
+
+        .story-box {
+            color: #e2e8f0;
+            font-size: 0.98rem;
+            margin-bottom: 1rem;
+        }
+
+        .quote-snippet {
+            background: rgba(16, 185, 129, 0.12);
+            border-left: 4px solid var(--accent-emerald);
+            padding: 1.1rem 1.3rem;
+            border-radius: 0 14px 14px 0;
+            color: #a7f3d0;
+            font-style: italic;
+            margin-top: 1rem;
+            font-size: 0.95rem;
+            display: none;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .action-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.55rem 1.2rem;
+            border-radius: 10px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s ease;
+        }
+
+        .btn-yt {
+            background: linear-gradient(90deg, #ef4444, #f43f5e);
+            color: #fff;
+        }
+
+        .btn-yt:hover {
+            opacity: 0.9;
+            transform: scale(1.03);
+        }
+
+        .btn-toggle {
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--accent-cyan);
+            border: 1px solid var(--glass-border);
+        }
+
+        .btn-toggle:hover {
+            background: rgba(0, 242, 254, 0.15);
+            border-color: var(--accent-cyan);
+        }
+
+        .highlight-text {
+            color: #fef08a;
+            font-weight: 600;
+        }
+
+        footer {
+            text-align: center;
+            color: #64748b;
+            font-size: 0.88rem;
+            margin-top: 4rem;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="space-canvas"></canvas>
+
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <span class="badge">VŨ TRỤ ÔN TẬP • ĐẠO LÝ PHÁP ÂM</span>
+            <h1>NHÂN QUẢ TÔN KÍNH BẬC THÁNH & HẠT GIỐNG GIẢI THOÁT</h1>
+            <p class="subtitle">Trích đoạn bài giảng Sư Phụ Thích Chân Quang — Hệ thống hóa câu hỏi & Trích dẫn gốc</p>
+        </header>
+
+        <!-- Section 1: Thẻ Ghi Nhớ Từ Khóa -->
+        <h2 class="section-title">✨ 3 Bài Học Đạo Lý Cốt Lõi</h2>
+        <div class="cards-grid">
+            <div class="card">
+                <div class="card-icon">🙏</div>
+                <div class="card-title">Sám Hối Chuyển Hóa Nghiệp</div>
+                <div class="card-desc">Ác nghiệp nhổ nước bọt vào Bích Chi Phật khiến đọa địa ngục và mang thân cùi lở, nhưng tâm sám hối 3 năm sau giúp đắc Tu-đà-hoàn.</div>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">👑</div>
+                <div class="card-title">Nhìn Ra Bậc Hiền Thánh</div>
+                <div class="card-desc">"Người tốt mới nhìn ra người tốt". Phải có chút tâm Hiền, chút tâm Thánh mới nhận ra và tôn kính Bậc Thánh để tích lũy uy đức.</div>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🌱</div>
+                <div class="card-title">Hạt Giống Giải Thoát Bất Diệt</div>
+                <div class="card-desc">Lòng tôn kính Bậc Thánh từ vô lượng kiếp xa xưa ghim chặt vào tim không gì gỡ nổi, dẫu có lỡ sa đọa vẫn trỗi dậy quay đầu đắc đạo.</div>
+            </div>
+        </div>
+
+        <!-- Section 2: Nội Dung 3 Câu Hỏi Cụ Thể -->
+        <h2 class="section-title">📜 Chi Tiết Nội Dung Hỏi & Đáp Đạo Lý</h2>
+
+        <!-- CÂU HỎI 1 -->
+        <div class="qa-box">
+            <div class="qa-header">
+                <span class="qa-tag">📌 CÂU HỎI 1</span>
+                <span class="lecture-title">Bài giảng: Kẻ thù đáng sợ nhất - Pháp Cú 25 (media: 1447 & 4643)</span>
+            </div>
+
+            <div class="question-title">
+                1. Hỏi: Kính bạch Thầy, câu chuyện người đàn ông bị bệnh cùi lở thời Đức Phật dù sống nghèo hèn tật nguyền nhưng vẫn giữ niềm tin kiên định trước thử thách vàng bạc của Trời Đế Thích để chứng Sơ quả Tu-đà-hoàn đã phơi bày nhân quả nhiều kiếp ra sao từ hành động bất kính nhổ nước bọt rồi 3 năm sau biết quỳ xuống đảnh lễ sám hối trước một vị Thánh Tăng Bích Chi Phật ạ?
+            </div>
+
+            <div class="answer-content">
+                <div class="story-box">
+                    <strong>2. Đáp (Tóm tắt câu chuyện & Giáo lý):</strong><br>
+                    • Vào thời Đức Phật, có một người đàn ông bị bệnh cùi lở đến nghe Phật thuyết pháp và đắc Sơ quả; trên đường về ông vượt qua phép thử dùng vàng bạc dụ bỏ đạo của Trời Đế Thích rồi bất ngờ bị bò húc chết và sinh lên cõi trời.<br><br>
+                    • Đức Phật kể lại nhân duyên từ một kiếp rất xưa: thuở ấy ông là người giàu có nhưng kiêu mạn, không tin có bậc Thánh giữa trần gian. Thấy vợ con và nhiều người cung kính một vị Bích Chi Phật mặc y phục sơ sài, đạm bạc, ông sinh lòng ganh tị tức giận, đến đối chất rồi <span class="highlight-text">nhổ nước bọt vào người vị Thánh Tăng</span> ấy.<br><br>
+                    • Ác nghiệp bất kính khiến ông đọa địa ngục nhiều đời và khi tái sinh làm người phải mang thân cùi lở cho thiên hạ khinh bỉ xa lánh. Tuy nhiên, điều kỳ diệu là <span class="highlight-text">3 năm sau khi nhổ nước bọt</span> năm xưa, ông kịp nhận ra lỗi lầm nên tìm đến đảnh lễ sám hối, kính trọng chuộc tội trước vị Bích Chi Phật đó; chính hạt giống tôn kính và sám hối muộn màng ấy đã kéo dài qua vô lượng kiếp để đời này ông gặp Phật chứng Thánh quả và sinh thiên.
+                </div>
+
+                <div class="btn-group">
+                    <a href="https://youtu.be/Usa2M4hJi80&t=520" target="_blank" class="action-btn btn-yt">
+                        ▶ Xem Video Youtube [08:40 - 10:24]
+                    </a>
+                    <button class="action-btn btn-toggle" onclick="toggleSnippet('snip1')">
+                        💬 Hiện / Ẩn Snippet Trích Đoạn
+                    </button>
+                </div>
+
+                <div class="quote-snippet" id="snip1">
+                    <strong>Trích đoạn Snippet:</strong><br>
+                    "... Anh bị cùi vì có một lần vào một đời xưa lúc anh gặp một vị Bích Chi Phật mà anh trong thân phận giàu có nên anh khinh người... Anh ganh tỵ, tức giận và lúc anh đến đối chất với vị Bích Chi Phật... anh đã nhổ nước bọt vào người của vị Bích Chi Phật. Cái quả báo đó anh đã nhiều đời xuống địa ngục, mà khi trở lên làm người thì bị cùi lở để cho mọi người khinh bỉ xa lánh trở lại... Nhưng mà anh chứng sơ quả... bởi vì thế này: sau khi mà anh nhổ nước miếng khinh bỉ vị Bích Chi Phật đó, 3 năm sau anh nhận ra lỗi của mình, anh đã đến lễ sám hối và tu hành, kính trọng để chuộc lại lỗi của mình rất nhiều..."
+                </div>
+            </div>
+        </div>
+
+        <!-- CÂU HỎI 2 -->
+        <div class="qa-box">
+            <div class="qa-header">
+                <span class="qa-tag">📌 CÂU HỎI 2</span>
+                <span class="lecture-title">Bài giảng: Thiền Là Uy Đức Vô Hình (media: 5134 & 4086)</span>
+            </div>
+
+            <div class="question-title">
+                1. Hỏi: Kính bạch Thầy, câu chuyện xưa về vị quan đi kinh lý tuy không dừng lại ghé thăm nhưng chỉ nhìn cảnh dân chúng an vui mà nhận ra đức độ của ông quan huyện rồi tâu vua thăng chức cho cả hai người đã minh họa quy luật nhân quả nào của việc nhận biết và khởi lòng tôn kính các bậc Hiền, bậc Thánh qua nhiều kiếp luân hồi ạ?
+            </div>
+
+            <div class="answer-content">
+                <div class="story-box">
+                    <strong>2. Đáp (Tóm tắt câu chuyện & Giáo lý):</strong><br>
+                    • Sư Phụ kể chuyện xưa có một vị quan triều đình đi kinh lý trở về báo cáo với Tể tướng rằng mình đi vội qua một huyện nọ không kịp ghé thăm quan huyện hay dân tình, nhưng chỉ nhìn nhà cửa tươm tất, đường sá sạch đẹp, ruộng lúa xanh tươi và nét mặt người dân hiền hòa hoan hỷ là biết ngay ông quan huyện ấy hết lòng thương dân.<br><br>
+                    • Nghe xong, vị Tể tướng khen: <span class="highlight-text">"Ông quan đó tốt mà ông cũng tốt, tại vì phải người tốt mới nhìn ra được người tốt"</span>, rồi tâu vua ban chiếu chỉ thăng chức cho cả hai người.<br><br>
+                    • Từ câu chuyện ấy, Thầy chỉ rõ nhân quả của việc kính trọng bậc Thánh: giữa đời thường ai cũng nhìn người như nhau, chỉ người bên trong đã sẵn có chút thiện căn, chút phẩm chất hiền thánh mới đủ trí tuệ nhận ra và mở lòng kính trọng bậc Thánh. Nếu trong một kiếp xưa nào đó ta đã từng biết mở lòng tôn kính bậc Hiền, bậc Thánh hay Đức Phật, thì đời này ta <span class="highlight-text">có sẵn uy đức khiến mọi người kính trọng</span> và hạt giống giác ngộ giải thoát nằm sâu trong tim, bắt buộc không kiếp này cũng kiếp khác phải đắc đạo (và sự tôn kính ấy phải thể hiện bằng hành động hầu hạ, thừa sự, vâng lời).
+                </div>
+
+                <div class="btn-group">
+                    <a href="https://youtu.be/wSDValVy36U&t=1793" target="_blank" class="action-btn btn-yt">
+                        ▶ Xem Video Youtube [29:53 - 32:45]
+                    </a>
+                    <button class="action-btn btn-toggle" onclick="toggleSnippet('snip2')">
+                        💬 Hiện / Ẩn Snippet Trích Đoạn
+                    </button>
+                </div>
+
+                <div class="quote-snippet" id="snip2">
+                    <strong>Trích đoạn Snippet:</strong><br>
+                    "... Chỉ nhìn cái phong cảnh đó, biết cái ông quan huyện đó là người chăm lo cho dân... Cái ông Tể tướng mới nói câu này: 'Ông quan đó tốt mà ông cũng tốt. Tại vì phải người tốt mới nhìn ra được người tốt'... Thì cũng vậy, nhìn ra được cái bậc Thánh, nhìn thấy được cái bậc Hiền, thì lòng ta cũng phải có chút hiền, chút Thánh trong đó ta mới biết. Nếu may mắn vào một kiếp nào đó ta đã từng mở lòng ra để kính trọng bậc Hiền, kính trọng bậc Thánh thì đời này ta có uy đức. Nhưng mà may hơn hết, nếu lỡ một kiếp xưa ta đã từng gặp Phật mà đem lòng tôn kính, thì cái công đức đó không thể tính kể được, thì chắc chắn cái nhân giác ngộ giải thoát đã nằm sâu trong tim ta không chạy đường nào được hết, không kiếp này cũng kiếp khác bắt buộc ta phải đắc đạo..."
+                </div>
+            </div>
+        </div>
+
+        <!-- CÂU HỎI 3 -->
+        <div class="qa-box">
+            <div class="qa-header">
+                <span class="qa-tag">📌 CÂU HỎI 3</span>
+                <span class="lecture-title">Bài giảng: Tự lợi và lợi tha là một - Kinh Kim Cang 02 (media: 1205)</span>
+            </div>
+
+            <div class="question-title">
+                1. Hỏi: Kính bạch Thầy, vì sao Sư Phụ phân biệt rằng có những vị tu sĩ có duyên xuất gia chỉ do từng cúng dường, kính trọng các vị tôn túc trong những kiếp gần đây, còn người nào từng thiết tha cung kính, đảnh lễ một bậc Thánh từ vô lượng kiếp xa xưa thì dẫu có lúc lỡ sa đọa hư hỏng vẫn không bao giờ đánh mất hạt giống giải thoát ạ?
+            </div>
+
+            <div class="answer-content">
+                <div class="story-box">
+                    <strong>2. Đáp (Tóm tắt câu chuyện & Giáo lý):</strong><br>
+                    • Sư Phụ đối chiếu hai cấp độ nhân duyên qua vô lượng kiếp luân hồi để làm rõ sức mạnh không thể phá hủy của lòng tôn kính bậc Thánh. Ngay cả trong hàng tu sĩ xuất gia hôm nay, không phải ai cũng từng gặp và tôn kính thiết tha một bậc Thánh trong quá khứ xa xôi; nhiều vị có duyên xuất gia chủ yếu nhờ phước cúng dường, cung kính các vị tôn túc trong những kiếp gần đây thôi.<br><br>
+                    • Trái lại, một người nếu ở một kiếp nào đó từ hàng triệu năm trước từng may mắn gặp Đức Phật hoặc một bậc Thánh mà quỳ xuống đảnh lễ, cúng dường bằng tất cả tấm lòng thiết tha tôn kính, thì <span class="highlight-text">hạt giống giác ngộ giải thoát đã ghim chặt sâu kín nơi trái tim không gì gỡ nổi</span>.<br><br>
+                    • Dù ở những kiếp sau người ấy có lúc buông lung "quậy tưng bừng", rơi vào cám dỗ hư hỏng hay gặp cảnh bị đánh đập, đày đọa khổ sở, nhưng hễ một ngày kia vừa bắt gặp ngôi chùa, pho tượng Phật hay câu giáo lý là toàn thân liền rúng động, <span class="highlight-text">ước mơ giải thoát trỗi dậy mãnh liệt</span>, không thể tiếp tục sống một đời tầm thường xấu xa được nữa mà tự động quay đầu tìm đường tu tập giải thoát.
+                </div>
+
+                <div class="btn-group">
+                    <a href="https://youtu.be/IayMKNGDn90&t=781" target="_blank" class="action-btn btn-yt">
+                        ▶ Xem Video Youtube [13:01 - 14:55]
+                    </a>
+                    <button class="action-btn btn-toggle" onclick="toggleSnippet('snip3')">
+                        💬 Hiện / Ẩn Snippet Trích Đoạn
+                    </button>
+                </div>
+
+                <div class="quote-snippet" id="snip3">
+                    <strong>Trích đoạn Snippet:</strong><br>
+                    "... Nhiều khi quý thầy có duyên xuất gia, nhưng nếu mình nhìn vô lượng kiếp quá khứ, có khi quý thầy cũng chưa chắc là đã từng có những lúc cung kính cúng dường một bậc Thánh nào thiết tha nhiều. Cái duyên xuất gia chỉ là duyên mà cúng dường, cung kính những vị tôn túc gần đây thôi. Còn người nào trong kiếp xưa xưa mà từng cung kính cúng dường một bậc Thánh thì họ có nhân của sự giác ngộ giải thoát nó chìm trong tâm họ, gỡ ra không được. Bây giờ có đánh chết, có đày đọa rồi ước mơ giải thoát vẫn trỗi lên, vẫn sống dậy, vẫn tìm đường để đi tới. Dù người đó có lỡ chìm vào một đoạn đời nào đó trong cám dỗ, trong hư hỏng, ngày nào đó nhân của sự giải thoát cũng trỗi dậy, nó tìm đường để đi ra chứ không có chìm luôn..."
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            Ôn Tập Đạo Lý Nhân Quả • Giao diện Cosmic Emerald Space Theme 🌿🌟
+        </footer>
+    </div>
+
+    <!-- Script Hiệu Ứng Vũ Trụ Starfield -->
+    <script>
+        const canvas = document.getElementById('space-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let width, height;
+        let stars = [];
+        const numStars = 180;
+
+        function resizeCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            initStars();
+        }
+
+        function initStars() {
+            stars = [];
+            for (let i = 0; i < numStars; i++) {
+                stars.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    radius: Math.random() * 1.8 + 0.2,
+                    color: ['#ffffff', '#6ee7b7', '#34d399', '#fbbf24', '#00f2fe'][Math.floor(Math.random() * 5)],
+                    alpha: Math.random(),
+                    speed: Math.random() * 0.012 + 0.004
+                });
+            }
+        }
+
+        function drawStars() {
+            ctx.clearRect(0, 0, width, height);
+
+            let grad1 = ctx.createRadialGradient(width * 0.4, height * 0.3, 50, width * 0.4, height * 0.3, width * 0.55);
+            grad1.addColorStop(0, 'rgba(16, 185, 129, 0.18)');
+            grad1.addColorStop(1, 'transparent');
+            ctx.fillStyle = grad1;
+            ctx.fillRect(0, 0, width, height);
+
+            let grad2 = ctx.createRadialGradient(width * 0.75, height * 0.75, 50, width * 0.75, height * 0.75, width * 0.45);
+            grad2.addColorStop(0, 'rgba(0, 242, 254, 0.12)');
+            grad2.addColorStop(1, 'transparent');
+            ctx.fillStyle = grad2;
+            ctx.fillRect(0, 0, width, height);
+
+            stars.forEach(star => {
+                star.alpha += star.speed;
+                if (star.alpha > 1 || star.alpha < 0) {
+                    star.speed = -star.speed;
+                }
+
+                ctx.save();
+                ctx.globalAlpha = Math.abs(star.alpha);
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+                ctx.fillStyle = star.color;
+                ctx.shadowBlur = 8;
+                ctx.shadowColor = star.color;
+                ctx.fill();
+                ctx.restore();
+            });
+
+            requestAnimationFrame(drawStars);
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+        drawStars();
+
+        function toggleSnippet(id) {
+            const el = document.getElementById(id);
+            if (el.style.display === "block") {
+                el.style.display = "none";
+            } else {
+                el.style.display = "block";
+            }
+        }
+    </script>
+</body>
+</html>

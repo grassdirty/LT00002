@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hỏi Đáp Đạo Lý - Nhân Quả Về Bậc Thánh & Chúng Sinh</title>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=Orbitron:wght@600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #030712;
+            --primary-glow: #8b5cf6;
+            --accent-cyan: #00f2fe;
+            --accent-gold: #fbbf24;
+            --accent-purple: #c084fc;
+            --accent-emerald: #10b981;
+            --accent-rose: #f43f5e;
+            --text-light: #f3f4f6;
+            --glass-bg: rgba(15, 23, 42, 0.82);
+            --glass-border: rgba(255, 255, 255, 0.12);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            line-height: 1.7;
+        }
+
+        #space-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            background: radial-gradient(circle at center, #1e1b4b 0%, #030712 100%);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 5rem 1.5rem;
+        }
+
+        header {
+            text-align: center;
+            padding: 3rem 1.5rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 28px;
+            box-shadow: 0 0 40px rgba(139, 92, 246, 0.3);
+            margin-bottom: 2.5rem;
+        }
+
+        .badge {
+            display: inline-block;
+            font-family: 'Orbitron', sans-serif;
+            padding: 0.45rem 1.5rem;
+            background: linear-gradient(90deg, #8b5cf6 0%, #00f2fe 50%, #fbbf24 100%);
+            color: #000;
+            font-weight: 800;
+            border-radius: 50px;
+            font-size: 0.88rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1.2rem;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff 0%, #c084fc 50%, #93c5fd 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.6rem;
+        }
+
+        .subtitle {
+            color: #cbd5e1;
+            font-size: 1.05rem;
+        }
+
+        .section-title {
+            font-size: 1.55rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            margin: 2.5rem 0 1.3rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+        }
+
+        /* Highlight Flashcards */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.3rem;
+            margin-bottom: 3rem;
+        }
+
+        .card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 1.5rem;
+            backdrop-filter: blur(12px);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            border-color: var(--accent-cyan);
+            box-shadow: 0 12px 28px rgba(0, 242, 254, 0.2);
+        }
+
+        .card-icon {
+            font-size: 2.2rem;
+            margin-bottom: 0.6rem;
+        }
+
+        .card-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 0.5rem;
+        }
+
+        .card-desc {
+            font-size: 0.93rem;
+            color: #cbd5e1;
+        }
+
+        /* QA Content Item Box */
+        .qa-box {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 2rem;
+            backdrop-filter: blur(14px);
+            margin-bottom: 2.5rem;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+            transition: border-color 0.3s ease;
+        }
+
+        .qa-box:hover {
+            border-color: rgba(192, 132, 252, 0.4);
+        }
+
+        .qa-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.2rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.15);
+        }
+
+        .qa-tag {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 800;
+            padding: 0.35rem 1rem;
+            border-radius: 50px;
+            background: linear-gradient(90deg, #8b5cf6, #c084fc);
+            color: #fff;
+        }
+
+        .lecture-title {
+            font-size: 0.92rem;
+            color: var(--accent-gold);
+            font-weight: 600;
+        }
+
+        .question-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #38bdf8;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .answer-content {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            padding: 1.4rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            margin-bottom: 1.2rem;
+        }
+
+        .story-box {
+            color: #e2e8f0;
+            font-size: 0.98rem;
+            margin-bottom: 1rem;
+        }
+
+        .quote-snippet {
+            background: rgba(139, 92, 246, 0.12);
+            border-left: 4px solid var(--accent-purple);
+            padding: 1.1rem 1.3rem;
+            border-radius: 0 14px 14px 0;
+            color: #e9d5ff;
+            font-style: italic;
+            margin-top: 1rem;
+            font-size: 0.95rem;
+            display: none;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .action-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.55rem 1.2rem;
+            border-radius: 10px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s ease;
+        }
+
+        .btn-yt {
+            background: linear-gradient(90deg, #ef4444, #f43f5e);
+            color: #fff;
+        }
+
+        .btn-yt:hover {
+            opacity: 0.9;
+            transform: scale(1.03);
+        }
+
+        .btn-toggle {
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--accent-cyan);
+            border: 1px solid var(--glass-border);
+        }
+
+        .btn-toggle:hover {
+            background: rgba(0, 242, 254, 0.15);
+            border-color: var(--accent-cyan);
+        }
+
+        .highlight-text {
+            color: #fef08a;
+            font-weight: 600;
+        }
+
+        footer {
+            text-align: center;
+            color: #64748b;
+            font-size: 0.88rem;
+            margin-top: 4rem;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="space-canvas"></canvas>
+
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <span class="badge">VŨ TRỤ ÔN TẬP • ĐẠO LÝ PHÁP ÂM</span>
+            <h1>NHÂN QUẢ VỀ BẬC THÁNH & THÁI ĐỘ CỦA CHÚNG SINH</h1>
+            <p class="subtitle">Trích đoạn bài giảng Sư Phụ Thích Chân Quang — Hệ thống hóa câu hỏi & Trích dẫn gốc</p>
+        </header>
+
+        <!-- Section 1: Thẻ Ghi Nhớ Từ Khóa -->
+        <h2 class="section-title">✨ 3 Ý Pháp Quan Trọng Cần Ghi Nhớ</h2>
+        <div class="cards-grid">
+            <div class="card">
+                <div class="card-icon">⚡</div>
+                <div class="card-title">3 Thái Độ Với Bậc Thánh</div>
+                <div class="card-desc">Kính trọng (sinh phước lên trời), Bàng quan (mất sạch phước), Bất kính coi thường (đọa đày nặng nề).</div>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🎁</div>
+                <div class="card-title">Di Sản Phước Báu Niết-bàn</div>
+                <div class="card-desc">Bậc A-la-hán không hưởng hết công đức mà để lại làm di sản thừa kế cho người đệ tử thành kính đảnh lễ.</div>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">♾️</div>
+                <div class="card-title">Mẫu Số Bản Ngã = 0</div>
+                <div class="card-desc">A-la-hán là Phước Điền tuyệt đối. Cúng dường Ngài giúp phước báu nhân lên hàng tỷ lần mà Ngài không mắc nợ ai.</div>
+            </div>
+        </div>
+
+        <!-- Section 2: Nội Dung 3 Câu Hỏi Cụ Thể -->
+        <h2 class="section-title">📜 Chi Tiết Nội Dung Hỏi & Đáp Đạo Lý</h2>
+
+        <!-- CÂU HỎI 1 -->
+        <div class="qa-box">
+            <div class="qa-header">
+                <span class="qa-tag">📌 CÂU HỎI 1</span>
+                <span class="lecture-title">Bài giảng: Tu Thiền Để Chứng Thánh Quả Giải Thoát (media: 6382)</span>
+            </div>
+
+            <div class="question-title">
+                1. Hỏi: Kính bạch Thầy, khi một bậc Thánh hay Bồ Tát xuất hiện giữa cuộc đời, chúng sinh thường có ba thái độ đối đãi khác nhau ra sao; và vì sao câu chuyện người đàn ông mặc quần đùi áo may-ô ngồi hóng mát trước nhà chỉ giữ thái độ bàng quan khi một vị Thánh Tăng đi ngang qua lại phải chịu quả báo mất sạch phước, ít nhất 10 đời làm ăn mày ạ?
+            </div>
+
+            <div class="answer-content">
+                <div class="story-box">
+                    <strong>2. Đáp (Tóm tắt câu chuyện & Giáo lý):</strong><br>
+                    • Sư Phụ chỉ ra quy luật nhân quả cực kỳ nghiêm khắc mỗi khi một bậc Bồ Tát hoặc bậc Thánh xuất hiện giữa trần gian: chúng sinh sẽ rơi vào một trong ba thái độ — <span class="highlight-text">kính trọng</span> (rất ít, tự động sinh phước lành bay lên cõi trời), <span class="highlight-text">bàng quan không nghĩ gì</span> (rất nhiều), và <span class="highlight-text">coi thường bất kính xúc phạm</span> (cũng rất nhiều).<br><br>
+                    • Thầy lấy ví dụ một người đàn ông mặc quần đùi, áo may-ô ngồi chơi hóng mát trước cửa nhà trong hẻm. Có một vị Tăng đã chứng Thánh quả đi ngang qua; vì không theo đạo Phật nên ông chẳng hay biết, chỉ thấy vị Tăng dáng vẻ nghiêm nghị rồi cứ ngồi bàng quan không đứng dậy chắp tay chào. Kết quả: về mặt đạo đức ông không tổn hại nhiều vì vô tình không biết, nhưng về mặt phước báu thì mất gần hết, phải chịu <span class="highlight-text">ít nhất 10 đời làm ăn mày</span>, làm người cực kỳ thấp kém.<br><br>
+                    • Chính vì thương xót chúng sinh dễ bị đọa địa ngục hàng loạt do tâm bàng quan và bất kính, các bậc Bồ Tát, Thánh nhân rất ngại trực tiếp xuất hiện giữa đời thường mà chỉ ẩn mình phía sau âm thầm gia hộ.
+                </div>
+
+                <div class="btn-group">
+                    <a href="https://youtu.be/X8jXPE-hUpc&t=4501" target="_blank" class="action-btn btn-yt">
+                        ▶ Xem Video Youtube [1:15:01 - 1:18:35]
+                    </a>
+                    <button class="action-btn btn-toggle" onclick="toggleSnippet('snip1')">
+                        💬 Hiện / Ẩn Snippet Trích Đoạn
+                    </button>
+                </div>
+
+                <div class="quote-snippet" id="snip1">
+                    <strong>Trích đoạn Snippet:</strong><br>
+                    "... Khi một bậc Bồ Tát hay một bậc Thánh xuất hiện giữa cuộc đời này thì chúng sinh đối với bậc Thánh đó sẽ có một trong ba thái độ. Thái độ thứ nhất là kính trọng, thái độ thứ hai là bàng quan không nghĩ gì, và thái độ thứ ba là coi thường bất kính xúc phạm... Cái người mà biết kính trọng bậc Thánh rất ít, thì số người đó là tự động lên trời... Còn lại rất đông chúng sinh hoặc khởi tâm bàng quan cũng bị đọa, khởi tâm bất kính đọa nặng hơn. Ví dụ thế này, cái ông đó mặc quần đùi, mặc áo may-ô ngồi chơi trước nhà cho nó mát. Trong cái con hẻm có một vị Tăng đi ngang, vị Tăng đó chứng Thánh quả rồi... Và ông Tăng đi qua một cái, ông cũng bàng quan không đứng lên chào, không chắp tay chào, không để ý. Ông tiêu rồi đó, ít nhất 10 đời làm ăn mày... Vì lý do đó rất hiếm có một vị Bồ Tát chịu cực xuống trần gian này để trực tiếp giáo hóa. Các vị toàn là đứng nấp phía sau gia hộ người này, gia hộ người kia..."
+                </div>
+            </div>
+        </div>
+
+        <!-- CÂU HỎI 2 -->
+        <div class="qa-box">
+            <div class="qa-header">
+                <span class="qa-tag">📌 CÂU HỎI 2</span>
+                <span class="lecture-title">Bài giảng: TỨ DIỆU ĐẾ BẢN TUYÊN NGÔN CỦA PHẬT 11 - DIỆT ĐẾ phần hai (media: 6586)</span>
+            </div>
+
+            <div class="question-title">
+                1. Hỏi: Kính bạch Thầy, trước khi nhập Niết-bàn, các bậc Thánh Tăng A-la-hán không hề hưởng hết biển công đức mà các Ngài đã tích lũy qua vô lượng kiếp; vậy khối phước báu khổng lồ ấy đi về đâu và người đệ tử hôm nay nhờ lòng tôn kính, thành tâm đảnh lễ các Ngài sẽ được thừa hưởng "di sản" nhân quả kỳ diệu nào ạ?
+            </div>
+
+            <div class="answer-content">
+                <div class="story-box">
+                    <strong>2. Đáp (Tóm tắt câu chuyện & Giáo lý):</strong><br>
+                    • Sư Phụ nêu ra một câu hỏi sâu sắc về luật nhân quả: các bậc Thánh Tăng A-la-hán (như Đức Bà Gia-du-đà-la, Ngài Xá Lợi Phất, Ngài Mục Kiền Liên, Ngài La Hầu La, Ngài A-nan...) trong vô lượng kiếp đã tạo vô lượng công đức, cả sau khi đắc đạo cũng giáo hóa lợi ích chúng sinh tràn ngập vô tận; trước khi nhập Niết-bàn các Ngài chỉ trả hết nghiệp bất thiện chứ không hưởng hết khối phước ấy — vậy phước đó đi đâu?<br><br>
+                    • Thầy lý giải: toàn bộ công đức vô lượng từ vô lượng kiếp đó được các Ngài để lại làm <span class="highlight-text">"tài sản thừa kế"</span> cho những người con tinh thần của mình, tức là những ai biết khởi lòng tôn kính, thành kính đảnh lễ các Ngài.<br><br>
+                    • Nhờ mối liên hệ tôn kính ấy, người đệ tử như người con được hưởng một phần di sản phước báu của bậc Thánh, có khi chỉ quỳ xuống lễ bái thành kính một cái rồi uống ly nước là <span class="highlight-text">hết bay cơn bệnh</span> (vốn là ác nghiệp của bản thân).
+                </div>
+
+                <div class="btn-group">
+                    <a href="https://youtu.be/Xp7Im06xZZw&t=1281" target="_blank" class="action-btn btn-yt">
+                        ▶ Xem Video Youtube [21:21 - 24:56]
+                    </a>
+                    <button class="action-btn btn-toggle" onclick="toggleSnippet('snip2')">
+                        💬 Hiện / Ẩn Snippet Trích Đoạn
+                    </button>
+                </div>
+
+                <div class="quote-snippet" id="snip2">
+                    <strong>Trích đoạn Snippet:</strong><br>
+                    "... Ngài làm vô lượng phước trong vô lượng kiếp, và cả sau khi đắc đạo cũng vậy, cái sức giáo hóa làm lợi ích chúng sinh mắt ta không nhìn thấy nhưng tràn ngập vô tận hết. Vậy Ngài có phải hưởng hết rồi mới được nhập Niết-bàn không? ... Tất cả các công đức mà các Ngài làm, các Ngài để lại cho những người con của mình... Người nào khởi lòng tôn kính Ngài, người đó được hưởng cái phước mà các Ngài đã làm trong vô lượng kiếp... Nên ta thành kính ta đảnh lễ các Ngài, ta được hưởng phước của các Ngài giống như người con mà được hưởng tài sản thừa kế của cha mẹ mình vậy. Đó là lý do lễ bái Ngài một cái mà hết bay cái cơn bệnh luôn, mặc dù cơn bệnh là một ác nghiệp của ta... Vì khi chúng ta lễ bái những vị A-la-hán giống như ta trở thành con của các Ngài và được quyền hưởng một phần di sản thừa kế của các Ngài từ cái công đức vô lượng các Ngài đã tích lũy từ vô lượng kiếp..."
+                </div>
+            </div>
+        </div>
+
+        <!-- CÂU HỎI 3 -->
+        <div class="qa-box">
+            <div class="qa-header">
+                <span class="qa-tag">📌 CÂU HỎI 3</span>
+                <span class="lecture-title">Bài giảng: PHÂN SỐ TOÁN HỌC TRONG ĐẠO LÝ (media: 2140)</span>
+            </div>
+
+            <div class="question-title">
+                1. Hỏi: Kính bạch Thầy, vì sao Sư Phụ ví bản ngã của bậc Thánh Tăng A-la-hán như "mẫu số bằng 0" khiến phước cúng dường tăng vọt lên hàng tỷ lần chứ không giống việc cúng dường cho phàm Tăng; và vì sao có những người đời nay chẳng có đạo đức hay ý thức gì nhiều nhưng vẫn giàu có, thành công một cách lạ lùng ạ?
+            </div>
+
+            <div class="answer-content">
+                <div class="story-box">
+                    <strong>2. Đáp (Tóm tắt câu chuyện & Giáo lý):</strong><br>
+                    • Sư Phụ dùng phép toán phân số để phân tích sự khác biệt căn bản về nhân quả giữa việc cúng dường bậc Thánh Tăng A-la-hán và phàm Tăng.<br><br>
+                    • Khi Phật tử cúng dường cho một vị phàm Tăng (như Thầy), giữa hai bên kết thành duyên lành nhưng vị thầy vẫn mắc nợ lại thí chủ một chút và thế nào qua kiếp này hay kiếp khác cũng phải tìm cách trả lại.<br><br>
+                    • Ngược lại, một vị Thánh Tăng A-la-hán không còn sống cho riêng mình nữa, <span class="highlight-text">mẫu số bản ngã của Ngài bằng 0 hoàn toàn</span> nên Ngài trở thành mảnh "phước điền" tuyệt đối: người cúng dường chỉ kết duyên lành chứ Ngài không hề mắc nợ ai, và công đức gieo xuống được <span class="highlight-text">nhân lên muôn nghìn triệu lần, tỷ lần</span>.<br><br>
+                    • Chính vì cơ chế nhân quả này mà ngoài đời có rất nhiều người bản thân chẳng có đạo đức hay ý thức tu tập gì nhiều nhưng cuộc đời vẫn giàu có, thành công vượt bậc một cách khó hiểu — tất cả chỉ bởi vì trong một kiếp xa xưa nào đó họ đã vô tình cúng dường đúng một vị A-la-hán.
+                </div>
+
+                <div class="btn-group">
+                    <a href="https://youtu.be/MCebwpjhyyg&t=4364" target="_blank" class="action-btn btn-yt">
+                        ▶ Xem Video Youtube [1:12:44 - 1:14:20]
+                    </a>
+                    <button class="action-btn btn-toggle" onclick="toggleSnippet('snip3')">
+                        💬 Hiện / Ẩn Snippet Trích Đoạn
+                    </button>
+                </div>
+
+                <div class="quote-snippet" id="snip3">
+                    <strong>Trích đoạn Snippet:</strong><br>
+                    "... Khác với tụi con cúng Sư Phụ, thì giữa Sư Phụ với tụi con có duyên mà Sư Phụ cũng mắc nợ tụi con, và phải trả bằng một cách nào đó, thế nào kiếp nào rồi cũng phải trả. Còn một vị A-la-hán, khi mình cúng dường cho vị đó thì mình với vị đó kết duyên chứ vị đó không mắc nợ mình, vì vị đó đã trở thành phước điền. Bởi vì sao? Bởi vì mẫu số bản ngã của vị đó là zero hoàn toàn. Cái khác nhau là chỗ này... Vì đó trở thành phước điền, ai gieo một hưởng muôn nghìn triệu lần, tỷ lần công đức mình đã gieo. Có rất nhiều người giàu có, thành công không biết lý do, chỉ bởi vì một kiếp nào đó vô tình cúng dường nhầm một vị A-la-hán. Phước cả tỷ tỷ lần lên mà chính bản thân người đó chẳng có đạo đức gì cả, chẳng có ý thức gì nhiều, nhưng mà phước rất lớn vì vô tình cúng nhầm một bậc phước điền..."
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            Ôn Tập Đạo Lý Nhân Quả • Giao diện Cosmic Galaxy Space Theme 🌟
+        </footer>
+    </div>
+
+    <!-- Script Hiệu Ứng Vũ Trụ Starfield -->
+    <script>
+        const canvas = document.getElementById('space-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let width, height;
+        let stars = [];
+        const numStars = 180;
+
+        function resizeCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            initStars();
+        }
+
+        function initStars() {
+            stars = [];
+            for (let i = 0; i < numStars; i++) {
+                stars.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    radius: Math.random() * 1.8 + 0.2,
+                    color: ['#ffffff', '#c084fc', '#93c5fd', '#fbbf24', '#00f2fe'][Math.floor(Math.random() * 5)],
+                    alpha: Math.random(),
+                    speed: Math.random() * 0.012 + 0.004
+                });
+            }
+        }
+
+        function drawStars() {
+            ctx.clearRect(0, 0, width, height);
+
+            let grad1 = ctx.createRadialGradient(width * 0.4, height * 0.3, 50, width * 0.4, height * 0.3, width * 0.55);
+            grad1.addColorStop(0, 'rgba(139, 92, 246, 0.18)');
+            grad1.addColorStop(1, 'transparent');
+            ctx.fillStyle = grad1;
+            ctx.fillRect(0, 0, width, height);
+
+            let grad2 = ctx.createRadialGradient(width * 0.75, height * 0.75, 50, width * 0.75, height * 0.75, width * 0.45);
+            grad2.addColorStop(0, 'rgba(0, 242, 254, 0.12)');
+            grad2.addColorStop(1, 'transparent');
+            ctx.fillStyle = grad2;
+            ctx.fillRect(0, 0, width, height);
+
+            stars.forEach(star => {
+                star.alpha += star.speed;
+                if (star.alpha > 1 || star.alpha < 0) {
+                    star.speed = -star.speed;
+                }
+
+                ctx.save();
+                ctx.globalAlpha = Math.abs(star.alpha);
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+                ctx.fillStyle = star.color;
+                ctx.shadowBlur = 8;
+                ctx.shadowColor = star.color;
+                ctx.fill();
+                ctx.restore();
+            });
+
+            requestAnimationFrame(drawStars);
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+        drawStars();
+
+        function toggleSnippet(id) {
+            const el = document.getElementById(id);
+            if (el.style.display === "block") {
+                el.style.display = "none";
+            } else {
+                el.style.display = "block";
+            }
+        }
+    </script>
+</body>
+</html>

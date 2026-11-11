@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hỏi Đáp Đạo Lý - Tôn Kính Bậc Thánh & Phước Báu Niệm Tăng</title>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=Orbitron:wght@600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #030712;
+            --primary-glow: #3b82f6;
+            --accent-cyan: #00f2fe;
+            --accent-gold: #fbbf24;
+            --accent-purple: #c084fc;
+            --accent-emerald: #10b981;
+            --accent-rose: #f43f5e;
+            --text-light: #f3f4f6;
+            --glass-bg: rgba(15, 23, 42, 0.82);
+            --glass-border: rgba(255, 255, 255, 0.12);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            line-height: 1.7;
+        }
+
+        #space-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            background: radial-gradient(circle at center, #1e1b4b 0%, #030712 100%);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 5rem 1.5rem;
+        }
+
+        header {
+            text-align: center;
+            padding: 3rem 1.5rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 28px;
+            box-shadow: 0 0 40px rgba(59, 130, 246, 0.3);
+            margin-bottom: 2.5rem;
+        }
+
+        .badge {
+            display: inline-block;
+            font-family: 'Orbitron', sans-serif;
+            padding: 0.45rem 1.5rem;
+            background: linear-gradient(90deg, #3b82f6 0%, #00f2fe 50%, #fbbf24 100%);
+            color: #000;
+            font-weight: 800;
+            border-radius: 50px;
+            font-size: 0.88rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1.2rem;
+        }
+
+        h1 {
+            font-size: 2.1rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff 0%, #93c5fd 50%, #fbbf24 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.6rem;
+        }
+
+        .subtitle {
+            color: #cbd5e1;
+            font-size: 1.05rem;
+        }
+
+        .section-title {
+            font-size: 1.55rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            margin: 2.5rem 0 1.3rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+        }
+
+        /* Highlight Flashcards */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.3rem;
+            margin-bottom: 3rem;
+        }
+
+        .card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 1.5rem;
+            backdrop-filter: blur(12px);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            border-color: var(--accent-cyan);
+            box-shadow: 0 12px 28px rgba(0, 242, 254, 0.2);
+        }
+
+        .card-icon {
+            font-size: 2.2rem;
+            margin-bottom: 0.6rem;
+        }
+
+        .card-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 0.5rem;
+        }
+
+        .card-desc {
+            font-size: 0.93rem;
+            color: #cbd5e1;
+        }
+
+        /* QA Content Item Box */
+        .qa-box {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 2rem;
+            backdrop-filter: blur(14px);
+            margin-bottom: 2.5rem;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+            transition: border-color 0.3s ease;
+        }
+
+        .qa-box:hover {
+            border-color: rgba(147, 197, 253, 0.4);
+        }
+
+        .qa-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.2rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.15);
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .qa-tag {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 800;
+            padding: 0.35rem 1rem;
+            border-radius: 50px;
+            background: linear-gradient(90deg, #2563eb, #3b82f6);
+            color: #fff;
+        }
+
+        .lecture-title {
+            font-size: 0.92rem;
+            color: var(--accent-gold);
+            font-weight: 600;
+        }
+
+        .question-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #38bdf8;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .answer-content {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            padding: 1.4rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            margin-bottom: 1.2rem;
+        }
+
+        .story-box {
+            color: #e2e8f0;
+            font-size: 0.98rem;
+            margin-bottom: 1rem;
+        }
+
+        .quote-snippet {
+            background: rgba(59, 130, 246, 0.12);
+            border-left: 4px solid var(--primary-glow);
+            padding: 1.1rem 1.3rem;
+            border-radius: 0 14px 14px 0;
+            color: #93c5fd;
+            font-style: italic;
+            margin-top: 1rem;
+            font-size: 0.95rem;
+            display: none;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .action-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.55rem 1.2rem;
+            border-radius: 10px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s ease;
+        }
+
+        .btn-yt {
+            background: linear-gradient(90deg, #ef4444, #f43f5e);
+            color: #fff;
+        }
+
+        .btn-yt:hover {
+            opacity: 0.9;
+            transform: scale(1.03);
+        }
+
+        .btn-toggle {
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--accent-cyan);
+            border: 1px solid var(--glass-border);
+        }
+
+        .btn-toggle:hover {
+            background: rgba(0, 242, 254, 0.15);
+            border-color: var(--accent-cyan);
+        }
+
+        .highlight-text {
+            color: #fef08a;
+            font-weight: 600;
+        }
+
+        footer {
+            text-align: center;
+            color: #64748b;
+            font-size: 0.88rem;
+            margin-top: 4rem;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="space-canvas"></canvas>
+
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <span class="badge">VŨ TRỤ ÔN TẬP • ĐẠO LÝ PHÁP ÂM</span>
+            <h1>CỦNG CỐ PHẨM CHẤT THÁNH & UY LỰC PHƯỚC BÁU NIỆM TĂNG</h1>
+            <p class="subtitle">Trích đoạn bài giảng Sư Phụ Thích Chân Quang — Hệ thống hóa câu hỏi & Trích dẫn gốc</p>
+        </header>
+
+        <!-- Section 1: Thẻ Ghi Nhớ Từ Khóa -->
+        <h2 class="section-title">✨ 3 Ý Pháp Cốt Lõi Cần Ghi Nhớ</h2>
+        <div class="cards-grid">
+            <div class="card">
+                <div class="card-icon">🔑</div>
+                <div class="card-title">Chìa Khóa Phẩm Chất Thánh</div>
+                <div class="card-desc">Lòng tôn kính Bậc Thánh từ luân hồi xa xưa gieo thẳng hạt giống Thánh vào tạng thức; thiếu tâm tôn kính ấy vĩnh viễn trôi lăn làm phàm phu hẹp hòi.</div>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🥣</div>
+                <div class="card-title">Lời Nguyện Sớt Bát A-la-hán</div>
+                <div class="card-desc">Tôn kính, cúng dường Bậc Thánh Tăng đắc thiền định và phát nguyện đồng chứng quả vị giúp ta lần lượt đạt đúng các cảnh giới thiền định & giải thoát ấy.</div>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🌌</div>
+                <div class="card-title">Pháp Niệm Tăng Thời Nay</div>
+                <div class="card-desc">Sớt bát cho A-la-hán 1 lần bảo bọc 1.000 kiếp không đói. Thời nay vắng bóng Thánh Tăng, ta niệm Tăng bằng cách tưởng nhớ và tôn kính công hạnh chư vị đời xưa.</div>
+            </div>
+        </div>
+
+        <!-- Section 2: Nội Dung 3 Câu Hỏi Cụ Thể -->
+        <h2 class="section-title">📜 Chi Tiết Nội Dung Hỏi & Đáp Đạo Lý</h2>
+
+        <!-- CÂU HỎI 1 -->
+        <div class="qa-box">
+            <div class="qa-header">
+                <span class="qa-tag">📌 CÂU HỎI 1</span>
+                <span class="lecture-title">Bài giảng: Lòng Tôn Kính Phật Vô Biên (media: 1515 & 1765)</span>
+            </div>
+
+            <div class="question-title">
+                1. Hỏi: Kính bạch Thầy, vì sao lòng tôn kính đảnh lễ một bậc Thánh trong luân hồi xa xưa lại là chiếc chìa khóa quyết định giúp một người ở đời này sinh ra có sẵn phẩm chất Thánh trong tâm hồn và tu hành rất thuận lợi; ngược lại nếu thiếu vắng tâm tôn kính ấy thì muôn kiếp mãi trôi lăn làm phàm phu tầm thường, hẹp hòi và ích kỷ ạ?
+            </div>
+
+            <div class="answer-content">
+                <div class="story-box">
+                    <strong>2. Đáp (Tóm tắt câu chuyện & Giáo lý):</strong><br>
+                    • Sư Phụ phân tích căn nguyên sâu xa vì sao có những người bước vào đạo tu tập rất dễ dàng, nội tâm thuần hậu hướng thiện, hoặc có những vị tái sinh đã là bậc cao tăng đắc đạo: cội gốc là nhờ trong luân hồi xa xưa họ từng may mắn gặp được một bậc Thánh mà biết cúi đầu đảnh lễ, cúng dường với trọn niềm tôn kính tuyệt đối; hoặc từng diện kiến kính bái Đức Phật.<br><br>
+                    • Chính tâm niệm tôn kính ấy đã <span class="highlight-text">gieo thẳng vào tạng thức những hạt giống phẩm chất của Thánh</span> (từ bi, vị tha, thanh tịnh) và định hướng tâm linh qua nhiều đời kiếp.<br><br>
+                    • Thầy chỉ rõ: người không biết kính trọng một bậc Thánh thì vĩnh viễn không bao giờ có phẩm chất Thánh xuất hiện trong tâm, mãi mãi chỉ là kẻ phàm phu ích kỷ, độc ác và chìm đắm trong biển khổ luân hồi vô tận.
+                </div>
+
+                <div class="btn-group">
+                    <a href="https://youtu.be/KRJ30OT1Smc&t=1664" target="_blank" class="action-btn btn-yt">
+                        ▶ Xem Video Youtube [27:44 - 29:01]
+                    </a>
+                    <button class="action-btn btn-toggle" onclick="toggleSnippet('snip1')">
+                        💬 Hiện / Ẩn Snippet Trích Đoạn
+                    </button>
+                </div>
+
+                <div class="quote-snippet" id="snip1">
+                    <strong>Trích đoạn Snippet:</strong><br>
+                    "... Căn bản ban đầu là ta phải biết kính trọng một bậc Thánh nào đó. Nên có những người nhiều khi may mắn trong cái luân hồi xa xưa của họ, họ đã từng gặp một bậc Thánh mà họ đã cúi đầu, đảnh lễ, cúng dường, tôn kính thì đời này họ tu rất là dễ vì họ có phẩm chất của Thánh trong tâm hồn. Và nếu may mắn hơn nữa người nào mà đã từng gặp Phật ở kiếp xưa rồi tái sinh trở lại thì thường là giờ này họ đã là những bậc cao Tăng đắc đạo cả rồi. Vì cái lòng kính trọng của họ đối với Đức Phật đã định hướng khiến cho họ nhiều đời, nhiều kiếp xuất hiện được phẩm chất Thánh và tinh tấn tu hành... Nếu mà ta không có kính trọng một bậc Thánh thì không bao giờ có những phẩm chất Thánh xuất hiện trong tâm hồn ta... Mãi mãi mình chỉ là một người phàm phu tầm thường, hẹp hòi, ác độc, ích kỷ và sẽ tiếp tục trôi lăn trong cái luân hồi vô tận đau khổ này..."
+                </div>
+            </div>
+        </div>
+
+        <!-- CÂU HỎI 2 -->
+        <div class="qa-box">
+            <div class="qa-header">
+                <span class="qa-tag">📌 CÂU HỎI 2</span>
+                <span class="lecture-title">Bài giảng: KINH PHÁP HOA 06 - Phẩm Thọ Ký (media: 1488 & 5288)</span>
+            </div>
+
+            <div class="question-title">
+                1. Hỏi: Kính bạch Thầy, câu chuyện hai vợ chồng thời xưa quỳ dâng thức ăn sớt bát cúng dường một vị Thánh Tăng A-la-hán đi khất thực rồi tha thiết phát nguyện "cho con được dự vào quả vị mà Ngài đã chứng", đã hé lộ quy luật nhân quả vi diệu nào trong việc thành tựu thiền định và giải thoát qua nhiều kiếp luân hồi ạ?
+            </div>
+
+            <div class="answer-content">
+                <div class="story-box">
+                    <strong>2. Đáp (Tóm tắt câu chuyện & Giáo lý):</strong><br>
+                    • Vào thời xa xưa trước thời Phật Thích Ca, có hai vợ chồng một gia đình nọ nhìn thấy một vị Thánh Tăng A-la-hán phong thái trang nghiêm, thanh tịnh đang ôm bình bát đi khất thực. Hai vợ chồng liền mang thức ăn ra sớt bát cúng dường.<br><br>
+                    • Khi quỳ xuống dâng thực phẩm vào bát của vị A-la-hán, người vợ phát lời đại nguyện phi thường: <span class="highlight-text">"Xin cho con được dự vào quả vị mà Ngài đã chứng"</span>. Vị A-la-hán lắng tâm quán thấy tâm hồn cao cả và thiện căn thuần thành của thí chủ nên mỉm cười hứa khả rằng lời nguyện sẽ thành.<br><br>
+                    • Sư Phụ khẳng định: khi ta biết tôn kính, cúng dường những vị Thánh Tăng đã chứng đắc thiền định thì theo luật nhân quả, <span class="highlight-text">lần lần qua các kiếp luân hồi ta cũng sẽ đắc được đúng những cảnh giới thiền định và quả vị giải thoát cao siêu</span> mà chư vị đã chứng.
+                </div>
+
+                <div class="btn-group">
+                    <a href="https://youtu.be/n9akPhwS-b8&t=2130" target="_blank" class="action-btn btn-yt">
+                        ▶ Xem Video Youtube [35:30 - 36:48]
+                    </a>
+                    <button class="action-btn btn-toggle" onclick="toggleSnippet('snip2')">
+                        💬 Hiện / Ẩn Snippet Trích Đoạn
+                    </button>
+                </div>
+
+                <div class="quote-snippet" id="snip2">
+                    <strong>Trích đoạn Snippet:</strong><br>
+                    "... Những vị mà đắc được thiền định, do mình biết tôn kính những vị đó thì lần lần mình sẽ được những cái mà vị đó đã được. Có một câu chuyện, vào thời xưa trước khi Đức Phật Thích Ca ra đời và những kiếp xưa nữa vào thời Đức Phật trước đó, có một vị A-la-hán Ngài rất là đẹp, Ngài đang trên đường đi khất thực. Gia đình đó có người vợ mới mang thức ăn ra cúng dường vị A-la-hán đó. Khi mà hai vợ chồng mang thức ăn ra cúng dường thì người vợ mới phát nguyện câu này: khi quỳ xuống dâng cái thức ăn vào trong bát của vị A-la-hán đó mới nói rằng 'Xin cho con được dự vào cái quả vị mà Ngài đã chứng'... Cúng dường lên vị A-la-hán phát lời nguyện mình cũng phải nể phục... Vị A-la-hán mỉm cười... Do mình biết tôn kính những vị đó thì lần lần mình sẽ được những cái mà vị đó đã được..."
+                </div>
+            </div>
+        </div>
+
+        <!-- CÂU HỎI 3 -->
+        <div class="qa-box">
+            <div class="qa-header">
+                <span class="qa-tag">📌 CÂU HỎI 3</span>
+                <span class="lecture-title">Bài giảng: Đừng Làm Kẻ Lang Thang - Pháp Cú 69 (media: 2309 & 4699)</span>
+            </div>
+
+            <div class="question-title">
+                1. Hỏi: Kính bạch Thầy, vì sao người thời Đức Phật chỉ cần đứng bên đường chắp tay cung kính sớt một bữa ăn cho một vị Thánh Tăng A-la-hán đi ngang qua là gặt hái quả báo suốt 1.000 kiếp không bao giờ bị đói khổ; và người thời nay dù vắng bóng Thánh Tăng thì thực hành niệm Tăng bằng cách nào để gieo trồng phước báu vô lượng ấy ạ?
+            </div>
+
+            <div class="answer-content">
+                <div class="story-box">
+                    <strong>2. Đáp (Tóm tắt câu chuyện & Giáo lý):</strong><br>
+                    • Thời Đức Phật tại thế, tăng đoàn có đông đảo các bậc Đại Thánh Tăng A-la-hán (như Ngài Xá Lợi Phất, Mục Kiền Liên, Phú Lâu Na, Tân Đầu Lô Phả La Đọa...). Người cư sĩ thuở ấy có phước duyên vô cùng lớn vì đi ra vào tịnh xá hay cúng dường đều dễ dàng cúng đúng các bậc A-la-hán.<br><br>
+                    • Thầy chỉ rõ phước báo nhân quả: một người chỉ cần đứng bên đường chắp tay thành kính sớt bát một bữa ăn cho một vị Thánh Tăng A-la-hán đi ngang qua, thì uy lực phước báu ấy bảo bọc khiến <span class="highlight-text">suốt 1.000 kiếp trong luân hồi người ấy không bao giờ còn phải chịu cảnh đói rét, thiếu thốn</span>.<br><br>
+                    • Thời nay tuy khó tìm gặp được bậc Thánh Tăng đắc đạo như xưa, nhưng người đệ tử Phật vẫn có thể tu tập pháp <span class="highlight-text">niệm Tăng</span> bằng cách siêng năng đọc hạnh trạng, tưởng nhớ công hạnh và dâng trọn lòng tôn kính sâu xa lên các vị Thánh Tăng đời xưa để huân tập công đức giải thoát cho muôn đời sau.
+                </div>
+
+                <div class="btn-group">
+                    <a href="https://youtu.be/g64wO9d_RFU&t=2944" target="_blank" class="action-btn btn-yt">
+                        ▶ Xem Video Youtube [49:04 - 50:18]
+                    </a>
+                    <button class="action-btn btn-toggle" onclick="toggleSnippet('snip3')">
+                        💬 Hiện / Ẩn Snippet Trích Đoạn
+                    </button>
+                </div>
+
+                <div class="quote-snippet" id="snip3">
+                    <strong>Trích đoạn Snippet:</strong><br>
+                    "... Cúng dường cho các vị toàn là cúng nhầm A-la-hán không. Sớt bát cho vị một bữa là no được ngàn kiếp, cái quả báo mình như vậy! Một lần mình đứng bên đường chắp tay có một vị A-la-hán đi ngang, mình đem vật thực qua mình sớt bát cho vị đó thì một ngàn kiếp không bao giờ mình đói nữa... Cho nên khi mà nói niệm Tăng thì họ có vô số vị Thánh Tăng thời đó để họ tưởng nhớ cung kính. Còn thời nay ta rất là khó, đây là thiệt thòi của chúng ta. Nhưng thôi ta bù lại bằng cách ta đọc sách về những vị Thánh Tăng đời xưa để ta cung kính... Vậy cũng gọi là niệm Tăng..."
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            Ôn Tập Đạo Lý Nhân Quả • Giao diện Cosmic Space Theme 🌟
+        </footer>
+    </div>
+
+    <!-- Script Hiệu Ứng Vũ Trụ Starfield -->
+    <script>
+        const canvas = document.getElementById('space-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let width, height;
+        let stars = [];
+        const numStars = 180;
+
+        function resizeCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            initStars();
+        }
+
+        function initStars() {
+            stars = [];
+            for (let i = 0; i < numStars; i++) {
+                stars.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    radius: Math.random() * 1.8 + 0.2,
+                    color: ['#ffffff', '#93c5fd', '#38bdf8', '#fbbf24', '#00f2fe'][Math.floor(Math.random() * 5)],
+                    alpha: Math.random(),
+                    speed: Math.random() * 0.012 + 0.004
+                });
+            }
+        }
+
+        function drawStars() {
+            ctx.clearRect(0, 0, width, height);
+
+            let grad1 = ctx.createRadialGradient(width * 0.4, height * 0.3, 50, width * 0.4, height * 0.3, width * 0.55);
+            grad1.addColorStop(0, 'rgba(59, 130, 246, 0.18)');
+            grad1.addColorStop(1, 'transparent');
+            ctx.fillStyle = grad1;
+            ctx.fillRect(0, 0, width, height);
+
+            let grad2 = ctx.createRadialGradient(width * 0.75, height * 0.75, 50, width * 0.75, height * 0.75, width * 0.45);
+            grad2.addColorStop(0, 'rgba(0, 242, 254, 0.12)');
+            grad2.addColorStop(1, 'transparent');
+            ctx.fillStyle = grad2;
+            ctx.fillRect(0, 0, width, height);
+
+            stars.forEach(star => {
+                star.alpha += star.speed;
+                if (star.alpha > 1 || star.alpha < 0) {
+                    star.speed = -star.speed;
+                }
+
+                ctx.save();
+                ctx.globalAlpha = Math.abs(star.alpha);
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+                ctx.fillStyle = star.color;
+                ctx.shadowBlur = 8;
+                ctx.shadowColor = star.color;
+                ctx.fill();
+                ctx.restore();
+            });
+
+            requestAnimationFrame(drawStars);
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+        drawStars();
+
+        function toggleSnippet(id) {
+            const el = document.getElementById(id);
+            if (el.style.display === "block") {
+                el.style.display = "none";
+            } else {
+                el.style.display = "block";
+            }
+        }
+    </script>
+</body>
+</html>
