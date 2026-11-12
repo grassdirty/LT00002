@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hỏi Đáp Phật Pháp - Trí Tuệ & Tâm Từ Đức Phật</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #e0e6ed;
+            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+            min-height: 100vh;
+            padding: 30px 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Hiệu ứng nền vũ trụ & sao */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background: transparent url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/123163/stars.png') repeat top center;
+            z-index: 0;
+            opacity: 0.6;
+        }
+        
+        .twinkling {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background: transparent url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/123163/twinkling.png') repeat top center;
+            z-index: 1;
+            animation: move-twink-back 200s linear infinite;
+            opacity: 0.4;
+        }
+
+        @keyframes move-twink-back {
+            from { background-position: 0 0; }
+            to { background-position: -10000px 5000px; }
+        }
+
+        /* Container chính */
+        .container {
+            max-width: 950px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+            background: rgba(15, 23, 42, 0.82);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 215, 0, 0.25);
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 0 30px rgba(0, 191, 255, 0.15), inset 0 0 15px rgba(255, 215, 0, 0.05);
+        }
+
+        /* Tiêu đề */
+        .header {
+            text-align: center;
+            border-bottom: 2px solid rgba(255, 215, 0, 0.3);
+            padding-bottom: 20px;
+            margin-bottom: 35px;
+        }
+
+        .header h1 {
+            color: #ffd700;
+            font-size: 1.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 0 12px rgba(255, 215, 0, 0.4);
+            margin-bottom: 8px;
+        }
+
+        .header h2 {
+            color: #4fc3f7;
+            font-size: 1.3rem;
+            font-weight: 500;
+        }
+
+        /* Khối câu hỏi */
+        .question-card {
+            background: rgba(30, 41, 59, 0.65);
+            border: 1px solid rgba(79, 195, 247, 0.25);
+            border-radius: 14px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: border-color 0.3s ease;
+        }
+
+        .question-card:hover {
+            border-color: rgba(255, 215, 0, 0.5);
+        }
+
+        .q-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 10px;
+        }
+
+        .q-badge {
+            background: rgba(255, 215, 0, 0.15);
+            color: #ffd700;
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+
+        .q-title {
+            color: #ffd700;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .question-box {
+            background: rgba(255, 215, 0, 0.07);
+            border-left: 4px solid #ffd700;
+            border-radius: 0 8px 8px 0;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .question-box p {
+            color: #f1f5f9;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            font-weight: 500;
+        }
+
+        .meta-info {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(79, 195, 247, 0.2);
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-bottom: 18px;
+            font-size: 0.98rem;
+        }
+
+        .meta-info p {
+            margin-bottom: 6px;
+            color: #cbd5e1;
+        }
+
+        .meta-info p:last-child {
+            margin-bottom: 0;
+        }
+
+        .meta-info strong {
+            color: #4fc3f7;
+        }
+
+        .video-link {
+            color: #4fc3f7;
+            text-decoration: none;
+            font-weight: 600;
+            word-break: break-all;
+            transition: color 0.2s;
+        }
+
+        .video-link:hover {
+            color: #ffd700;
+            text-decoration: underline;
+        }
+
+        .story-box {
+            margin-bottom: 18px;
+        }
+
+        .story-title {
+            color: #4fc3f7;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .story-content {
+            color: #cbd5e1;
+            font-size: 1.02rem;
+            line-height: 1.7;
+            text-align: justify;
+        }
+
+        .snippet-box {
+            background: rgba(79, 195, 247, 0.08);
+            border-left: 4px solid #4fc3f7;
+            border-radius: 0 8px 8px 0;
+            padding: 15px;
+            margin-top: 15px;
+            font-style: italic;
+            color: #e2e8f0;
+            line-height: 1.65;
+            font-size: 0.98rem;
+        }
+
+        .snippet-label {
+            color: #4fc3f7;
+            font-weight: 600;
+            font-style: normal;
+            font-size: 0.88rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="stars"></div>
+    <div class="twinkling"></div>
+
+    <div class="container">
+        <div class="header">
+            <h1>HỎI ĐÁP PHẬT PHÁP</h1>
+            <h2>Về Trí Tuệ Tuyệt Đối & Luật Nhân Quả Nơi Đức Phật</h2>
+        </div>
+
+        <!-- CÂU HỎI 1 -->
+        <div class="question-card">
+            <div class="q-header">
+                <span class="q-badge">CÂU HỎI 1</span>
+                <span class="q-title">Cái Biết Tuyệt Đối & Sự Vận Hành Luật Nhân Quả</span>
+            </div>
+
+            <div class="question-box">
+                <p><strong>1. Hỏi:</strong> Kính bạch Thầy, vì sao Đức Phật được xưng tụng là Đấng biết tất cả — từ địa ngục lên các tầng trời, từ ngàn xưa đến ngàn sau, thậm chí biết trước cả 100 năm câu hỏi mà một người đêm nay mới nằm suy nghĩ để sáng mai hỏi Ngài — nhưng Ngài lại không bao giờ dùng thần thông hô biến mọi người thành Thánh hay biến ra thức ăn, mà vẫn từng bước đi khất thực theo luật nhân quả ạ?</p>
+            </div>
+
+            <div class="meta-info">
+                <p><strong>Tên bài giảng:</strong> BÁT NHÃ TÂM KINH 09 - Diệu dụng (media: 799)</p>
+                <p><strong>Link bài giảng:</strong> <a href="https://youtu.be/lph4nSCOx18&t=4342" target="_blank" class="video-link">https://youtu.be/lph4nSCOx18&t=4342</a> [1:12:22 - 1:14:45]</p>
+            </div>
+
+            <div class="story-box">
+                <div class="story-title">📌 Mẫu chuyện giải đáp:</div>
+                <div class="story-content">
+                    Sư Phụ làm rõ sự kết hợp kỳ diệu giữa "cái biết tuyệt đối" và sự vận hành của luật nhân quả nơi Đức Phật. Ngài vừa bình dị vừa cao siêu: bình dị ở chỗ Ngài không dùng thần thông hô biến ra thức ăn hay biến tất cả chúng sinh thành Thánh trái với nhân quả; nhưng cao siêu ở chỗ Ngài biết hết đường đi nhân quả một cách tuyệt đối (trong khi chúng sinh chỉ biết một phần tỷ). Chính vì biết hết tất cả như vậy, Ngài khéo léo dùng chính luật nhân quả để tạo phước cho đời: Ngài chịu khó từng bước đi khất thực để chúng sinh có cơ hội sớt thức ăn vào bát Phật mà gieo nhân đời đời không bao giờ đói và luôn giữ duyên với Phật pháp.<br><br>
+                    Thầy còn dẫn ví dụ về sự tự tin tuyệt đối từ cái biết vô biên của Ngài: có người được rủ đi gặp Phật, đêm nằm trằn trọc tới sáng mới nghĩ ra một câu hỏi định thưa; nhưng kỳ thực Đức Phật đã biết trước điều đó từ... 100 năm trước rồi và câu trả lời đã có sẵn, chẳng bao giờ có sự lúng túng ngần ngại.
+                </div>
+            </div>
+
+            <div class="snippet-box">
+                <div class="snippet-label">Trích đoạn bài giảng (Snippet):</div>
+                "... Ngài rất bình dị nhưng mà Ngài rất cao siêu bởi vì Ngài biết tất cả và khai thác khéo léo dùng nhân quả nên Ngài đi khất thực để chi vậy? Để cho có một chúng sinh cúng dường cho Ngài... Nếu có một người nào ngồi đây mà ngày xưa chỉ một lần thôi xớt thức ăn vào trong bát của Phật, thì người đó vĩnh viễn không bao giờ bị đói, và luôn luôn có duyên với Phật Pháp... Cái sự tự tin của Đức Phật là tuyệt đối, bởi vì không bao giờ có điều gì làm cho Đức Phật do dự lúng túng ngần ngại nữa hết. Ngài biết suốt từ địa ngục lên tới các tầng trời, biết suốt từ ngàn xưa cho tới ngàn sau... Tức là, ví dụ như có người rủ đi gặp Đức Phật, thì người đó chưa nghĩ gì hết, bắt đầu đêm nằm suốt, tới sáng nghĩ mình sẽ hỏi Đức Phật câu đó. Nhưng sự thật Đức Phật biết trước, 100 năm trước rồi, là ngày hôm nay gặp mình, mình sẽ hỏi câu đó..."
+            </div>
+        </div>
+
+        <!-- CÂU HỎI 2 -->
+        <div class="question-card">
+            <div class="q-header">
+                <span class="q-badge">CÂU HỎI 2</span>
+                <span class="q-title">Các Cấp Độ Nhận Thức Nhân Quả & Con Đường Tiến Tới Trí Tuệ Phật</span>
+            </div>
+
+            <div class="question-box">
+                <p><strong>1. Hỏi:</strong> Kính bạch Thầy, vì sao một người tuy học thông suốt nhiều bộ kinh điển lớn hay thậm chí viết sách, làm luận án tiến sĩ về nhân quả nhưng vẫn chỉ mới biết một phần triệu của luật nhân quả; và một vị Bồ Tát phải gieo nhân quả gì qua vô lượng kiếp mới thành tựu được trí tuệ của Đức Phật — biết hoàn toàn nhân quả và mọi điều trong vũ trụ không còn sót một điều gì ạ?</p>
+            </div>
+
+            <div class="meta-info">
+                <p><strong>Tên bài giảng:</strong> 08 Uy Lực (media: 4124 & 1274)</p>
+                <p><strong>Link bài giảng:</strong> <a href="https://youtu.be/hPW7nc84qyc&t=2054" target="_blank" class="video-link">https://youtu.be/hPW7nc84qyc&t=2054</a> [34:14 - 38:55] (tham chiếu media 1274: [34:25 - 38:45])</p>
+            </div>
+
+            <div class="story-box">
+                <div class="story-title">📌 Mẫu chuyện giải đáp:</div>
+                <div class="story-content">
+                    Sư Phụ cảnh tỉnh người tu đừng vội thấy ai nhập định 8 ngày hay ngồi bất động 2–3 ngày có thần thông rồi tưởng họ biết hết mọi điều như Phật. Thầy đưa ra những cấp độ nhận thức về luật nhân quả: phàm phu hiện nay chỉ biết một phần tỷ (ở hiền gặp lành, bố thí giàu sang, khen người được đẹp mặt...); một người thông minh học lý tánh không hay duyên hợp chỉ mất 2 ngày là hiểu, thậm chí viết được hai cuốn sách hay làm luận án tiến sĩ về nhân quả cũng mới chỉ hiểu được một phần triệu; đến bậc Bồ Tát Bát Địa (Bất Động Địa) mới biết gần hết, và chỉ có Đức Phật mới biết hoàn toàn nhân quả không còn sót một điều gì.<br><br>
+                    Thầy chỉ rõ nhân quả để đạt đến trí tuệ biết hết mọi điều ấy: sau khi đạt chánh định tâm tự tại, vị Bồ Tát vẫn phải trải qua vô lượng kiếp (mà đối với các Ngài, ba vạn kiếp chỉ như cái chớp mắt) bền bỉ giáo hóa, làm lợi ích và độ vô số chúng sinh đắc đạo thì trí tuệ mới tăng dần đến viên mãn Phật quả. Với người đệ tử Phật hôm nay cũng vậy, nếu biết đạo mà chỉ giữ tu riêng cho mình thì trí tuệ không tăng, còn siêng năng đem đạo lý chia sẻ cho mọi người thì chỉ 5–10 năm sau trí tuệ tự nhiên khai mở sáng suốt.
+                </div>
+            </div>
+
+            <div class="snippet-box">
+                <div class="snippet-label">Trích đoạn bài giảng (Snippet):</div>
+                "... Cái người phàm phu chúng ta hiện nay là chúng ta biết được một phần tỷ của nhân quả thôi... Có một người viết được hai cuốn sách nhân quả... Người đó biết một phần triệu của nhân quả... Còn khi nào mà đạt tới Bồ Tát bát địa bất động địa thì vị đó biết gần hết nhân quả. Và thật sự ai là người mới biết hoàn toàn nhân quả, không còn sót một điều gì, ai? Chỉ có Phật mà thôi... Muốn mà có cái trí tuệ biết hết mọi điều, biết hết nhân quả, thì vị này phải đi qua một thời gian rất lâu dài giáo hóa chúng sinh... Vô số chúng sinh được đắc đạo thì cái trí tuệ của Bồ Tát cũng tăng lên từ từ. Thì chúng ta cũng vậy thôi... Mình muốn trí tuệ mình sáng thì hãy giúp người khác biết đạo..."
+            </div>
+        </div>
+
+        <!-- CÂU HỎI 3 -->
+        <div class="question-card">
+            <div class="q-header">
+                <span class="q-badge">CÂU HỎI 3</span>
+                <span class="q-title">Cái Biết Đi Liền Với Lòng Từ Bi Vô Lượng Nơi Đức Phật</span>
+            </div>
+
+            <div class="question-box">
+                <p><strong>1. Hỏi:</strong> Kính bạch Thầy, khi Đức Phật biết hết tất cả — từ vô lượng kiếp của chính Ngài, đường đi nhân quả của từng chúng sinh (như khi Ngài chủ động tìm đến hóa độ tướng cướp Angulimala) cho đến mọi lỗi lầm thầm kín nhất của ta — thì vì sao tâm lý con người vốn rất sợ người đời biết chuyện xấu của mình, nhưng khi quỳ trước Đức Phật lại cảm thấy ấm lòng mà không hề sợ hãi ạ?</p>
+            </div>
+
+            <div class="meta-info">
+                <p><strong>Tên bài giảng:</strong> 06. Biết tất cả, yêu thương tất cả và không dính mắc tất cả (media: 694)</p>
+                <p><strong>Link bài giảng:</strong> <a href="https://youtu.be/a3e31ONqRBU&t=526" target="_blank" class="video-link">https://youtu.be/a3e31ONqRBU&t=526</a> [08:46 - 15:09]</p>
+            </div>
+
+            <div class="story-box">
+                <div class="story-title">📌 Mẫu chuyện giải đáp:</div>
+                <div class="story-content">
+                    Sư Phụ miêu tả cái biết không giới hạn của Đức Phật: Ngài biết hết vô lượng kiếp quá khứ của chính mình, biết trọn vẹn nhân quả luân hồi của tất cả chúng sinh như người đứng trên lầu cao ở ngã tư đường nhìn rõ từng người qua lại, biết mọi thế giới Phật xa xôi, thấu suốt y lý, ngôn ngữ mọi loài và sâu thẳm nội tâm từng người. Như trường hợp tên tướng cướp Angulimala đang sát hại gần đủ 1.000 người để lấy ngón tay luyện bùa, dù anh chưa từng tìm đến tinh xá nhưng Đức Phật từ xa đã biết rõ nên chủ động đến hóa độ cho anh thành thầy tu đắc đạo.<br><br>
+                    Từ đó Thầy đặt ra một câu hỏi tâm lý rất thấm thía: bình thường hễ có lầm lỗi lén lút, ta cực kỳ sợ ai biết hết về mình — chẳng hạn nghe ông công an hay người nào đó nói trúng phóc tối qua 8 giờ mình đi nhậu ở đâu, đi công tác giả mà ở với bồ nhí tại địa chỉ nào thì lập tức tái mặt hoảng sợ. Vậy mà với Đức Phật, Đấng thấu sạch mọi lỗi lầm quá khứ lẫn số phận của ta, mỗi ngày ta vẫn vào chùa lễ Phật mà lòng lại ấm áp bình an. Sư Phụ lý giải bằng hình ảnh hai thái độ khi công an báo tin đứa con vừa ăn cắp xe bị nhốt trên đồn: ông bạn hàng xóm biết chuyện liền sợ hãi xa lánh, còn người cha dù biết rõ lỗi của con vẫn hết lòng thương yêu và chạy đôn chạy đáo lo cứu con, tìm cách cải hóa con — bởi nơi Đức Phật, cái biết tất cả luôn đi liền với tình thương yêu tất cả.
+                </div>
+            </div>
+
+            <div class="snippet-box">
+                <div class="snippet-label">Trích đoạn bài giảng (Snippet):</div>
+                "... Bởi trí tuệ của mình, Đức Phật biết tất cả chúng sinh trôi lăn trong luân hồi như thế nào. Người nào đó đến từ đâu làm cái tội gì, rồi bị đọa như thế nào. Người nào đó đến từ đâu làm cái phúc gì, được hưởng cái quả báo lành như thế nào. Đức Phật biết tất cả... Ví dụ người ta đến gặp một ông công an... ông ấy nói hôm qua lúc 8 giờ tối anh đi nhậu ở đâu đó... tôi cho anh biết anh ở với bồ nhí của anh đó tại địa chỉ đó... thì tái mặt liền... Nhưng mà tại sao ta đến với Phật, với tất cả lầm lỗi mà ta không sợ?... Bởi vì ta cũng biết một điều rằng Phật rất yêu thương ta. Giống như một người cha yêu thương đứa con của mình, mà mặc dù biết nó làm lỗi... Thì ông bố mình, ông biết mình có lỗi nhưng mà ông thương và tìm cách cải hóa..."
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Kính chúc quý độc giả và phật tử luôn tinh tấn học hỏi, thấm nhuần Chánh pháp và an lạc!</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hỏi Đáp Phật Pháp - Sức Khỏe, Khí Công & Nhân Quả</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #e0e6ed;
+            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+            min-height: 100vh;
+            padding: 30px 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Hiệu ứng nền vũ trụ & sao */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background: transparent url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/123163/stars.png') repeat top center;
+            z-index: 0;
+            opacity: 0.6;
+        }
+        
+        .twinkling {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background: transparent url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/123163/twinkling.png') repeat top center;
+            z-index: 1;
+            animation: move-twink-back 200s linear infinite;
+            opacity: 0.4;
+        }
+
+        @keyframes move-twink-back {
+            from { background-position: 0 0; }
+            to { background-position: -10000px 5000px; }
+        }
+
+        /* Container chính */
+        .container {
+            max-width: 950px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+            background: rgba(15, 23, 42, 0.82);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 215, 0, 0.25);
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 0 30px rgba(0, 191, 255, 0.15), inset 0 0 15px rgba(255, 215, 0, 0.05);
+        }
+
+        /* Tiêu đề */
+        .header {
+            text-align: center;
+            border-bottom: 2px solid rgba(255, 215, 0, 0.3);
+            padding-bottom: 20px;
+            margin-bottom: 35px;
+        }
+
+        .header h1 {
+            color: #ffd700;
+            font-size: 1.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 0 12px rgba(255, 215, 0, 0.4);
+            margin-bottom: 8px;
+        }
+
+        .header h2 {
+            color: #4fc3f7;
+            font-size: 1.3rem;
+            font-weight: 500;
+        }
+
+        /* Khối câu hỏi */
+        .question-card {
+            background: rgba(30, 41, 59, 0.65);
+            border: 1px solid rgba(79, 195, 247, 0.25);
+            border-radius: 14px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: border-color 0.3s ease;
+        }
+
+        .question-card:hover {
+            border-color: rgba(255, 215, 0, 0.5);
+        }
+
+        .q-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 10px;
+        }
+
+        .q-badge {
+            background: rgba(255, 215, 0, 0.15);
+            color: #ffd700;
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+
+        .q-title {
+            color: #ffd700;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .question-box {
+            background: rgba(255, 215, 0, 0.07);
+            border-left: 4px solid #ffd700;
+            border-radius: 0 8px 8px 0;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .question-box p {
+            color: #f1f5f9;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            font-weight: 500;
+        }
+
+        .meta-info {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(79, 195, 247, 0.2);
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-bottom: 18px;
+            font-size: 0.98rem;
+        }
+
+        .meta-info p {
+            margin-bottom: 6px;
+            color: #cbd5e1;
+        }
+
+        .meta-info p:last-child {
+            margin-bottom: 0;
+        }
+
+        .meta-info strong {
+            color: #4fc3f7;
+        }
+
+        .video-link {
+            color: #4fc3f7;
+            text-decoration: none;
+            font-weight: 600;
+            word-break: break-all;
+            transition: color 0.2s;
+        }
+
+        .video-link:hover {
+            color: #ffd700;
+            text-decoration: underline;
+        }
+
+        .story-box {
+            margin-bottom: 18px;
+        }
+
+        .story-title {
+            color: #4fc3f7;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .story-content {
+            color: #cbd5e1;
+            font-size: 1.02rem;
+            line-height: 1.7;
+            text-align: justify;
+        }
+
+        .snippet-box {
+            background: rgba(79, 195, 247, 0.08);
+            border-left: 4px solid #4fc3f7;
+            border-radius: 0 8px 8px 0;
+            padding: 15px;
+            margin-top: 15px;
+            font-style: italic;
+            color: #e2e8f0;
+            line-height: 1.65;
+            font-size: 0.98rem;
+        }
+
+        .snippet-label {
+            color: #4fc3f7;
+            font-weight: 600;
+            font-style: normal;
+            font-size: 0.88rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="stars"></div>
+    <div class="twinkling"></div>
+
+    <div class="container">
+        <div class="header">
+            <h1>HỎI ĐÁP PHẬT PHÁP</h1>
+            <h2>Về Sức Khỏe, Khí Công & Luật Nhân Quả</h2>
+        </div>
+
+        <!-- CÂU HỎI 1 -->
+        <div class="question-card">
+            <div class="q-header">
+                <span class="q-badge">CÂU HỎI 1</span>
+                <span class="q-title">Nội Công Võ Thuật & Nhân Quả Bố Thí Phước Báo</span>
+            </div>
+
+            <div class="question-box">
+                <p><strong>1. Hỏi:</strong> Kính bạch Thầy, vì sao nhiều người thấy chuyện cao nhân luyện nội công, khí công đánh chưởng phi thường rồi lầm tưởng chỉ cần tìm được bí quyết tập luyện là thành công, trong khi theo luật nhân quả, sức mạnh ấy lại bắt nguồn từ nhân bố thí thuốc men và đắp đường cất nhà từ đời trước ạ?</p>
+            </div>
+
+            <div class="meta-info">
+                <p><strong>Tên bài giảng:</strong> 07 Nhân Và Quả (media: 5350)</p>
+                <p><strong>Link bài giảng:</strong> <a href="https://youtu.be/ZZI5w0OUbts&t=1118" target="_blank" class="video-link">https://youtu.be/ZZI5w0OUbts&t=1118</a> [18:38 - 21:08]</p>
+            </div>
+
+            <div class="story-box">
+                <div class="story-title">📌 Mẫu chuyện giải đáp:</div>
+                <div class="story-content">
+                    Sư Phụ nhắc lại chuyện người xưa luyện võ, luyện nội công có thể nhảy lên nóc nhà, đánh chưởng lủng tường với 12 thành công lực khiến nhiều người cứ ngỡ chỉ cần có được bí quyết là tập thành. Thực tế theo luật nhân quả, người nào đời trước từng chuyên bố thí thuốc men chữa bệnh cho người nghèo, hay đem sức lực đi đắp đường, cất nhà giúp thiên hạ, thì qua kiếp sau mới hưởng được quả báo thân thể khỏe mạnh, sức mạnh siêu việt và chính cái phước phi thường ấy mới chiêu cảm nhân duyên gặp được "kỳ nhân dị sĩ" từ trên núi xuống truyền thụ bí quyết nội công chân chính. Ngược lại, người không có phước mà cứ tranh giành, leo lên thâm sơn cùng cốc đánh nhau 7 ngày 7 đêm để đoạt bí kíp luyện bậy thì chỉ chuốc lấy cảnh tẩu hỏa nhập ma khốn khổ.
+                </div>
+            </div>
+
+            <div class="snippet-box">
+                <div class="snippet-label">Trích đoạn bài giảng (Snippet):</div>
+                "... Là một người bố thí thuốc, chuyên chữa bệnh bố thí thuốc cho người nghèo, thì đời sau được cái quả khỏe mạnh... Thời xưa có những người mà họ tập võ tập nội công, họ nhảy lên nóc nhà họ đánh chưởng... Thì thật ra cái đó nó không phải là do luyện tập đơn giản đâu... Mà nó cũng là do cái nhân như đời trước: là đời trước cũng bố thí thuốc, cũng lấy sức lực mà đi đắp đường, đi cất nhà cho thiên hạ thì nó có cái phước đời sau được sức mạnh phi thường. Thì chính cái phước đó mới khiến mình gặp một cái ông già râu dài trên núi xuống dạy cho cái bí thuật ngồi mình luyện nội công là mới được... Chứ không phải là ai cũng gặp được một kỳ nhân dị sĩ mà truyền thụ cho cái bí quyết Cửu Âm Chân Kinh, không có! Phải là đời trước cũng làm cái phước phi thường rồi mới gặp được như vậy. Chứ còn mình không biết bây giờ mình cứ giành nhau mà mình leo lên thâm sơn cùng cốc đánh với nhau ầm ầm 7 ngày 7 đêm để giành cuốn Cửu Âm Chân Kinh... luyện vào tẩu hỏa nhập ma... thì rất là khổ..."
+            </div>
+        </div>
+
+        <!-- CÂU HỎI 2 -->
+        <div class="question-card">
+            <div class="q-header">
+                <span class="q-badge">CÂU HỎI 2</span>
+                <span class="q-title">"Khí Tụ Đan Điền Thì Vô Bệnh" & Sự Chi Phối Của Nghiệp Báo</span>
+            </div>
+
+            <div class="question-box">
+                <p><strong>1. Hỏi:</strong> Kính bạch Thầy, y lý Đông phương khẳng định chắc như đinh đóng cột rằng "Khí tụ đan điền thì vô bệnh", vậy điều đó có mâu thuẫn với luật nhân quả khi con người vẫn có nghiệp bệnh từ tội lỗi quá khứ không, và nghiệp báo sẽ chi phối việc tập khí công của người ấy ra sao ạ?</p>
+            </div>
+
+            <div class="meta-info">
+                <p><strong>Tên bài giảng:</strong> Giữ Gìn Sức Khỏe Cũng Là Đạo Đức (media: 4607)</p>
+                <p><strong>Link bài giảng:</strong> <a href="https://youtu.be/9E6CaXIrajA&t=3523" target="_blank" class="video-link">https://youtu.be/9E6CaXIrajA&t=3523</a> [58:43 - 1:00:18]</p>
+            </div>
+
+            <div class="story-box">
+                <div class="story-title">📌 Mẫu chuyện giải đáp:</div>
+                <div class="story-content">
+                    Sư Phụ dẫn lại câu châm ngôn nổi tiếng của y lý Đông phương: "Khí tụ đan điền thì vô bệnh" — nghĩa là ai giữ được khí lực tụ lại nơi bụng dưới (đan điền) thì bệnh cũ giảm dần rồi dứt hẳn, sống khỏe tới lúc chết chỉ nằm yên mà đi chứ không đau bệnh. Thoạt nghe tưởng như mâu thuẫn với luật nhân quả (lỡ làm điều tội lỗi thì vẫn phải mắc bệnh trả nghiệp chứ sao vô bệnh được), nhưng Thầy giải thích hai quy luật này hoàn toàn ăn khớp với nhau: khi người đó còn tụ khí ở đan điền được thì thật sự không bệnh; chỉ khi nào ác nghiệp trong quá khứ đến kỳ trổ quả, chính nghiệp lực ấy sẽ đẩy người đó rơi vào cảnh bận rộn công việc quá mức hoặc nảy sinh những quan niệm mới sai lầm, khiến họ bỏ ngang việc tập luyện và không còn giữ khí tụ đan điền được nữa — ngay lúc khí tán ra thì bệnh tật lập tức quay trở lại để người ấy trả nghiệp.
+                </div>
+            </div>
+
+            <div class="snippet-box">
+                <div class="snippet-label">Trích đoạn bài giảng (Snippet):</div>
+                "... Đây là cái câu này mọi người ghi nhớ này nha: 'Khí tụ đan điền thì vô bệnh'... Ta thì nghĩ tụ thì tụ chứ ung thư cũng chết, mà hễ mà làm tội lỗi gì đó thì bệnh, nó cũng phải xảy ra bệnh, nhân quả mà! Nhưng mà thật sự ai mà khí tụ đan điền thì bớt bệnh và tới vô bệnh... Thầy bảo đảm tới chết thì nằm yên mà chết chứ cũng không bệnh... Chỉ khi nào mà ta có những cái nghiệp gì đó, nó khiến người ta không tập được nữa, không giữ khí đan điền được nữa — ví dụ mình bận công việc quá hay là bị những quan niệm nào mới xuất hiện khiến người ta không tập luyện để nhiếp khí đan điền, tụ khí đan điền nữa — thì bệnh nó trở lại liền. Còn nếu giờ phút nào mà ta còn tụ khí đan điền được thì bắt đầu bệnh đã có trước đây nó giảm dần giảm dần và tới hết, hết bệnh vô bệnh..."
+            </div>
+        </div>
+
+        <!-- CÂU HỎI 3 -->
+        <div class="question-card">
+            <div class="q-header">
+                <span class="q-badge">CÂU HỎI 3</span>
+                <span class="q-title">Tập Khí Công, Phóng Sinh & Hiện Tượng "Kiếp Sau Réo Gọi"</span>
+            </div>
+
+            <div class="question-box">
+                <p><strong>1. Hỏi:</strong> Kính bạch Thầy, vì sao Sư Phụ khuyên người muốn đi qua tuổi già ít bệnh tật cần kết hợp tập luyện âm dương khí công với việc phóng sinh làm phúc, nhưng vẫn có trường hợp dù khí công và phước đức đủ sức kéo dài tuổi thọ tới 100 tuổi mà mới 80 tuổi đã bất ngờ ra đi nhẹ nhàng vì "kiếp sau réo gọi" ạ?</p>
+            </div>
+
+            <div class="meta-info">
+                <p><strong>Tên bài giảng:</strong> Khai Mở Trí Tuệ (media: 6296)</p>
+                <p><strong>Link bài giảng:</strong> <a href="https://youtu.be/NUwaJvkk6u4&t=2434" target="_blank" class="video-link">https://youtu.be/NUwaJvkk6u4&t=2434</a> [40:34 - 44:16]</p>
+            </div>
+
+            <div class="story-box">
+                <div class="story-title">📌 Mẫu chuyện giải đáp:</div>
+                <div class="story-content">
+                    Sư Phụ bàn về cách chuẩn bị khôn ngoan cho tuổi già đỡ bệnh tật và ra đi thanh thản thay vì để dành tiền chữa bệnh (vì chữa bệnh đến đâu hết phước đến đó). Giải pháp rốt ráo gồm hai điều: một là tập luyện khí công (âm dương khí công) và thiền định để tạo tiềm lực sức khỏe, đầu óc sáng suốt; hai là siêng năng phóng sinh, đắp đường, bố thí làm phúc. Nhờ song hành hai việc ấy, người lẽ ra theo nghiệp số chỉ sống đến 75 tuổi có thể thay đổi số mệnh, khỏe mạnh kéo dài tuổi thọ tới 100 tuổi.<br><br>
+                    Tuy nhiên, Thầy hé lộ một tình huống nhân quả đặc biệt gọi là "kiếp sau réo gọi": nếu đúng 5 năm sau (tức năm 80 tuổi), nhân duyên tái sinh vào một gia đình giàu sang quyền quý (cha mẹ đã sẵn sàng, đang cần một người con trai đích tôn thừa hưởng gia nghiệp lớn lao do công đức người ấy đã gieo) đã kết tụ đầy đủ không thể trễ hơn, thì dù phước và khí công đáng lẽ giúp sống tới 100 tuổi, đúng năm 80 tuổi người ấy vẫn bất ngờ ra đi thật êm ái, nhẹ nhàng để kịp đầu thai vào thân phận mới.
+                </div>
+            </div>
+
+            <div class="snippet-box">
+                <div class="snippet-label">Trích đoạn bài giảng (Snippet):</div>
+                "... Nhưng mà làm sao để ta đi qua tuổi già mà ít bệnh nhất? Ít nhất hai điều: một là ta tập luyện khí công, âm dương khí công; hai là ta phóng sinh, phóng sinh nhiều thì sau này lúc tuổi già rồi ta rất ít bệnh và có thể sống lâu — nếu cái kiếp sống bên kia không réo gọi ta... Ví dụ như khi mình 75 tuổi, mình làm phúc thì mình sẽ sống tới 100 tuổi, nhưng vì kiếp sau réo gọi mình tới 80 cũng phải đi... Đáng lẽ theo cái nghiệp số bình thường là 75 tuổi là mình chết, và mình vất vơ 5 năm tới năm 80 thì mình sẽ đầu thai vào gia đình đó bởi vì nhân duyên ta đã xây dựng đầy đủ hết rồi, cha đã có, mẹ đã có, cuộc đời đã có hết rồi... buộc phải đầu thai vào lúc đó không thể khác được... thì dù ta làm phúc rất nhiều, và với cái phúc đó lẽ ra ta sống tới 100 tuổi, nhưng vì kiếp sau réo gọi ta, đúng năm 80 tuổi đi liền, đi một cách bất ngờ nhẹ nhàng để đầu thai cho kịp cho gia đình bên kia..."
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Kính chúc quý độc giả luôn siêng năng tích phước, rèn luyện thân tâm và an lạc!</p>
+        </div>
+    </div>
+</body>
+</html>
